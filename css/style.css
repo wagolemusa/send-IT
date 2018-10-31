@@ -255,6 +255,7 @@ padding-right: 5em;
 
 #NewTable tr.header, #NewTable tr:hover {
     background-color: #f1f1f1;
+    color: #0099CC;
 }
 .contianer h1{
     font-size: 30 px;
