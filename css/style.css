@@ -1,0 +1,32 @@
+body {margin:0;font-family:Arial}
+.top {
+  overflow: hidden;
+  background-color: #0099CC;
+}
+.top img{
+  height: 60px;
+  padding: 5px 50px;
+  width: 80px;
+}
+.top a {
+  float: right;
+  display: block;
+  color: #ffffff;
+  text-align: center;
+  padding: 25px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+@media screen and (max-width: 100px) {
+  .top.responsive {position: relative;}
+  .top.responsive .icon {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  .top.responsive a {
+    float: none;
+    display: block;
+    text-align: left;
+  }
+} 
