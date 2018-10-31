@@ -30,3 +30,31 @@ body {margin:0;font-family:Arial}
     text-align: left;
   }
 } 
+
+#register{
+  padding-top: 20px;
+}
+#register a{
+  font-size: 15px;
+}
+#register button{
+  background-color: #33b5e5;
+  color: #ffffff;
+  font-size: 20px;
+  opacity: 0.9;
+  cursor: pointer;
+  border: none;
+}
+form {
+  margin:0 auto;
+  width:300px
+}
+input {
+  margin-bottom:16px;
+  padding:15px;
+  width: 100%;
+  border:1px solid #CCC
+}
+button {
+  padding:10px
+}
