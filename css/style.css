@@ -225,3 +225,42 @@ padding-right: 5em;
     text-align: left;
   }
 }
+
+
+#myInput {
+   
+    background-position: 10px 12px; 
+    background-repeat: no-repeat;
+    width: 94%; 
+    font-size: 16px; 
+    padding: 12px 20px 12px 40px;
+    border: 1px solid #ddd;
+    margin-bottom: 12px; 
+}
+
+#NewTable {
+    border-collapse: collapse; 
+    width: 100%; 
+    border: 1px solid #ddd; 
+    font-size: 18px;
+}
+
+#NewTable th, #NewTable td {
+    text-align: left;
+    padding: 12px; 
+}
+#NewTable tr {
+    border-bottom: 1px solid #ddd;
+}
+
+#NewTable tr.header, #NewTable tr:hover {
+    background-color: #f1f1f1;
+}
+.contianer h1{
+    font-size: 30 px;
+    padding-bottom: 0px;
+    border-bottom: 1px solid #ccc;
+    color: #999;
+    padding-top: 15px;
+    margin-bottom: 30px;
+}
