@@ -8,9 +8,9 @@ body {
   background-color: #0099CC;
 }
 .top img{
-  height: 60px;
+  height: 70px;
   padding: 5px 50px;
-  width: 80px;
+  width: 100px;
 }
 .top a {
   float: right;
@@ -146,7 +146,6 @@ label {
 }
 
 .contianer{
-padding-top: 2em;
 padding-left: 5em;
 padding-right: 5em;
 }
@@ -380,4 +379,9 @@ a {
 
 button:hover, a:hover {
     opacity: 0.7;
+}
+
+.new_delivery p{
+
+font-size: 20px;
 }
