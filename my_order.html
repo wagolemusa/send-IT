@@ -50,7 +50,7 @@
     <td>Kisumu</td>
 
   <td><button style="color: #ffffff; background-color:#00C851; font-size: 18px;  border: none;
-">Update</button></td>
+" id="myBtn">Update</button></td>
 
   <td><button style="color: #ffffff; background-color:#ff4444; font-size: 18px;  border: none;">cancel</button></td>
 
@@ -64,7 +64,7 @@
     <td>Nakuru</td>
     <td>Mombasa</td>
  <td><button style="color: #ffffff; background-color:#00C851; font-size: 18px;  border: none;
-">Update</button></td>
+" id="myBtn">Update</button></td>
 
   <td><button style="color: #ffffff; background-color:#ff4444; font-size: 18px;  border: none;">cancel</button></td>
 
@@ -76,7 +76,7 @@
     <td>Busia</td>
     <td>Kakamega</td>
  <td><button style="color: #ffffff; background-color:#00C851; font-size: 18px;  border: none;
-">Update</button></td>
+" id="myBtn">Update</button></td>
 
   <td><button style="color: #ffffff; background-color:#ff4444; font-size: 18px;  border: none;">cancel</button></td>
 
@@ -87,12 +87,32 @@
     <td>Kisi</td>
     <td>Nairobi</td>
    <td><button style="color: #ffffff; background-color:#00C851; font-size: 18px;  border: none;
-">Update</button></td>
+" id="myBtn">Update</button></td>
 
   <td><button style="color: #ffffff; background-color:#ff4444; font-size: 18px;  border: none;">cancel</button></td>
 
   </tr>
 </table> 
 </div>
+
+
+<div id="myModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close">&times;</span>
+          <h1>Update Orders</h1>
+
+    <form id='post' action="" method='post'>
+      <input type="text" placeholder="Nairobi" required>
+      <input type="text" placeholder="Kisumu" required>
+      <button type='submit'>Update</button>
+    </form>
+<br/>
+  </div>
+
+</div>
+<script src="js/script.js"></script>
+
 </body>
 </html> 
