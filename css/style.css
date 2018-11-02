@@ -420,3 +420,56 @@ font-size: 20px;
     .sidenav {padding-top: 15px;}
     .sidenav a {font-size: 18px;}
 }
+
+
+
+.row {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    margin-right: -15px;
+    margin-left: -15px;
+      
+}
+.col-md-4{
+    -ms-flex: 0 0 33.333333%;
+    flex: 0 0 33.333333%;
+    max-width: 33.333333%;
+    position: relative;
+width: 100%;
+min-height: 1px;
+padding-right: 15px;
+padding-left: 15px;
+    }
+
+.color-block {
+    text-align: center;
+    height: 130px;
+    color: #fff;
+    padding: 40px;
+   background-color: #ff3547 !important;
+}
+
+.color-block1 {
+    text-align: center;
+    height: 130px;
+    color: #fff;
+    padding: 40px;
+ background-color: #fb3 !important;
+}
+
+.color-block2 {
+    text-align: center;
+    height: 130px;
+    color: #fff;
+    padding: 40px;
+   background-color: #00c851 !important;
+}
+
+.color-block3 {
+    text-align: center;
+    height: 130px;
+    color: #fff;
+    padding: 40px;
+    background-color: #33b5e5 !important;
+}
