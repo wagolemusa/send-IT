@@ -1,7 +1,8 @@
 from flask import Flask,jsonify,request, make_response
 from flask_restful import Resource
 
-
+import datetime
+import jwt
 users = dict()
 
 class Register(Resource):
@@ -33,10 +34,25 @@ class Register(Resource):
 
 
 
+
 class Profile(Resource):
 	"""Show user's profile"""
-	def get(slf):
+	def get(self):
 		Users = users
 		return jsonify({'reg': Users})
+
+
+class Login(Resource):
+	""" Sigin  user"""
+	def post(self):
+		username = request.get_json()['username']
+		password = request.get_json()['password']
+		if username.strip() == '' or password.strip() == '':
+			return jsonify({"message":"username or password con't be empty"})
+		else:
+			if username in users:
+				return jsonify({"message":"you are successfully logged in "})
+			else:
+				return jsonify({"message":"Invalid credentials"})
 
 
