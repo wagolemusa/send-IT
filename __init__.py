@@ -3,9 +3,8 @@ from flask_restful import Api
 
 from config import app_config
 # from app import *
-from home.view  import Home
-from auth.view import Register
-
+from home.order  import Home
+from auth.user import Register
 
 
 def create_app(config_name):
