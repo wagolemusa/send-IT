@@ -18,7 +18,7 @@ def create_app(config_name):
 
 
 	api.add_resource(Home, '/')
-	api.add_resource(Register, '/v1/register')
+	api.add_resource(Register, '/v1/auth/signup')
 
 
 	return app 
