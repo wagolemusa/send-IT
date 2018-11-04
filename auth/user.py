@@ -5,6 +5,7 @@ from flask_restful import Resource
 users = dict()
 
 class Register(Resource):
+	""" User Signup """
 	def post(self):
 		data = request.get_json()
 		firstname = data["firstname"]
@@ -25,13 +26,17 @@ class Register(Resource):
 			if username not in users:
 				users.update({username:{"firstname":firstname, "lastname":lastname,\
 					"username":username, "phone":phone, "country":country, "email":email,\
-					"password":password}})
+					"password":password, "confirm_password":confirm_password}})
 			else:
 				return jsonify({"message":"User aleady exists"})
 			return jsonify({"message":"success ! you can now login to continue"})
 
 
+
+class Profile(Resource):
+	"""Show user's profile"""
 	def get(slf):
-		return jsonify({'reg': users})
+		Users = users
+		return jsonify({'reg': Users})
 
 

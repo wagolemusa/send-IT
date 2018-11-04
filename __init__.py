@@ -5,6 +5,7 @@ from config import app_config
 # from app import *
 from home.order  import Home
 from auth.user import Register
+from auth.user import Profile
 
 
 def create_app(config_name):
@@ -19,6 +20,7 @@ def create_app(config_name):
 
 	api.add_resource(Home, '/')
 	api.add_resource(Register, '/v1/auth/signup')
+	api.add_resource(Profile,  '/v1/users')
 
 
 	return app 
