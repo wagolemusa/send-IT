@@ -1,0 +1,17 @@
+language: python
+python:
+# only test against versions: 
+  - "3.4"
+  - "3.5"
+  - "3.5-dev" # 3.5 development branch
+  - "3.6"
+  - "3.6-dev" # 3.6 development branch
+
+install: "pip install -r requirements.txt"
+before_script:
+  - cd tests
+script: 
+  - pytest
+  - pytest --cov=.
+after_success:
+- coveralls
