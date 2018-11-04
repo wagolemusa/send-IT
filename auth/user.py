@@ -39,7 +39,13 @@ class Profile(Resource):
 	"""Show user's profile"""
 	def get(self):
 		Users = users
-		return jsonify({'reg': Users})
+		return make_response(jsonify(
+			{
+			'Status': "Ok",
+      'Message': "Success",
+      'reg': users
+      }), 200)
+
 
 
 class Login(Resource):
