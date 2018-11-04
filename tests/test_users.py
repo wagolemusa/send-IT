@@ -10,15 +10,19 @@ class UserTestCase(unittest.TestCase):
 
 
 
+
+	# def setUp(self):
+	# 	self.app = create_app('testing')
+ #    self.client = self.app.test_client()
+
 	def test_register_user(self):
 		tester = app.test_client(self)
 		response = tester.post(
-											'/api/v1/auth/signup',
-											data=dict(firstname="wagole", lastname="musa",username="refuge",\
-												phone="0725689065", country="kenya", email="homie@gmail.com", password="wise@12"),
-											follow_redirects=True
-		)
-		self.assertIn(b'success ! you can now login to continue', response.data)
+											'/api/v1/auth/signup',data=json.dumps(
+											dict(firstname="wagole", lastname="musa",username="refuge",\
+												phone="0725689065", country="kenya", email="homie@gmail.com", password="wise@12")),
+											content_type="application/json")
+		self.assertEqual(response.status_code, 200)
 
 
 
