@@ -34,7 +34,8 @@ class Parcels(Resource):
 		# 	# Orders.update({"pickup": pickup, "destination":destination, "weight":weight})
 		# 	Orders.update(parl)
 		# return jsonify({"message":"success!"})
-
+		
+	# get all  parcel orders
 	def get(self):
 		return make_response(jsonify(
 			{
@@ -45,6 +46,8 @@ class Parcels(Resource):
 
 
 class ParcelID(Resource):
+
+	# show one parcel 
 	def get(self, parcel_id):
 		return make_response(jsonify(
 			{
@@ -53,9 +56,22 @@ class ParcelID(Resource):
       'parcel': (Orders[parcel_id])
       }), 200)
 
+	# delete parcel
 	def delete(self, parcel_id):
 		del Orders[parcel_id]
 		return jsonify({"message": "Succesfuly Deleted"})
+
+
+	# Update parcel
+	def put(self, parcel_id):
+		upd = [dics for dics in Orders if (dics['parcel_id'] == parcel_id)]
+		if 'pickup' in request.json:
+			upd[0]['pickup'] = request.json['pickup']
+		if 'destination' in request.json:
+			upd[0]['destination'] = request.json['destination']
+		if 'weight' in request.json:
+			upd[0]['weight'] = request.json['weight']
+		return jsonify({'dics':upd[0]})
 
 
 
