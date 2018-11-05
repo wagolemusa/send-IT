@@ -44,6 +44,8 @@ class Parcels(Resource):
       'reg': Orders
       }), 200)
 
+	
+
 
 
 
