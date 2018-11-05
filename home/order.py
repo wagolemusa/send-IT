@@ -36,15 +36,24 @@ class Parcels(Resource):
 		# return jsonify({"message":"success!"})
 
 	def get(self):
-		par = Orders
 		return make_response(jsonify(
 			{
 			'Status': "Ok",
       'Message': "Success",
-      'reg': Orders
+      'parcel': Orders
       }), 200)
 
-	
+
+class ParcelID(Resource):
+
+	def get(self, parcel_id):
+		return make_response(jsonify(
+			{
+			'Status': "Ok",
+      'Message': "Success",
+      'parcel': (Orders[parcel_id])
+      }), 200)
+
 
 
 
