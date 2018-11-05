@@ -45,7 +45,6 @@ class Parcels(Resource):
 
 
 class ParcelID(Resource):
-
 	def get(self, parcel_id):
 		return make_response(jsonify(
 			{
@@ -54,7 +53,9 @@ class ParcelID(Resource):
       'parcel': (Orders[parcel_id])
       }), 200)
 
-
+	def delete(self, parcel_id):
+		del Orders[parcel_id]
+		return jsonify({"message": "Succesfuly Deleted"})
 
 
 
