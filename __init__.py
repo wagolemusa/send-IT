@@ -9,6 +9,7 @@ from home.order  import Home
 from auth.user import Register
 from auth.user import Profile
 from auth.user import Login
+from home.order import Parcels
 
 
 def create_app(config_name):
@@ -25,6 +26,7 @@ def create_app(config_name):
 	api.add_resource(Register, '/v1/auth/signup')
 	api.add_resource(Profile,  '/v1/users')
 	api.add_resource(Login,    '/v1/auth/signin')
+	api.add_resource(Parcels,  '/v1/parcels')
 
 
 	return app 
