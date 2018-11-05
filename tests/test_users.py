@@ -1,7 +1,7 @@
 import unittest 
-from flask import app 
-from __init__ import *
+from __init__ import app 
 
+# from ...run import app
 import json
 import os
 import sys

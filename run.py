@@ -1,11 +1,11 @@
-import os
+from flask import Flask
+from __init__ import api_bp
 
-from __init__ import create_app
+app = Flask(__name__)
+app.config['SECRET_KEY'] = 'djrefuge'
 
-config_name = os.getenv('FLASK_CONFIG')
-app = create_app(config_name)
-app.config['SECRET_KEY'] = 'refuge'
+app.register_blueprint(api_bp, url_prefix='/api')
 
 
-if __name__ == '__main__':
-    app.run()
+if __name__ == "__main__":
+	app.run(debug=True)
