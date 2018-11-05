@@ -3,7 +3,23 @@ from flask_restful import Resource
 
 import datetime
 import jwt
+from functools import wraps
+from __init__ import *
 Orders ={}
+
+
+def mustlogin(d):
+	@wraps(d)
+	def decorated(*args, **kwargs):
+		if request.headers.get('x-access-token')=='':
+			return make_response(("You need to first login "), 201)
+		try:
+			jwt.decode(request.headers.get('x-access-token'), "djrefuge")
+		except:
+			return jsonify({"message": 'please sigin '})
+		return d(*args, **kwargs)
+	return decorated 
+
 
 class Home(Resource):
     def get(self):
@@ -11,6 +27,7 @@ class Home(Resource):
 
 
 class Parcels(Resource):
+	@mustlogin
 	def post(self):
 		parl = {
 		len(Orders)+ 1:{
@@ -36,6 +53,7 @@ class Parcels(Resource):
 		# return jsonify({"message":"success!"})
 		
 	# get all  parcel orders
+	@mustlogin
 	def get(self):
 		return make_response(jsonify(
 			{
@@ -48,6 +66,7 @@ class Parcels(Resource):
 class ParcelID(Resource):
 
 	# show one parcel 
+	@mustlogin
 	def get(self, parcel_id):
 		return make_response(jsonify(
 			{
@@ -57,12 +76,14 @@ class ParcelID(Resource):
       }), 200)
 
 	# delete parcel
+	@mustlogin
 	def delete(self, parcel_id):
 		del Orders[parcel_id]
 		return jsonify({"message": "Succesfuly Deleted"})
 
 
 	# Update parcel
+	@mustlogin
 	def put(self, parcel_id):
 		upd = [dics for dics in Orders if (dics['parcel_id'] == parcel_id)]
 		if 'pickup' in request.json:

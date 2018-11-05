@@ -1,9 +1,24 @@
 from flask import Flask,jsonify,request, make_response
 from flask_restful import Resource
-
 import datetime
+from functools import wraps
+from __init__ import *
 import jwt
-users = dict()
+
+users = {}
+
+def mustlogin(d):
+	@wraps(d)
+	def decorated(*args, **kwargs):
+		if request.headers.get('	')=='':
+			return make_response(("You need to first login "), 201)
+		try:
+			jwt.decode(request.headers.get('x-access-token'), "djrefuge")
+		except:
+			return jsonify({"message": 'please sigin '})
+		return d(*args, **kwargs)
+	return decorated 
+
 
 class Register(Resource):
 	""" User Signup """
@@ -32,11 +47,33 @@ class Register(Resource):
 				return jsonify({"message":"User aleady exists"})
 			return jsonify({"message":"success ! you can now login to continue"})
 
+class Login(Resource):
+	""" Sigin  user"""
+	def post(self):
+		username = request.get_json()['username']
+		password = request.get_json()['password']
+		payload = {}
+
+		if username.strip() == '' or password.strip() == '':
+			return jsonify({"message":"username or password con't be empty"})
+		else:
+			if username in users:
+				payload = {"username":username, "password":password,\
+																"exp":datetime.datetime.utcnow()+datetime.timedelta(minutes=45)}
+				token = jwt.encode(payload, 'djrefuge')
+				return jsonify({"token":token.decode('utf-8')})
+			else:
+				return jsonify({"message":"Invalid credentials"})
 
 
+
+			# 	return jsonify({"message":"you are successfully logged in "})
+			# else:
+			# 	return jsonify({"message":"Invalid credentials"})
 
 class Profile(Resource):
 	"""Show user's profile"""
+	@mustlogin
 	def get(self):
 		Users = users
 		return make_response(jsonify(
@@ -45,20 +82,4 @@ class Profile(Resource):
       'Message': "Success",
       'reg': users
       }), 200)
-
-
-
-class Login(Resource):
-	""" Sigin  user"""
-	def post(self):
-		username = request.get_json()['username']
-		password = request.get_json()['password']
-		if username.strip() == '' or password.strip() == '':
-			return jsonify({"message":"username or password con't be empty"})
-		else:
-			if username in users:
-				return jsonify({"message":"you are successfully logged in "})
-			else:
-				return jsonify({"message":"Invalid credentials"})
-
 

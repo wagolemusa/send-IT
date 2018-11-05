@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, request, Blueprint
 from flask_restful import Api
 import json
-
+from run import app 
 
 from config import app_config
 # from app import *
@@ -11,28 +11,22 @@ from auth.user import Profile
 from auth.user import Login
 from home.order import Parcels
 from home.order import ParcelID
-from home.order import ParcelUpade
+# from home.order import ParcelUpade
 
 
-def create_app(config_name):
-	app = Flask(__name__, instance_relative_config=True)
-	# app.config.from_object(app_config[config_name])
-	app.config.from_pyfile('config.py')
-	# db.int_app(app)
-	api_bp = Blueprint('api', __name__)
-	api = Api(api_bp)
-	app.register_blueprint(api_bp, url_prefix='/api')
+api_bp = Blueprint('api', __name__)
+api = Api(api_bp)
 
 
-	api.add_resource(Home, '/')
-	api.add_resource(Register, '/v1/auth/signup')
-	api.add_resource(Profile,  '/v1/users')
-	api.add_resource(Login,    '/v1/auth/signin')
-	api.add_resource(Parcels,  '/v1/parcels')
-	api.add_resource(ParcelID,  '/v1/parcels/<int:parcel_id>')
-	api.add_resource(ParcelUpade, '/v1/orders/<id>')
+api.add_resource(Home, '/')
+api.add_resource(Register, '/v1/auth/signup')
+api.add_resource(Profile,  '/v1/users')
+api.add_resource(Login,    '/v1/auth/signin')
+api.add_resource(Parcels,  '/v1/parcels')
+api.add_resource(ParcelID,  '/v1/parcels/<int:parcel_id>')
+# api.add_resource(ParcelUpade, '/v1/orders/<id>')
 
 
-	return app 
+	# return app 
 
 
