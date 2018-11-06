@@ -51,3 +51,14 @@ class Login(Resource):
 				return jsonify({"token":token.decode('utf-8')})
 			else:
 				return jsonify({"message":"Invalid credentials"})
+
+class Profile(Resource):
+	"""Show user's profile"""
+	def get(self):
+		Users = users
+		return make_response(jsonify(
+			{
+			'Status': "Ok",
+      'Message': "Success",
+      'reg': users
+      }), 200)
