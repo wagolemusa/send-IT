@@ -10,3 +10,15 @@ from __init__ import *
 class Home(Resource):
 	def get(self):
 		return {"message": "SendIT is one of popular courier services"}
+
+
+class Parcels(Resource):
+	def post(self):
+		parcel = {
+		len(Orders)+ 1:{
+		'pickup':request.get_json()['pickup'],
+		'destination':request.get_json()['destination'],
+		'weight':request.get_json()['weight']
+		}}
+		Orders.update(parcel)
+		return jsonify(Orders)
