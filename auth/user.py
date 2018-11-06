@@ -66,9 +66,6 @@ class Login(Resource):
 
 
 
-			# 	return jsonify({"message":"you are successfully logged in "})
-			# else:
-			# 	return jsonify({"message":"Invalid credentials"})
 
 class Profile(Resource):
 	"""Show user's profile"""
