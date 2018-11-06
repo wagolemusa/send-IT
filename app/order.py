@@ -32,3 +32,8 @@ class Parcels(Resource):
       'parcel': Orders
       }), 200)
 
+class ParcelID(Resource):
+	""" delete parcel order """
+	def delete(self, parcel_id):
+		del Orders[parcel_id]
+		return jsonify({"message": "Succesfuly Deleted"})

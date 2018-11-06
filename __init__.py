@@ -8,6 +8,8 @@ from auth.users import Register
 from auth.users import Login
 from auth.users import Profile
 from app.order import Parcels
+from app.order import ParcelID
+
 
 
 
@@ -22,6 +24,8 @@ api.add_resource(Register, '/v1/auth/signup')
 api.add_resource(Login,    '/v1/auth/signin')
 api.add_resource(Profile,  '/v1/users')
 api.add_resource(Parcels,  '/v1/parcels')
+api.add_resource(ParcelID,  '/v1/parcels/<int:parcel_id>')
+
 
 
 
