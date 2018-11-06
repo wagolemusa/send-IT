@@ -46,3 +46,13 @@ class ParcelID(Resource):
       'Message': "Success",
       'parcel': (Orders[parcel_id])
       }), 200)
+	""" update parcel order"""
+	def put(self, parcel_id):
+		upd = [dics for dics in Orders if (dics['id'] == parcel_id)]
+		if 'pickup' in request.get_json():
+			upd[0]['pickup'] = request.get_json()['pickup']
+		if 'destination' in request.get_json():
+			upd[0]['destination'] = request.get_json()['destination']
+		if 'weight' in request.get_json():
+			upd[0]['weight'] = rrequest.get_json()['weight']
+		return jsonify({'dics':upd[0]})
