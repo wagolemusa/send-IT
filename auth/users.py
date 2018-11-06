@@ -3,6 +3,7 @@ from flask_restful import Resource
 import datetime
 from functools import wraps
 from __init__ import *
+import jwt
 
 
 class Register(Resource):
@@ -31,3 +32,22 @@ class Register(Resource):
 			else:
 				return jsonify({"message":"User aleady exists"})
 			return jsonify({"message":"success ! you can now login to continue"})
+
+
+class Login(Resource):
+	""" Sigin  user"""
+	def post(self):
+		username = request.get_json()['username']
+		password = request.get_json()['password']
+		payload = {}
+
+		if username.strip() == '' or password.strip() == '':
+			return jsonify({"message":"username or password con't be empty"})
+		else:
+			if username in users:
+				payload = {"username":username, "password":password,\
+																"exp":datetime.datetime.utcnow()+datetime.timedelta(minutes=45)}
+				token = jwt.encode(payload, 'djrefuge')
+				return jsonify({"token":token.decode('utf-8')})
+			else:
+				return jsonify({"message":"Invalid credentials"})
