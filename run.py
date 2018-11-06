@@ -1,11 +1,11 @@
 from flask import Flask
 
-from __init__ import api_bp
+from __init__ import v1
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'djrefuge'
 
-app.register_blueprint(api_bp, url_prefix='/api')
+app.register_blueprint(v1, url_prefix='/api')
 
 
 if __name__ == "__main__":
