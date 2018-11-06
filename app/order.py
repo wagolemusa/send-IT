@@ -22,3 +22,13 @@ class Parcels(Resource):
 		}}
 		Orders.update(parcel)
 		return jsonify(Orders)
+
+	"""get all delivery parcels"""
+	def get(self):
+		return make_response(jsonify(
+			{
+			'Status': "Ok",
+      'Message': "Success",
+      'parcel': Orders
+      }), 200)
+
