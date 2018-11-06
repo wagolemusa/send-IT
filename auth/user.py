@@ -5,7 +5,6 @@ from functools import wraps
 from __init__ import *
 import jwt
 
-users = {}
 
 def mustlogin(d):
 	@wraps(d)

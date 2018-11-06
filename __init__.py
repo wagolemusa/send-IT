@@ -1,7 +1,8 @@
 from flask import Flask, jsonify, request, Blueprint
 from flask_restful import Api
 import json
-from run import app 
+# from run import app 
+from models import *
 
 from config import app_config
 # from app import *
@@ -11,7 +12,6 @@ from auth.user import Profile
 from auth.user import Login
 from home.order import Parcels
 from home.order import ParcelID
-# from home.order import ParcelUpade
 
 
 api_bp = Blueprint('api', __name__)
@@ -24,9 +24,6 @@ api.add_resource(Profile,  '/v1/users')
 api.add_resource(Login,    '/v1/auth/signin')
 api.add_resource(Parcels,  '/v1/parcels')
 api.add_resource(ParcelID,  '/v1/parcels/<int:parcel_id>')
-# api.add_resource(ParcelUpade, '/v1/orders/<id>')
 
-
-	# return app 
 
 

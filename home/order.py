@@ -5,7 +5,6 @@ import datetime
 import jwt
 from functools import wraps
 from __init__ import *
-Orders ={}
 
 
 def mustlogin(d):
