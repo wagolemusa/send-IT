@@ -5,8 +5,8 @@ from models import *
 
 from app.order  import Home
 
-api_bp = Blueprint('api', __name__)
-api = Api(api_bp)
+v1 = Blueprint('api', __name__)
+api = Api(v1)
 
 
 api.add_resource(Home, '/')
