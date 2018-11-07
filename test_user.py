@@ -46,7 +46,7 @@ class UserTestCase(unittest.TestCase):
 
 
 	def test_login_with_invalid_credentials(self):
-		"""Test API User Login Tests with invalid credentials """
+		"""Test API User Login with invalid credentials """
 		user1 = {
 			"username": "refuge",
 			"password": "Pass@qee",
