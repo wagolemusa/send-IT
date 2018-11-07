@@ -7,6 +7,11 @@ import jwt
 
 
 class Register(Resource):
+	def valid_password(self, password):
+		if re.match("(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$", password):
+			return True
+		return False
+
 	""" User Signup """
 	def post(self):
 		data = request.get_json()
@@ -18,19 +23,22 @@ class Register(Resource):
 		email     = data["email"]
 		password  = data["password"]
 		confirm_password = data["confirm_password"]
-
-		if firstname.strip() == '' or lastname.strip() == '' \
-				or username.strip() == '' or phone.strip() == '' \
-				or country.strip() == '' or email.strip() == '' \
-				or password.strip() == '' or confirm_password.strip() =='':
-				return jsonify({"message":"fields con't be empty"})
-		else:
-			if username not in users:
-				users.update({username:{"firstname":firstname, "lastname":lastname,\
-					"username":username, "phone":phone, "country":country, "email":email,\
-					"password":password, "confirm_password":confirm_password}})
+		if Validation.valid_email(email):
+			if Validation.password_verify(password, confirm_password):
+				if firstname.strip() == '' or lastname.strip() == '' \
+					or username.strip() == '' or phone.strip() == '' \
+					or country.strip() == '' or email.strip() == '' \
+					or password.strip() == '' or confirm_password.strip() =='':
+					return jsonify({"message":"fields con't be empty"})
+				else:
+					if username not in users:
+						users.update({username:{"firstname":firstname, "lastname":lastname,\
+						"username":username, "phone":phone, "country":country, "email":email,\
+						"password":password, "confirm_password":confirm_password}})
+					else:
+						return jsonify({"message":"User aleady exists"})
 			else:
-				return jsonify({"message":"User aleady exists"})
+				return jsonify({"message":"password and confirm password do not match"})
 			return jsonify({"message":"success ! you can now login to continue"})
 
 
