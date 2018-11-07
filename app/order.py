@@ -13,6 +13,7 @@ class Home(Resource):
 
 
 class Parcels(Resource):
+	@mustlogin
 	def post(self):
 		parcel = {
 		len(Orders)+ 1:{
@@ -24,6 +25,7 @@ class Parcels(Resource):
 		return jsonify(Orders)
 
 	"""get all delivery parcels"""
+	@mustlogin
 	def get(self):
 		return make_response(jsonify(
 			{
@@ -34,12 +36,14 @@ class Parcels(Resource):
 
 class ParcelID(Resource):
 	""" delete parcel order """
+	@mustlogin
 	def delete(self, parcel_id):
 		del Orders[parcel_id]
 		return jsonify({"message": "Succesfuly Deleted"})
 		
 
 	""" get a specific parcel"""
+	@mustlogin
 	def get(self, parcel_id):
 		return make_response(jsonify(
 			{
@@ -50,6 +54,7 @@ class ParcelID(Resource):
 
 
 	""" update parcel order"""
+	@mustlogin
 	def put(self, parcel_id):
 		upd = [dics for dics in Orders if (dics['id'] == parcel_id)]
 		if 'pickup' in request.get_json():

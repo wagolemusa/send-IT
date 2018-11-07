@@ -54,6 +54,7 @@ class Login(Resource):
 
 class Profile(Resource):
 	"""Show user's profile"""
+	@mustlogin
 	def get(self):
 		Users = users
 		return make_response(jsonify(
