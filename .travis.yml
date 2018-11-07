@@ -9,8 +9,8 @@ python:
 
 install: "pip install -r requirements.txt"
 before_script:
-  - test_users.py 
-  - test_orders.py
+  - python test_users.py 
+  - python test_orders.py
   # - cd tests
 script: 
   - pytest
