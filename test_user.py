@@ -1,6 +1,4 @@
 import unittest 
-from __init__ import *
-
 from run import app
 import json
 import os
