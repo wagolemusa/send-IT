@@ -3,6 +3,7 @@ from flask_restful import Api
 import json
 from models import *
 from decorator import *
+from velidate import *
 from app.order  import Home
 from auth.users import Register
 from auth.users import Login
