@@ -33,28 +33,28 @@ class ParcalOrdersTest(unittest.TestCase):
 		self.assertEqual(response.status_code, 200)
 
 
-	def test_get_parcel_order(self):
-		"""Test API get a parcels order (GET Request)"""
-		# tester = app.test_client(self)
-		# response = tester.get(
-		# 									'/api/v1/parcels/1', data=json.dumps,
-		# 									content_type="application/json")
-		# self.assertEqual(response.status_code, 200)
-		response = app.test_client().get('/api/v1/parcels/1',content_type="application/json")
-		self.assertEqual(response.status_code, 200)
+	# def test_get_parcel_order(self):
+	# 	"""Test API get a parcels order (GET Request)"""
+	# 	# tester = app.test_client(self)
+	# 	# response = tester.get(
+	# 	# 									'/api/v1/parcels/1', data=json.dumps,
+	# 	# 									content_type="application/json")
+	# 	# self.assertEqual(response.status_code, 200)
+	# 	response = app.test_client().get('/api/v1/parcels/1',content_type="application/json")
+	# 	self.assertEqual(response.status_code, 200)
 
 
-	def test_parcel_order_edit(self):
-		""" Test API for parcel update (PUT request)"""
-		response = app.test_client().post(
-			'api/v1/parcels/',
-			data = {'pickup': 'kisumu'})
+	# def test_parcel_order_edit(self):
+	# 	""" Test API for parcel update (PUT request)"""
+	# 	response = app.test_client().post(
+	# 		'api/v1/parcels/',
+	# 		data = {'pickup': 'kisumu'})
 
-		self.assertEqual(response.status_code, 201)
-		response = app.test_client().put(
-			'api/v1/parcels/1',
-			data = {'pickup': 'nairobi'})
-		self.assertEqual(response.status_code, 200)
+	# 	self.assertEqual(response.status_code, 201)
+	# 	response = app.test_client().put(
+	# 		'api/v1/parcels/1',
+	# 		data = {'pickup': 'nairobi'})
+	# 	self.assertEqual(response.status_code, 200)
 	
 
 
@@ -67,18 +67,18 @@ class ParcalOrdersTest(unittest.TestCase):
 		self.assertEqual(response.status_code, 200)
 
 
-	def test_delete__an_parcel_order(self):
-		""" Test API for delete an  parcel orders (DELETE request)"""
-		response = app.test_client().post(
-			'api/v1/parcels/',
+	# def test_delete__an_parcel_order(self):
+	# 	""" Test API for delete an  parcel orders (DELETE request)"""
+	# 	response = app.test_client().post(
+	# 		'api/v1/parcels/',
 
-			data = {'pickup': 'kisumu'})
-		self.assertEqual(response.status_code, 200)
+	# 		data = {'pickup': 'kisumu'})
+	# 	self.assertEqual(response.status_code, 200)
 
-		response = app.test_client().delete(
-			'api/v1/parcels/1',
-			data = {'pickup': 'nairobi'})
-		self.assertEqual(response.status_code, 200)
+	# 	response = app.test_client().delete(
+	# 		'api/v1/parcels/1',
+	# 		data = {'pickup': 'nairobi'})
+	# 	self.assertEqual(response.status_code, 200)
 	
 
 
