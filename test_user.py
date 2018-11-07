@@ -15,6 +15,7 @@ class UserTestCase(unittest.TestCase):
 		# self.client = self.app.test_client()
 
 	def test_register_user(self):
+		""" Test API for create a user """
 		user = {
     	"firstname": "wagole",
     	"lastname": "musa",
@@ -32,7 +33,7 @@ class UserTestCase(unittest.TestCase):
 		self.assertEqual(response.status_code, 200)
 
 	def test_login_user(self):
-		""" User Login Tests with invalid credentials """
+		""" Test API User Login credentials """
 		user = {
 			"username": "refuge",
 			"password": "wise@12"
@@ -45,7 +46,7 @@ class UserTestCase(unittest.TestCase):
 
 
 	def test_login_with_invalid_credentials(self):
-		""" User Login Tests with invalid credentials """
+		"""Test API User Login Tests with invalid credentials """
 		user1 = {
 			"username": "refuge",
 			"password": "Pass@qee",
@@ -59,7 +60,7 @@ class UserTestCase(unittest.TestCase):
 
 
 	def test_get_user_details(self):
-		""" Get user datels """
+		""" Test API Get user datels """
 		user1 = {
     	"firstname": "wagole",
     	"lastname": "musa",

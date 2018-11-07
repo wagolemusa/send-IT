@@ -25,6 +25,16 @@ class ParcalOrdersTest(unittest.TestCase):
 		self.assertEqual(response.status_code, 200)
 
 
+	def test_get_parcel_order(self):
+		"""get a parcels order"""
+		# tester = app.test_client(self)
+		# response = tester.get(
+		# 									'/api/v1/parcels/1', data=json.dumps,
+		# 									content_type="application/json")
+		# self.assertEqual(response.status_code, 200)
+		tester = app.test_client(self)
+		response = tester.get('/api/v1/parcels/1',content_type="application/json")
+		self.assertEqual(response.status_code, 200)
 
 
 if __name__ =='__main__':
