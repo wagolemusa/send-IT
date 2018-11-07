@@ -37,6 +37,7 @@ class ParcelID(Resource):
 	def delete(self, parcel_id):
 		del Orders[parcel_id]
 		return jsonify({"message": "Succesfuly Deleted"})
+		
 
 	""" get a specific parcel"""
 	def get(self, parcel_id):
@@ -46,6 +47,8 @@ class ParcelID(Resource):
       'Message': "Success",
       'parcel': (Orders[parcel_id])
       }), 200)
+
+
 	""" update parcel order"""
 	def put(self, parcel_id):
 		upd = [dics for dics in Orders if (dics['id'] == parcel_id)]
