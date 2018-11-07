@@ -7,15 +7,12 @@ python:
   - "3.6"
   - "3.6-dev" # 3.6 development branch
 
-install: 
-  - pip install -r requirements.txt
-  - pip install coveralls codecov
+install: "pip install -r requirements.txt"
 
 before_script:
   - python test_user.py 
   - python test_orders.py
   # - cd tests
-
 script: 
   - pytest
   - pytest --cov=.
