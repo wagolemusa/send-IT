@@ -75,14 +75,14 @@ class Login(Resource):
 					'status':'ok',
 					'message': ({"token":token.decode('utf-8')})
 				})
-				response.status_code = 200
+				response.status_code = 201
 				return response
 			else:
 				response = jsonify({
 					'status':'error',
 					'message':'Invalid credentials'
 				})
-				response.status_code = 400
+				response.status_code = 200
 				return response
 
 class Profile(Resource):
