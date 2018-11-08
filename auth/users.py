@@ -105,3 +105,12 @@ class Profile(Resource):
 			response.status_code = 400
 			return response
 
+
+
+class Logout(Resource):
+	@mustlogin
+	def post(self):
+		"""User logout"""
+		token = request.headers.get('x-access-token')
+		# token.clear()
+		return jsonify({"message":"succesfuly Logout"})
