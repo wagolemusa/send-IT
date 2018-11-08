@@ -9,7 +9,7 @@ from __init__ import *
 
 class Home(Resource):
 	def get(self):
-		return {"message": "SendIT is one of popular courier services"}
+		return {"message": "SendIT is one of the popular courier services"}
 
 
 class Parcels(Resource):
