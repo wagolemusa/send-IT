@@ -53,7 +53,7 @@ class UserTestCase(unittest.TestCase):
 		response = tester.post(
 											'/api/v1/auth/signin', data=json.dumps(user),
 											content_type="application/json")
-		self.assertEqual(response.status_code, 400)		
+		self.assertEqual(response.status_code, 200)		
 
 	def test_get_user_details(self):
 		""" Test API Get user datels """

@@ -28,7 +28,6 @@ class Register(Resource):
 						'status': 'error',
 						'message': 'fields cont be empty'
 					})
-					response.status_code = 200
 					return response
 
 				else:
@@ -41,14 +40,12 @@ class Register(Resource):
 							'status': 'error',
 							'message': 'User aleady exists'
 						})
-						response.status_code = 200
 						return response
 			else:
 				response = jsonify({
 					'status': 'error',
 					'message': 'password and confirm password do not match'
 				})
-				response.status_code = 200
 				return response
 			response = jsonify({
 				'status': 'ok',
@@ -75,14 +72,12 @@ class Login(Resource):
 					'status':'ok',
 					'message': ({"token":token.decode('utf-8')})
 				})
-				response.status_code = 200
 				return response
 			else:
 				response = jsonify({
 					'status':'error',
 					'message':'Invalid credentials'
 				})
-				response.status_code = 200
 				return response
 
 class Profile(Resource):
@@ -95,14 +90,12 @@ class Profile(Resource):
 				'message': 'user found',
       	'reg': users
 			})
-			response.status_code = 200
 			return response
 		else:
 			response = jsonify({
 				'status': 'error',
 				'message': "user not found"
 			})
-			response.status_code = 200
 			return response
 
 
