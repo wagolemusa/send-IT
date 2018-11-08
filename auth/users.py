@@ -75,7 +75,7 @@ class Login(Resource):
 					'status':'ok',
 					'message': ({"token":token.decode('utf-8')})
 				})
-				response.status_code = 201
+				response.status_code = 200
 				return response
 			else:
 				response = jsonify({
