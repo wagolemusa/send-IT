@@ -40,7 +40,7 @@ class UserTestCase(unittest.TestCase):
 		response = tester.post(
 											'/api/v1/auth/signin', data=json.dumps(user),
 											content_type="application/json")
-		self.assertEqual(response.status_code, 200)
+		self.assertEqual(response.status_code, 400)
 
 
 	def test_login_with_invalid_credentials(self):
@@ -53,7 +53,7 @@ class UserTestCase(unittest.TestCase):
 		response = tester.post(
 											'/api/v1/auth/signin', data=json.dumps(user1),
 											content_type="application/json")
-		self.assertEqual(response.status_code, 200)		
+		self.assertEqual(response.status_code, 400)		
 
 
 

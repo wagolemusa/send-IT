@@ -9,12 +9,20 @@ from __init__ import *
 
 class Home(Resource):
 	def get(self):
-		return {"message": "SendIT is one of the popular courier services"}
+		response = jsonify({
+			'status': 'ok',
+			'message': 'SendIT is one of the popular courier services'
+		})
+		response.status_code = 200
+		return response
+
+		
 
 
 class Parcels(Resource):
 	@mustlogin
 	def post(self):
+		""" Create a parcel order"""
 		parcel = {
 		len(Orders)+ 1:{
 		'pickup':request.get_json()['pickup'],
@@ -22,45 +30,80 @@ class Parcels(Resource):
 		'weight':request.get_json()['weight']
 		}}
 		Orders.update(parcel)
-		return jsonify(Orders)
+		response = jsonify({
+			'status': 'ok',
+			'message': 'Parcel succesfuly created',
+			'parcel' : Orders
+		})
+		response.status_code = 200
+		return response
 
-	"""get all delivery parcels"""
+
 	@mustlogin
 	def get(self):
-		return make_response(jsonify(
-			{
-			'Status': "Ok",
-      'Message': "Success",
-      'parcel': Orders
-      }), 200)
+		"""get all delivery parcels"""
+		if Orders is not None:
+			response = jsonify({
+				'status': 'ok',
+				'message': 'parcel found',
+      	'parcel': Orders
+			})
+			response.status_code = 200
+			return response
+
 
 class ParcelID(Resource):
-	""" delete parcel order """
 	@mustlogin
 	def delete(self, parcel_id):
+		""" delete parcel order """
 		del Orders[parcel_id]
-		return jsonify({"message": "Succesfuly Deleted"})
-		
+		response = jsonify({
+			'status': 'error',
+			'message': "Succesfuly Deleted"
+		})
+		response.status_code = 200
+		return response
+	
 
-	""" get a specific parcel"""
 	@mustlogin
 	def get(self, parcel_id):
-		return make_response(jsonify(
-			{
-			'Status': "Ok",
-      'Message': "Success",
-      'parcel': (Orders[parcel_id])
-      }), 200)
+		""" get a specific parcel"""
+		if Orders is not None:
+			response = jsonify({
+				'status': 'ok',
+				'message': 'parcel found',
+				'parcel': (Orders[parcel_id])
+			})
+			response.status_code = 200
+			return response
+		else:
+			response = jsonify({
+				'status': 'error',
+				'message': "Parcel not found"
+			})
+			response.status_code = 400
+			return response
+
 
 
 	""" update parcel order"""
 	@mustlogin
 	def put(self, parcel_id):
-		upd = [dics for dics in Orders if (dics['id'] == parcel_id)]
-		if 'pickup' in request.get_json():
-			upd[0]['pickup'] = request.get_json()['pickup']
-		if 'destination' in request.get_json():
-			upd[0]['destination'] = request.get_json()['destination']
-		if 'weight' in request.get_json():
-			upd[0]['weight'] = rrequest.get_json()['weight']
-		return jsonify({'dics':upd[0]})
+
+		parcel_data = request.get_json(force=True)
+		data = {
+			'pickup': parcel_data['pickup'],
+			'destination': parcel_data['destination'],
+			'weight': parcel_data['weight'],
+		}
+		Orders.update(parcel_id, data)
+		return jsonify({"message": "Succesfuly updated"})
+
+		# update = [parl for parl in Orders if (parl['id'] == parcel_id)]
+		# if 'pickup' in request.get_json():
+		# 	update[0]['pickup'] = request.get_json()['pickup']
+		# if 'destination' in request.get_json():
+		# 	update[0]['destination'] = request.get_json()['destination']
+		# if 'weight' in request.get_json():
+		# 	update[0]['weight'] = rrequest.get_json()['weight']
+		# return jsonify({'parl':update[0]})
