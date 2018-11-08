@@ -13,7 +13,6 @@ class Home(Resource):
 			'status': 'ok',
 			'message': 'SendIT is one of the popular courier services'
 		})
-		response.status_code = 200
 		return response
 
 		
@@ -35,7 +34,6 @@ class Parcels(Resource):
 			'message': 'Parcel succesfuly created',
 			'parcel' : Orders
 		})
-		response.status_code = 200
 		return response
 
 
@@ -48,7 +46,6 @@ class Parcels(Resource):
 				'message': 'parcel found',
       	'parcel': Orders
 			})
-			response.status_code = 200
 			return response
 
 
@@ -61,7 +58,6 @@ class ParcelID(Resource):
 			'status': 'error',
 			'message': "Succesfuly Deleted"
 		})
-		response.status_code = 200
 		return response
 	
 
@@ -74,14 +70,12 @@ class ParcelID(Resource):
 				'message': 'parcel found',
 				'parcel': (Orders[parcel_id])
 			})
-			response.status_code = 200
 			return response
 		else:
 			response = jsonify({
 				'status': 'error',
 				'message': "Parcel not found"
 			})
-			response.status_code = 400
 			return response
 
 
