@@ -7,13 +7,8 @@ import jwt
 
 
 class Register(Resource):
-	def valid_password(self, password):
-		if re.match("(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$", password):
-			return True
-		return False
-
-	""" User Signup """
 	def post(self):
+		""" User Signup """
 		data = request.get_json()
 		firstname = data["firstname"]
 		lastname  = data["lastname"]
@@ -29,18 +24,38 @@ class Register(Resource):
 					or username.strip() == '' or phone.strip() == '' \
 					or country.strip() == '' or email.strip() == '' \
 					or password.strip() == '' or confirm_password.strip() =='':
-					return jsonify({"message":"fields con't be empty"})
+					response = jsonify({
+						'status': 'error',
+						'message': 'fields cont be empty'
+					})
+					response.status_code = 400
+					return response
+
 				else:
 					if username not in users:
 						users.update({username:{"firstname":firstname, "lastname":lastname,\
 						"username":username, "phone":phone, "country":country, "email":email,\
 						"password":password, "confirm_password":confirm_password}})
 					else:
-						return jsonify({"message":"User aleady exists"})
+						response = jsonify({
+							'status': 'error',
+							'message': 'User aleady exists'
+						})
+						response.status_code = 400
+						return response
 			else:
-				return jsonify({"message":"password and confirm password do not match"})
-			return jsonify({"message":"success ! you can now login to continue"})
-
+				response = jsonify({
+					'status': 'error',
+					'message': 'password and confirm password do not match'
+				})
+				response.status_code = 400
+				return response
+			response = jsonify({
+				'status': 'ok',
+				'message': 'success ! you can now login to continue'
+			})
+			response.status_code = 200
+			return response
 
 class Login(Resource):
 	""" Sigin  user"""
@@ -56,18 +71,37 @@ class Login(Resource):
 				payload = {"username":username, "password":password,\
 																"exp":datetime.datetime.utcnow()+datetime.timedelta(minutes=45)}
 				token = jwt.encode(payload, 'djrefuge')
-				return jsonify({"token":token.decode('utf-8')})
+				response = jsonify({
+					'status':'ok',
+					'message': ({"token":token.decode('utf-8')})
+				})
+				response.status_code = 201
+				return response
 			else:
-				return jsonify({"message":"Invalid credentials"})
+				response = jsonify({
+					'status':'error',
+					'message':'Invalid credentials'
+				})
+				response.status_code = 400
+				return response
 
 class Profile(Resource):
 	"""Show user's profile"""
 	@mustlogin
 	def get(self):
-		Users = users
-		return make_response(jsonify(
-			{
-			'Status': "Ok",
-      'Message': "Success",
-      'reg': users
-      }), 200)
+		if users is not None:
+			response = jsonify({
+				'status': 'ok',
+				'message': 'user found',
+      	'reg': users
+			})
+			response.status_code = 200
+			return response
+		else:
+			response = jsonify({
+				'status': 'error',
+				'message': "user not found"
+			})
+			response.status_code = 400
+			return response
+
