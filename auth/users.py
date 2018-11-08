@@ -51,7 +51,6 @@ class Register(Resource):
 				'status': 'ok',
 				'message': 'success ! you can now login to continue'
 			})
-			response.status_code = 200
 			return response
 
 class Login(Resource):
