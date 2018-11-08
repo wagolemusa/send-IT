@@ -15,10 +15,7 @@ class Home(Resource):
 		})
 		response.status_code = 200
 		return response
-
 		
-
-
 class Parcels(Resource):
 	@mustlogin
 	def post(self):
@@ -98,6 +95,7 @@ class ParcelID(Resource):
 		}
 		Orders.update(parcel_id, data)
 		return jsonify({"message": "Succesfuly updated"})
+
 
 		# update = [parl for parl in Orders if (parl['id'] == parcel_id)]
 		# if 'pickup' in request.get_json():

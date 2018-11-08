@@ -10,14 +10,10 @@ sys.path.insert(0, os.path.abspath(".."))
 
 class ParcalOrdersTest(unittest.TestCase):
 
-
-
 	def test_home_page(self):
 		tester = app.test_client(self)
 		response = tester.get('/api/', content_type="application/json")
 		self.assertEqual(response.status_code, 200)
-
-
 
 	def test_parcel_order(self):
 		"""Test API for create parcels order (POST request)"""
@@ -31,7 +27,6 @@ class ParcalOrdersTest(unittest.TestCase):
 											'/api/v1/parcels', data=json.dumps(order),
 											content_type="application/json")
 		self.assertEqual(response.status_code, 200)
-
 
 	# def test_get_parcel_order(self):
 	# 	"""Test API get a parcels order (GET Request)"""
