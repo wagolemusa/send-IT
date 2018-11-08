@@ -45,17 +45,15 @@ class UserTestCase(unittest.TestCase):
 
 	def test_login_with_invalid_credentials(self):
 		"""Test API User Login with invalid credentials """
-		user1 = {
+		user = {
 			"username": "refuge",
 			"password": "Pass@qee",
 		}
 		tester = app.test_client(self)
 		response = tester.post(
-											'/api/v1/auth/signin', data=json.dumps(user1),
+											'/api/v1/auth/signin', data=json.dumps(user),
 											content_type="application/json")
-		self.assertEqual(response.status_code, 200)		
-
-
+		self.assertEqual(response.status_code, 400)		
 
 	def test_get_user_details(self):
 		""" Test API Get user datels """
