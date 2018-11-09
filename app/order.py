@@ -1,27 +1,22 @@
-from flask import Flask,jsonify,request, make_response
 from flask_restful import Resource
-
-import datetime
-import jwt
-from functools import wraps
+from flask import jsonify,request
 from __init__ import *
 
-
 class Home(Resource):
-	def get(self):
-		response = jsonify({
-			'status': 'ok',
-			'message': 'SendIT is one of the popular courier services'
-		})
-		return response
-
-		
-
+		""" Class for home endpoint """
+		def get(self):
+			"""Method for home endpoint """
+			response = jsonify({
+					'status': 'ok',
+					'message': 'SendIT is one of the popular courier services'
+			})
+			return response
 
 class Parcels(Resource):
+	""" Class for create parcels and get all parcels"""
 	@mustlogin
 	def post(self):
-		""" Create a parcel order"""
+		""" Method for create a parcel order"""
 		parcel = {
 		len(Orders)+ 1:{
 		'pickup':request.get_json()['pickup'],
@@ -36,10 +31,9 @@ class Parcels(Resource):
 		})
 		return response
 
-
 	@mustlogin
 	def get(self):
-		"""get all delivery parcels"""
+		""" Method to get all delivery parcels"""
 		if Orders is not None:
 			response = jsonify({
 				'status': 'ok',
@@ -48,8 +42,8 @@ class Parcels(Resource):
 			})
 			return response
 
-
 class ParcelID(Resource):
+	""" Class for detele, get an parcel, put parcel by ID """
 	@mustlogin
 	def delete(self, parcel_id):
 		""" delete parcel order """
@@ -63,7 +57,7 @@ class ParcelID(Resource):
 
 	@mustlogin
 	def get(self, parcel_id):
-		""" get a specific parcel"""
+		""" Method to get a specific parcel"""
 		if Orders is not None:
 			response = jsonify({
 				'status': 'ok',
@@ -71,19 +65,15 @@ class ParcelID(Resource):
 				'parcel': (Orders[parcel_id])
 			})
 			return response
-		else:
-			response = jsonify({
+		response = jsonify({
 				'status': 'error',
 				'message': "Parcel not found"
-			})
-			return response
+		})
+		return response
 
-
-
-	""" update parcel order"""
 	@mustlogin
 	def put(self, parcel_id):
-
+		""" update parcel order"""
 		parcel_data = request.get_json(force=True)
 		data = {
 			'pickup': parcel_data['pickup'],
