@@ -42,6 +42,15 @@ Install dependencies for the project
 
 ```$ pip install -r requirements.txt```
 
+#### Run endpoints 
+
+python run.py
+
+#### Run tests
+
+python test_user.py -v
+pyhton test_orders.py -v
+
 
 #### Users Endpoints : /api
 
