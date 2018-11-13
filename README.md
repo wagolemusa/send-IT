@@ -44,12 +44,13 @@ Install dependencies for the project
 
 #### Run endpoints 
 
-python run.py
+```python run.py```
 
 #### Run tests
 
-python test_user.py -v
-pyhton test_orders.py -v
+```python test_user.py -v```
+
+```pyhton test_orders.py -v```
 
 
 #### Users Endpoints : /api
