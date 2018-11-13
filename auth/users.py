@@ -65,7 +65,7 @@ class Login(Resource):
 		else:
 			if username in users:
 				payload = {"username":username, "password":password,\
-																"exp":datetime.datetime.utcnow()+datetime.timedelta(minutes=45)}
+																"exp":datetime.datetime.utcnow()+datetime.timedelta(minutes=20)}
 				token = jwt.encode(payload, 'djrefuge')
 				response = jsonify({
 					'status':'ok',
@@ -96,9 +96,7 @@ class Profile(Resource):
 				'message': "user not found"
 			})
 			return response
-
-
-
+			
 class Logout(Resource):
 	@mustlogin
 	def post(self):

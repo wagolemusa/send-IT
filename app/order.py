@@ -83,11 +83,11 @@ class ParcelID(Resource):
 		Orders.update(parcel_id, data)
 		return jsonify({"message": "Succesfuly updated"})
 
-		# update = [parl for parl in Orders if (parl['id'] == parcel_id)]
-		# if 'pickup' in request.get_json():
-		# 	update[0]['pickup'] = request.get_json()['pickup']
-		# if 'destination' in request.get_json():
-		# 	update[0]['destination'] = request.get_json()['destination']
-		# if 'weight' in request.get_json():
-		# 	update[0]['weight'] = rrequest.get_json()['weight']
+		# update = (int(parl) for parl in Orders if (parl['id'] == id))
+		# if 'pickup' in request.get_json:
+		# 	update[0]['pickup'] = request.get_json['pickup']
+		# if 'destination' in request.get_json:
+		# 	update[0]['destination'] = request.get_json['destination']
+		# if 'weight' in request.get_json:
+		# 	update[0]['weight'] = rrequest.get_json['weight']
 		# return jsonify({'parl':update[0]})
