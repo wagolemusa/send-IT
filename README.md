@@ -1,7 +1,7 @@
 # sentIT
-[![Build Status](https://travis-ci.org/wagolemusa/send-IT.svg?branch=develop)](https://travis-ci.org/wagolemusa/send-IT)
-[![Coverage Status](https://coveralls.io/repos/github/wagolemusa/send-IT/badge.svg?branch=develop)](https://coveralls.io/github/wagolemusa/send-IT?branch=develop)
-[![Maintainability](https://api.codeclimate.com/v1/badges/4c9728803fd8f046cdce/maintainability)](https://codeclimate.com/github/wagolemusa/send-IT/maintainability)
+[![Build Status](https://travis-ci.org/wagolemusa/send-IT.svg?branch=challenge-2)](https://travis-ci.org/wagolemusa/send-IT)
+[![Coverage Status](https://coveralls.io/repos/github/wagolemusa/send-IT/badge.svg?branch=challenge-2)](https://coveralls.io/github/wagolemusa/send-IT?branch=challenge-2)
+[![Maintainability](https://api.codeclimate.com/v1/badges/4c9728803fd8f046cdce/maintainability)](https://codeclimate.com/github/wagolemusa/send-IT/maintainabilit
 
 SendIT is a courier service that helps users deliver parcels to different destinations. SendIT  provides courier quotes based on weight categories.
 
