@@ -1,13 +1,11 @@
 from flask import Flask, jsonify, request, Blueprint
 from flask_restful import Api
 import json
-from models import *
-from decorator import *
 from velidate import *
 from app.order  import Home
-from auth.users import Register
-from auth.users import Login
-from auth.users import Profile
+from app.users import Register
+from app.users import Login
+from app.users import Profile
 from app.order import Parcels
 from app.order import ParcelID
 

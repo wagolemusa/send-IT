@@ -69,8 +69,7 @@ class UserTestCase(unittest.TestCase):
 		response = tester.get(
 											'/api/v1/users', data=json.dumps(user1),
 											content_type="application/json")
-		self.assertEqual(response.status_code, 200)		
-
+		self.assertEqual(response.status_code, 200)	
 
 if __name__ =='__main__':
 	unittest.main()

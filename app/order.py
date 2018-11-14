@@ -1,6 +1,22 @@
 from flask_restful import Resource
 from flask import jsonify,request
-from __init__ import *
+import datetime
+import jwt
+from functools import wraps
+# from __init__ import api
+Orders = {}
+
+def mustlogin(d):
+	@wraps(d)
+	def decorated(*args, **kwargs):
+		if request.headers.get('	')=='':
+			return make_response(("You need to first login "), 201)
+		try:
+			jwt.decode(request.headers.get('x-access-token'), "djrefuge")
+		except:
+			return jsonify({"message": 'please sigin '})
+		return d(*args, **kwargs)
+	return decorated 
 
 class Home(Resource):
 		""" Class for home endpoint """
