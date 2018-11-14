@@ -19,7 +19,7 @@ api.add_resource(Register, '/v1/auth/signup')
 api.add_resource(Login,    '/v1/auth/signin')
 api.add_resource(Profile,  '/v1/users')
 api.add_resource(Parcels,  '/v1/parcels')
-api.add_resource(ParcelID,  '/v1/parcels/<int:parcel_id>')
+api.add_resource(ParcelID,  '/v1/parcels/<id>')
 
 
 

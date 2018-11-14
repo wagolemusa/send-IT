@@ -4,7 +4,8 @@ import datetime
 import jwt
 from functools import wraps
 # from __init__ import api
-Orders = {}
+
+Orders = []
 
 def mustlogin(d):
 	@wraps(d)
@@ -28,18 +29,19 @@ class Home(Resource):
 			})
 			return response
 
+
 class Parcels(Resource):
 	""" Class for create parcels and get all parcels"""
-	@mustlogin
+	# @mustlogin
 	def post(self):
 		""" Method for create a parcel order"""
 		parcel = {
-		len(Orders)+ 1:{
+		'id': len(Orders)+ 1,
 		'pickup':request.get_json()['pickup'],
 		'destination':request.get_json()['destination'],
 		'weight':request.get_json()['weight']
-		}}
-		Orders.update(parcel)
+		}
+		Orders.append(parcel)
 		response = jsonify({
 			'status': 'ok',
 			'message': 'Parcel succesfuly created',
@@ -47,21 +49,11 @@ class Parcels(Resource):
 		})
 		return response
 
-	@mustlogin
-	def get(self):
-		""" Method to get all delivery parcels"""
-		if Orders is not None:
-			response = jsonify({
-				'status': 'ok',
-				'message': 'parcel found',
-      	'parcel': Orders
-			})
-			return response
 
 class ParcelID(Resource):
 	""" Class for detele, get an parcel, put parcel by ID """
-	@mustlogin
-	def delete(self, parcel_id):
+	# @mustlogin
+	def delete(self, id):
 		""" delete parcel order """
 		del Orders[parcel_id]
 		response = jsonify({
@@ -70,15 +62,14 @@ class ParcelID(Resource):
 		})
 		return response
 	
-
-	@mustlogin
-	def get(self, parcel_id):
+	# @mustlogin
+	def get(self, id):
 		""" Method to get a specific parcel"""
 		if Orders is not None:
 			response = jsonify({
 				'status': 'ok',
 				'message': 'parcel found',
-				'parcel': (Orders[parcel_id])
+				'parcel': (Orders[id])
 			})
 			return response
 		response = jsonify({
@@ -87,8 +78,9 @@ class ParcelID(Resource):
 		})
 		return response
 
-	@mustlogin
-	def put(self, parcel_id):
+
+	# @mustlogin
+	def put(self, id):
 		""" update parcel order"""
 		parcel_data = request.get_json(force=True)
 		data = {
