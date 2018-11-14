@@ -5,7 +5,15 @@ import jwt
 from functools import wraps
 # from __init__ import api
 
-Orders = []
+Orders = [
+{
+	'id':'1',
+	'pickup':'kisumu',
+	'destination':'mombasa',
+	'weight': '54'
+}
+
+]
 
 def mustlogin(d):
 	@wraps(d)
@@ -51,7 +59,14 @@ class Parcels(Resource):
 
 
 class ParcelID(Resource):
-	""" Class for detele, get an parcel, put parcel by ID """
+	# @mustlogin
+	def get(self, parcel_id):
+		""" Method to get a specific parcel"""
+		parl = [ parcel for parcel in Orders if (parcel['id'] == parcel_id)]
+		return jsonify({'parcel': parl})
+
+
+
 	# @mustlogin
 	def delete(self, id):
 		""" delete parcel order """
@@ -61,35 +76,11 @@ class ParcelID(Resource):
 			'message': "Succesfuly Deleted"
 		})
 		return response
-	
-	# @mustlogin
-	def get(self, id):
-		""" Method to get a specific parcel"""
-		if Orders is not None:
-			response = jsonify({
-				'status': 'ok',
-				'message': 'parcel found',
-				'parcel': (Orders[id])
-			})
-			return response
-		response = jsonify({
-				'status': 'error',
-				'message': "Parcel not found"
-		})
-		return response
 
 
 	# @mustlogin
 	def put(self, id):
 		""" update parcel order"""
-		parcel_data = request.get_json(force=True)
-		data = {
-			'pickup': parcel_data['pickup'],
-			'destination': parcel_data['destination'],
-			'weight': parcel_data['weight'],
-		}
-		Orders.update(parcel_id, data)
-		return jsonify({"message": "Succesfuly updated"})
 
 		# update = (int(parl) for parl in Orders if (parl['id'] == id))
 		# if 'pickup' in request.get_json:
