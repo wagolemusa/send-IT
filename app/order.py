@@ -66,7 +66,6 @@ class ParcelID(Resource):
 		return jsonify({'parcel': parl})
 
 
-
 	# @mustlogin
 	def delete(self, id):
 		""" delete parcel order """
@@ -77,16 +76,14 @@ class ParcelID(Resource):
 		})
 		return response
 
-
 	# @mustlogin
-	def put(self, id):
+	def put(self, parcel_id):
 		""" update parcel order"""
-
-		# update = (int(parl) for parl in Orders if (parl['id'] == id))
-		# if 'pickup' in request.get_json:
-		# 	update[0]['pickup'] = request.get_json['pickup']
-		# if 'destination' in request.get_json:
-		# 	update[0]['destination'] = request.get_json['destination']
-		# if 'weight' in request.get_json:
-		# 	update[0]['weight'] = rrequest.get_json['weight']
-		# return jsonify({'parl':update[0]})
+		order = [parcel for parcel in Orders if (parcel['id'] == parcel_id)]
+		if 'pickup' in request.json :
+			order[0]['pickup'] = request.json['pickup']
+		if 'destination' in request.json:
+			order[0]['destination'] = request.json['destination']
+		if 'weight' in request.json:
+			order[0]['weight'] = request.json['weight']
+		return jsonify({'parcel':order[0]})
