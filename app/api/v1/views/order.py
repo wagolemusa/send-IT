@@ -10,7 +10,7 @@ def mustlogin(d):
 	@wraps(d)
 	def decorated(*args, **kwargs):
 		if request.headers.get('	')=='':
-			return make_response(("You need to first login "), 201)
+			return jsonify({"message": "You need to first login"})
 		try:
 			jwt.decode(request.headers.get('x-access-token'), "djrefuge")
 		except:
@@ -53,7 +53,7 @@ class Parcels(Resource):
 			return jsonify({"orders":Orders})	
 
 class ParcelID(Resource):
-	# @mustlogin
+	@mustlogin
 	def get(self, parcelId):
 		""" Method to get a specific parcel"""
 		parl = [order for order in Orders if order["parcel_id"] == parcelId]
@@ -61,7 +61,7 @@ class ParcelID(Resource):
 			return jsonify({"message": "No order found"})
 		return jsonify({'parcel': parl})
 
-	# @mustlogin
+	@mustlogin
 	def delete(self, parcelId):
 		""" delete parcel order """
 		order = [ parcel for parcel in Orders if (parcel['parcel_id'] == parcelId) ]
@@ -71,7 +71,7 @@ class ParcelID(Resource):
 		return jsonify({'message':'Successfully Canceled'})
 
 
-	# @mustlogin
+	@mustlogin
 	def put(self, parcelId):
 		""" update parcel order"""
 		order = [parcel for parcel in Orders if (parcel['parcel_id'] == parcelId)]
