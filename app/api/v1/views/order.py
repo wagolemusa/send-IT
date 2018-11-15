@@ -3,7 +3,6 @@ from flask import jsonify,request
 import datetime
 import jwt
 from functools import wraps
-# from __init__ import api
 
 Orders = []
 
@@ -29,7 +28,6 @@ class Home(Resource):
 			})
 			return response
 
-
 class Parcels(Resource):
 	""" Class for create parcels and get all parcels"""
 	# @mustlogin
@@ -50,8 +48,9 @@ class Parcels(Resource):
 										'status':'new order'}	
 
 			Orders.append(parcel)
-			return jsonify({"message": "Successfully orderd"})
-
+			if not Orders:
+				return jsonify({"message": "No parcels yet"})
+			return jsonify({"orders":Orders})	
 
 class ParcelID(Resource):
 	# @mustlogin
@@ -61,7 +60,6 @@ class ParcelID(Resource):
 		if not parl:
 			return jsonify({"message": "No order found"})
 		return jsonify({'parcel': parl})
-
 
 	# @mustlogin
 	def delete(self, parcelId):
