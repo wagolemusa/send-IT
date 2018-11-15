@@ -64,14 +64,15 @@ class ParcelID(Resource):
 
 
 	# @mustlogin
-	def delete(self, parcel_id):
+	def delete(self, parcelId):
 		""" delete parcel order """
-		order = [ parcel for parcel in Orders if (parcel['id'] == parcel_id) ]
+		order = [ parcel for parcel in Orders if (parcel['parcel_id'] == parcelId) ]
 		if len(order) == 0:
-			abort(404)
+			return jsonify({"message": "No order to be Canceled"})
 		Orders.remove(order[0])
-		return jsonify({'message':'Success Canceled'})
+		return jsonify({'message':'Successfully Canceled'})
 
+		
 	# @mustlogin
 	def put(self, parcel_id):
 		""" update parcel order"""
