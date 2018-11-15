@@ -5,7 +5,46 @@
 
 SendIT is a courier service that helps users deliver parcels to different destinations. SendIT  provides courier quotes based on weight categories.
 
-### Features
+## Get started with the project
+
+Clone the project
+```
+https://github.com/wagolemusa/send-IT.git
+
+```
+Switch the folder
+
+```
+cd send-IT
+
+```
+- Install virtual environment
+
+```
+$ virtualenv -p /usr/bin/python3 venv
+
+```
+- Activate the virtual environment
+
+```
+$ source venv/bin/activate
+
+```
+- Install dependencies  used in project
+
+```
+$ pip install -r requirements.txt
+
+```
+- Run the project python run.py
+
+```
+ Navigate to [http://localhost:3000](http://localhost:3000)
+
+```
+
+
+## Features
 
 1. Users can create an account.
 2. User can login.
@@ -17,61 +56,27 @@ SendIT is a courier service that helps users deliver parcels to different destin
 8. User can update a parcel delivery order.
 
 
-### Installing
-
-*Step 1*
-
-Create directory
-```$ mkdir sendit```
-
-```$ cd sendit```
-
-Create and activate virtual environment
-
-```$ virtualenv -p /usr/bin/python3 venv```
 
 
-```$ source venv/bin/activate```
-
-### Clone the repository
-
-https://github.com/wagolemusa/send-IT.git
-
-
-Install dependencies for the project
-
-```$ pip install -r requirements.txt```
-
-#### Run endpoints 
-
-```python run.py```
-
-#### Run tests
-
-```python test_user.py -v```
-
-```pyhton test_orders.py -v```
-
-
-#### Users Endpoints : /api
+## Users Endpoints : /api
 
 Method | Endpoint | Functionality
---- | --- | ---
-POST | /v1/auth/signup | Create a user account
-POST | /v1/auth/signin | Sign in a user
-GET  | /v1/users | Get all users
-POST | /v1/auth/logout | Sign out a user
+|---- | --------------- | -------------------- |
+|POST | /v1/auth/signup | Create a user account |
+|POST | /v1/auth/signin | Sign in a user |
+|GET  | /v1/users | Get all users |
+|POST | /v1/auth/logout | Sign out a user |
 
-#### Parcels Endpoints : /api
+## Parcels Endpoints : /api
 
 Method | Endpoints | Functionality
----| --- | ---
-GET 	| / | Home
-POST  | /v1/parcels | Post a parcel.
-GET   | /v1/parcels | Get all parcel.
-GET   | /v1/parcels/int:parcel_id| Get an parcel by ID.
-PUT   | /v1/parcels/int:parcel_id| Update an parcel by ID.
-DELETE  | /v1/parcels/int:parcel_id| Get an parcel by ID.
+|-------| -------------- | ------------------------|
+|GET 	| / | Home			|
+|POST  | /v1/parcels | Post a parcels. |
+|GET   | /v1/parcels | Get all parcel. |
+|GET   | /v1/parcels/int:parcelId| Get an parcel by ID. |
+|PUT   | /v1/parcels/int:parcelId| Update an parcel by ID.|
+|DELETE  | /v1/parcels/int:parcelId| Get an parcel by ID. |
 
 
-Hosted on Heroku[```here```](https://senditparcel.herokuapp.com/api/) 
+- Hosted on Heroku[```here```](https://senditparcel.herokuapp.com/api/) 
