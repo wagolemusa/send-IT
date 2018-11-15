@@ -1,9 +1,9 @@
 import unittest 
 import json
-# import os
-# import sys
+import os
+import sys
 from .. import create_app
-# sys.path.insert(0, os.path.abspath(".."))
+sys.path.insert(0, os.path.abspath(".."))
 
 
 class UserTestCase(unittest.TestCase):
