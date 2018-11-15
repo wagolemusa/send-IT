@@ -13,20 +13,21 @@ class ParcalOrdersTest(unittest.TestCase):
 		self.app_context = self.app.app_context()
 		self.app_context.push()
 
-		self.parcel = {
-			"pickup":"Kisumu",
-			"destination": "Nairobi",
-			"weight": "56"	
-		}
 
 	def test_home_page(self):
 		response = self.client.get('/api/', content_type="application/json")
 		self.assertEqual(response.status_code, 200)
 
 	def test_get_one_order(self):
+		order = {
+			"parcel_id":1,
+			"pickup": "Kisumu",
+			"destination": "Nairobi",
+			"weight": "45"
+		}
 		response = self.client.get('/api/v1/parcels/1',
-                              data=json.dumps(self.parcel),
-                              content_type='application/json'),
+                              data=json.dumps(order),
+                              content_type='application/json')
 		self.assertEqual(response.status_code, 200)
 	
 	def test_post_parcel_order(self):
@@ -42,8 +43,8 @@ class ParcalOrdersTest(unittest.TestCase):
 		self.assertEqual(response.status_code, 200)
 
 	def test_get_all_parcels(self):
-		res = self.client.get('/api/v1/parcels')
-		self.assertEqual(res.status_code, 200)
+		response = self.client.get('/api/v1/parcels')
+		self.assertEqual(response.status_code, 200)
 
 if __name__ =='__main__':
 	unittest.main()
