@@ -1,8 +1,8 @@
 import unittest 
-from run import app
 import json
 import os
 import sys
+from .. import create_app
 sys.path.insert(0, os.path.abspath(".."))
 
 

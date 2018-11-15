@@ -2,7 +2,6 @@ from flask import Flask,jsonify,request, make_response
 from flask_restful import Resource
 import datetime
 from functools import wraps
-from __init__ import *
 import jwt
 
 users =  {}

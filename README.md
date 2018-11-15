@@ -69,9 +69,9 @@ Method | Endpoints | Functionality
 GET 	| / | Home
 POST  | /v1/parcels | Post a parcel.
 GET   | /v1/parcels | Get all parcel.
-GET   | /v1/paecels/int:parcel_id| Get an parcel by ID.
-PUT   | /v1/paecels/int:parcel_id| Update an parcel by ID.
-DELETE  | /v1/paecels/int:parcel_id| Get an parcel by ID.
+GET   | /v1/parcels/int:parcel_id| Get an parcel by ID.
+PUT   | /v1/parcels/int:parcel_id| Update an parcel by ID.
+DELETE  | /v1/parcels/int:parcel_id| Get an parcel by ID.
 
 
 Hosted on Heroku[```here```](https://senditparcel.herokuapp.com/api/) 

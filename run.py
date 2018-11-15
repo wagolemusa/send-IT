@@ -1,12 +1,10 @@
-from flask import Flask
-
-from __init__ import v1
-
-app = Flask(__name__)
-app.config['SECRET_KEY'] = 'djrefuge'
-
-app.register_blueprint(v1, url_prefix='/api')
+import os
+from app import create_app
 
 
-if __name__ == "__main__":
-	app.run(debug=True)
+# tells flask the environment to pass in different environments
+config_name = os.getenv('FLASK_CONFIG')
+app = create_app(config_name)
+
+if __name__ == '__main__':
+	app.run()

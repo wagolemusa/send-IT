@@ -1,16 +1,18 @@
 import unittest 
-from run import app
 import json
-import os
-import sys
-sys.path.insert(0, os.path.abspath(".."))
+# import os
+# import sys
+from .. import create_app
+# sys.path.insert(0, os.path.abspath(".."))
 
 
 class UserTestCase(unittest.TestCase):
 
-		# def setUp(self):
-		# self.app = app("");
-		# self.client = self.app.test_client()
+	def setUp(self):
+		self.app = create_app('testing')
+		self.client = self.app.test_client()
+		self.app_context = self.app.app_context()
+		self.app_context.push()
 
 	def test_register_user(self):
 		""" Test API for create a user """
