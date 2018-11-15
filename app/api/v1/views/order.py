@@ -72,11 +72,11 @@ class ParcelID(Resource):
 		Orders.remove(order[0])
 		return jsonify({'message':'Successfully Canceled'})
 
-		
+
 	# @mustlogin
-	def put(self, parcel_id):
+	def put(self, parcelId):
 		""" update parcel order"""
-		order = [parcel for parcel in Orders if (parcel['id'] == parcel_id)]
+		order = [parcel for parcel in Orders if (parcel['parcel_id'] == parcelId)]
 		if 'pickup' in request.json :
 			order[0]['pickup'] = request.json['pickup']
 		if 'destination' in request.json:
