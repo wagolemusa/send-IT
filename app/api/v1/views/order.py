@@ -55,9 +55,11 @@ class Parcels(Resource):
 
 class ParcelID(Resource):
 	# @mustlogin
-	def get(self, parcel_id):
+	def get(self, parcelId):
 		""" Method to get a specific parcel"""
-		parl = [ parcel for parcel in Orders if (parcel['id'] == parcel_id)]
+		parl = [order for order in Orders if order["parcel_id"] == parcelId]
+		if not parl:
+			return jsonify({"message": "No order found"})
 		return jsonify({'parcel': parl})
 
 
