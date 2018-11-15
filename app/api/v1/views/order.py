@@ -5,15 +5,7 @@ import jwt
 from functools import wraps
 # from __init__ import api
 
-Orders = [
-{
-	'id':'1',
-	'pickup':'kisumu',
-	'destination':'mombasa',
-	'weight': '54'
-}
-
-]
+Orders = []
 
 def mustlogin(d):
 	@wraps(d)
@@ -43,19 +35,22 @@ class Parcels(Resource):
 	# @mustlogin
 	def post(self):
 		""" Method for create a parcel order"""
-		parcel = {
-		'id': len(Orders)+ 1,
-		'pickup':request.get_json()['pickup'],
-		'destination':request.get_json()['destination'],
-		'weight':request.get_json()['weight']
-		}
-		Orders.append(parcel)
-		response = jsonify({
-			'status': 'ok',
-			'message': 'Parcel succesfuly created',
-			'parcel' : Orders
-		})
-		return response
+		if request.method == 'POST':
+			if not Orders:
+				parcel = 	{ 'parcel_id': 1,
+										'pickup':request.json['pickup'],
+										'destination':request.json['destination'],
+										'weight':request.json['weight'],
+										'status':'new order'}
+			else:
+				parcel = 	{ 'parcel_id': Orders[-1]['parcel_id'] + 1,
+										'pickup':request.json['pickup'],
+										'destination':request.json['destination'],
+										'weight':request.json['weight'],
+										'status':'new order'}	
+
+			Orders.append(parcel)
+			return jsonify({"message": "Successfully orderd"})
 
 
 class ParcelID(Resource):
