@@ -1,7 +1,6 @@
 from flask import Flask, jsonify, request, Blueprint
 from flask_restful import Api
 import json
-from .views import velidate 
 from .views.order import Home
 from .views.users import Register
 from .views.users import Login

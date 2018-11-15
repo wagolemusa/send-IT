@@ -2,12 +2,13 @@ import unittest
 import json
 import os
 import sys
-from .. import create_app
+from run import create_app
 sys.path.insert(0, os.path.abspath(".."))
 
 class UserTestCase(unittest.TestCase):
 
 	def setUp(self):
+		from app import create_app
 		self.app = create_app('testing')
 		self.client = self.app.test_client()
 		self.app_context = self.app.app_context()
@@ -27,7 +28,7 @@ class UserTestCase(unittest.TestCase):
     	}
 		
 		response = self.client.post(
-											'/api/v1/auth/signup', data=json.dumps(user),
+									'/v1/auth/signup', data=json.dumps(user),
 											content_type="application/json")
 		self.assertEqual(response.status_code, 200)
 
@@ -39,7 +40,7 @@ class UserTestCase(unittest.TestCase):
 		}
 
 		response = self.client.post(
-											'/api/v1/auth/signin', data=json.dumps(user),
+											'/v1/auth/signin', data=json.dumps(user),
 											content_type="application/json")
 		self.assertEqual(response.status_code, 200)
 
@@ -52,7 +53,7 @@ class UserTestCase(unittest.TestCase):
 		}
 
 		response = self.client.post(
-											'/api/v1/auth/signin', data=json.dumps(user1),
+											'/v1/auth/signin', data=json.dumps(user1),
 											content_type="application/json")
 		self.assertEqual(response.status_code, 200)		
 
@@ -68,7 +69,7 @@ class UserTestCase(unittest.TestCase):
 		}
 	
 		response = self.client.get(
-											'/api/v1/users', data=json.dumps(user1),
+											'/v1/users', data=json.dumps(user1),
 											content_type="application/json")
 		self.assertEqual(response.status_code, 200)	
 
