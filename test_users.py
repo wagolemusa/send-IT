@@ -2,12 +2,12 @@ import unittest
 import json
 import os
 import sys
-from run import create_app
+from app import create_app
 
 class UserTestCase(unittest.TestCase):
 
 	def setUp(self):
-		# from app import create_app
+		from app import create_app
 		self.app = create_app('testing')
 		self.client = self.app.test_client()
 		self.app_context = self.app.app_context()
