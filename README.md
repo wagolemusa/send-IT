@@ -5,6 +5,8 @@
 
 SendIT is a courier service that helps users deliver parcels to different destinations. SendIT  provides courier quotes based on weight categories.
 
+
+
 ## Get started with the project
 
 Clone the project
@@ -77,6 +79,14 @@ Method | Endpoints | Functionality
 |GET   | /v1/parcels/int:parcelId| Get an parcel by ID. |
 |PUT   | /v1/parcels/int:parcelId| Update an parcel by ID.|
 |DELETE  | /v1/parcels/int:parcelId| Get an parcel by ID. |
+
+### post a parcel delivery order
+{
+	
+	"pickup":"Kisumu",
+	"destination":"Nairobi",
+	"weight":"45"
+}
 
 
 - Hosted on Heroku[```here```](https://senditparcel.herokuapp.com/api/) 
