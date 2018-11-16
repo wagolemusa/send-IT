@@ -8,7 +8,7 @@ sys.path.insert(0, os.path.abspath(".."))
 class UserTestCase(unittest.TestCase):
 
 	def setUp(self):
-		from app import create_app
+		# from app import create_app
 		self.app = create_app('testing')
 		self.client = self.app.test_client()
 		self.app_context = self.app.app_context()
@@ -57,21 +57,7 @@ class UserTestCase(unittest.TestCase):
 											content_type="application/json")
 		self.assertEqual(response.status_code, 200)		
 
-	def test_get_user_details(self):
-		""" Test API Get user datels """
-		user1 = {
-    		"firstname": "wagole",
-    		"lastname": "musa",
-    		"username": "refuge",
-			"phone": "0725689065",
-			"country": "kenya", 
-			"email": "homie@gmail.com",
-		}
-	
-		response = self.client.get(
-											'/v1/users', data=json.dumps(user1),
-											content_type="application/json")
-		self.assertEqual(response.status_code, 200)	
+
 
 if __name__ =='__main__':
 	unittest.main()
