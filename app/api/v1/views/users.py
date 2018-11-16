@@ -4,127 +4,64 @@ import datetime
 from functools import wraps
 import jwt
 import re
+from .models import User
 
-users =  {}
-class Validation():
-	def password_verify(password,confirm_password):
-		if password == confirm_password:
-			return True
-		else:
-			return False
-
-	def valid_email(email):
-		if re.match('^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$', email) != None:
-			return True
-		else:
-			return False
-
-
-def mustlogin(d):
-	@wraps(d)
-	def decorated(*args, **kwargs):
-		if request.headers.get('	')=='':
-			return make_response(("You need to first login "), 201)
-		try:
-			jwt.decode(request.headers.get('x-access-token'), "djrefuge")
-		except:
-			return jsonify({"message": 'please sigin '})
-		return d(*args, **kwargs)
-	return decorated 
 
 class Register(Resource):
 	def post(self):
-		""" User Signup """
-		data = request.get_json()
-		firstname = data["firstname"]
-		lastname  = data["lastname"]
-		username  = data["username"]
-		phone     = data["phone"]
-		country   = data["country"]
-		email     = data["email"]
-		password  = data["password"]
-		confirm_password = data["confirm_password"]
-		if Validation.valid_email(email):
-			if Validation.password_verify(password, confirm_password):
-				if firstname.strip() == '' or lastname.strip() == '' \
-					or username.strip() == '' or phone.strip() == '' \
-					or country.strip() == '' or email.strip() == '' \
-					or password.strip() == '' or confirm_password.strip() =='':
-					response = jsonify({
-						'status': 'error',
-						'message': 'fields cont be empty'
-					})
-					return response
+		user = User()
+		firstname = request.json['firstname']
+		lastname = request.json['lastname']
+		username = request.json['username']
+		phone = request.json['phone']
+		country = request.json['country']
+		email  = request.json['email']
+		password = request.json['password']
 
-				else:
-					if username not in users:
-						users.update({username:{"firstname":firstname, "lastname":lastname,\
-						"username":username, "phone":phone, "country":country, "email":email,\
-						"password":password, "confirm_password":confirm_password}})
-					else:
-						response = jsonify({
-							'status': 'error',
-							'message': 'User aleady exists'
-						})
-						return response
-			else:
-				response = jsonify({
-					'status': 'error',
-					'message': 'password and confirm password do not match'
-				})
-				return response
-			response = jsonify({
-				'status': 'ok',
-				'User': users
-			})
-			return response
+		if not username or len(username.strip()) == 0:
+			return jsonify({"message": "Username cannot be blank"})
+		elif not email:
+			return jsonify({"message": "Email cannot be blank"})
+		elif not password:
+			return jsonify({"message": "Password cannot be blank"})
+		elif not re.match(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)", email):
+			return jsonify({"message": "Input a valid email"})
+		elif len(password) < 5:
+			return jsonify({"message": "Password too short"})
+		elif [u for u in user.users if u['email']== email]:
+			return jsonify({"message": "User already exists"})	
+		user.register_user(firstname, lastname, username, phone, country, email, password)
+		return jsonify({"message": "registerd"})
+
 
 class Login(Resource):
 	""" Sigin  user"""
 	def post(self):
-		username = request.get_json()['username']
-		password = request.get_json()['password']
-		payload = {}
+		user_obj = User()
+		username = request.json['username']
+		password = request.json['password']
+		user = [u for u in user_obj.users if username == u['username'] and password == u['password']]
+		if  not user:
+			return jsonify({"message": "Invalid username/password combination"})
+		user_obj.login_user(username, password)
+		return jsonify({"message": "Login successful"})
 
-		if username.strip() == '' or password.strip() == '':
-			return jsonify({"message":"username or password con't be empty"})
-		else:
-			if username in users:
-				payload = {"username":username, "password":password,\
-																"exp":datetime.datetime.utcnow()+datetime.timedelta(minutes=20)}
-				token = jwt.encode(payload, 'djrefuge')
-				response = jsonify({
-					'status':'ok',
-					'message': ({"token":token.decode('utf-8')})
-				})
-				return response
-			else:
-				response = jsonify({
-					'status':'error',
-					'message':'Invalid credentials'
-				})
-				return response
 
 class Profile(Resource):
 	"""Show user's profile"""
-	@mustlogin
+	# @mustlogin
 	def get(self):
-		if users is not None:
-			response = jsonify({
-				'status': 'ok',
-				'message': 'user found',
-      	'reg': users
-			})
-			return response
-		else:
-			response = jsonify({
-				'status': 'error',
-				'message': "user not found"
-			})
-			return response
-			
+		user = User()
+		return jsonify({'users': user.users})
+	
+	def get(self, userId):
+		user_obj = User()
+		user = [u for u in user_obj.users if u["user_id"] == userId]
+		if not user:
+			return jsonify({"message": "No user"})
+		return jsonify({'users': user})
+
 class Logout(Resource):
-	@mustlogin
 	def post(self):
 		"""User logout"""
 		token = request.headers.get('x-access-token')
