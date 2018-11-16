@@ -76,17 +76,20 @@ Method | Endpoints | Functionality
 |GET 	| / | Home			|
 |POST  | /v1/parcels | Post a parcels. |
 |GET   | /v1/parcels | Get all parcel. |
-|GET   | /v1/parcels/int:parcelId| Get an parcel by ID. |
-|PUT   | /v1/parcels/int:parcelId| Update an parcel by ID.|
-|DELETE  | /v1/parcels/int:parcelId| Get an parcel by ID. |
+|GET   | /v1/parcels/<parcelId>| Get an parcel by ID. |
+|PUT   | /v1/parcels/<parcelId>| Update an parcel by ID.|
+|DELETE  | /v1/parcels/<parcelId>| Get an parcel by ID. |
+|PUT | /v1/parcels/<parcel_id>/cancel| Cancel an order.|
+|GET  | /v1/users/<user_id>/parcel| Get parcels for A user|	
 
 ### post a parcel delivery order
 {
-	
-	"pickup":"Kisumu",
-	"destination":"Nairobi",
-	"weight":"45"
+  "user_id":1,
+  "username":"refuge",
+  "pickup":"Kisumu",
+  "destination":"Nairobi",
+  "weight":76,
+  "status":"status"
 }
-
 
 - Hosted on Heroku[```here```](https://senditparcel.herokuapp.com/api/) 

@@ -4,7 +4,7 @@ import datetime
 from functools import wraps
 import jwt
 import re
-from .models import User
+from .user_models import User
 
 
 class Register(Resource):
