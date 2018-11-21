@@ -109,5 +109,6 @@ venv.bak/
 ### Python Patch ###
 .venv/
 
+.vscode/
 
 # End of https://www.gitignore.io/api/python

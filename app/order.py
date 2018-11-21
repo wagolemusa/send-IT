@@ -1,93 +1,104 @@
 from flask_restful import Resource
 from flask import jsonify,request
-from __init__ import *
+import datetime
+import jwt
+from functools import wraps
+# from .order_models import Parcel
+Orders = []
 
 class Home(Resource):
 		""" Class for home endpoint """
 		def get(self):
 			"""Method for home endpoint """
 			response = jsonify({
-					'status': 'ok',
 					'message': 'SendIT is one of the popular courier services'
 			})
 			return response
 
 class Parcels(Resource):
 	""" Class for create parcels and get all parcels"""
-	@mustlogin
 	def post(self):
 		""" Method for create a parcel order"""
-		parcel = {
-		len(Orders)+ 1:{
-		'pickup':request.get_json()['pickup'],
-		'destination':request.get_json()['destination'],
-		'weight':request.get_json()['weight']
-		}}
-		Orders.update(parcel)
-		response = jsonify({
-			'status': 'ok',
-			'message': 'Parcel succesfuly created',
-			'parcel' : Orders
-		})
-		return response
+		parcel_id = len(Orders)+1
+		user_id = request.json['user_id']
+		username = request.json['username']
+		pickup = request.json['pickup']
+		destination = request.json['destination']
+		weight = request.json['weight']
+		status = request.json['status']
 
-	@mustlogin
+		orders ={ "parcel_id":parcel_id,
+							"user_id":user_id,
+							"username":username,
+							"pickup":pickup,
+							"destination":destination,
+							"weight":weight,
+							"status" :status
+						}
+
+		if username.strip() == '':
+			return jsonify({"message": "username should not be empty"})
+		if pickup.strip() == '':
+			return jsonify({"message": "Pickup should not be empty"})
+		elif destination.strip() == '':
+			return jsonify({"message": "Destination should not be empty"})
+		elif type(weight) != int:
+			return jsonify({"message": "It should be only numbers and can not be empty"})
+		Orders.append(orders)
+		return jsonify({"message": "Successfully Ordered"})
+
+
 	def get(self):
-		""" Method to get all delivery parcels"""
-		if Orders is not None:
-			response = jsonify({
-				'status': 'ok',
-				'message': 'parcel found',
-      	'parcel': Orders
-			})
-			return response
+		""" Method to get all Orders """
+		if not Orders:
+			return jsonify({"message": "No parcels yet"})
+		return jsonify({"orders":Orders})   
+
 
 class ParcelID(Resource):
-	""" Class for detele, get an parcel, put parcel by ID """
-	@mustlogin
-	def delete(self, parcel_id):
-		""" delete parcel order """
-		del Orders[parcel_id]
-		response = jsonify({
-			'status': 'error',
-			'message': "Succesfuly Deleted"
-		})
-		return response
-	
-
-	@mustlogin
-	def get(self, parcel_id):
+	def get(self, parcelId):
 		""" Method to get a specific parcel"""
-		if Orders is not None:
-			response = jsonify({
-				'status': 'ok',
-				'message': 'parcel found',
-				'parcel': (Orders[parcel_id])
-			})
-			return response
-		response = jsonify({
-				'status': 'error',
-				'message': "Parcel not found"
-		})
-		return response
+		parl = [order for order in Orders if order["parcel_id"] == parcelId]
+		if not parl:
+			return jsonify({"message": "No order found"})
+		return jsonify({'parcel': parl})
 
-	@mustlogin
-	def put(self, parcel_id):
+	def delete(self, parcelId):
+		""" delete parcel order """
+		order = [ parcel for parcel in Orders if (parcel['parcel_id'] == parcelId) ]
+		if len(order) == 0:
+			return jsonify({"message": "No order to be Canceled"})
+		Orders.remove(order[0])
+		return jsonify({'message':'Successfully Canceled'})
+
+
+	def put(self, parcelId):
 		""" update parcel order"""
-		parcel_data = request.get_json(force=True)
-		data = {
-			'pickup': parcel_data['pickup'],
-			'destination': parcel_data['destination'],
-			'weight': parcel_data['weight'],
-		}
-		Orders.update(parcel_id, data)
-		return jsonify({"message": "Succesfuly updated"})
+		order = [parcel for parcel in Orders if (parcel['parcel_id'] == parcelId)]
+		if 'pickup' in request.json :
+			order[0]['pickup'] = request.json['pickup']
+		if 'destination' in request.json:
+			order[0]['destination'] = request.json['destination']
+		if 'weight' in request.json:
+			order[0]['weight'] = request.json['weight']
+		return jsonify({'parcel':order[0]})
 
-		# update = (int(parl) for parl in Orders if (parl['id'] == id))
-		# if 'pickup' in request.get_json:
-		# 	update[0]['pickup'] = request.get_json['pickup']
-		# if 'destination' in request.get_json:
-		# 	update[0]['destination'] = request.get_json['destination']
-		# if 'weight' in request.get_json:
-		# 	update[0]['weight'] = rrequest.get_json['weight']
-		# return jsonify({'parl':update[0]})
+
+class SpecificUser(Resource):
+	""" Method to get a specific user"""
+	def get(self, user_id):
+		Parcel = []
+		for parl in Orders:
+			if parl["user_id"] == user_id:
+				Parcel.append(Orders)
+				return Parcel
+			return ({"message": "User Has no orders"})
+
+class Cancel(Resource):
+	""" Method to Cancel """
+	def put(self, parcel_id):
+		order = [ parcel for parcel in Orders if (parcel['parcel_id'] == parcel_id)]
+		for order in Orders:
+			if order["parcel_id"] == parcel_id:
+				order['status'] = 'Cancelled'
+			return jsonify({"parcl":order})
