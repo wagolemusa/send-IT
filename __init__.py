@@ -16,7 +16,7 @@ from app.order import Cancel
 
 def create_app(config_name):
 	app = Flask(__name__, instance_relative_config=True)
-	app.config.from_pyfile('config.py')
+	# app.config.from_pyfile('config.py')
 
 	v1 = Blueprint('api', __name__)
 	api = Api(v1)
