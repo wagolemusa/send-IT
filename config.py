@@ -1,27 +1,37 @@
-class Config:
-    DEBUG = True
-    TESTING = False
-    DATABASE_URI = ''
+import os
 
 
-# Configurations for production
-class ProductionConfig(Config):
+class Config():
+    """Parent configuration."""
+
     DEBUG = False
-    DATABASE_URI = ''
+    TESTING = False
+    CSRF_ENABLE = True
+    SECRET_KEY = os.getenv('SECRET_KEY')
 
 
-# Configurations for development
-class DevelopmentConfig(Config):
-    pass
+class Development(Config):
+    """Development environment config."""
 
-
-class Testing(Config):
     DEBUG = True
     TESTING = True
 
 
+class Production(Config):
+    """Production environment config."""
+
+    DEBUG = False
+    TESTING = False
+
+
+class Testing(Config):
+    """Testing environment config."""
+
+    DEBUG = True
+    TESTING = True
+
 app_config = {
-    'development': DevelopmentConfig,
-    # 'testing': testing,
-    'production': ProductionConfig
+    'development': Development,
+    'testing': Testing,
+    'production"': Production
 }
