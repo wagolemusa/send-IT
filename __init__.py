@@ -2,7 +2,7 @@ from flask import Flask, jsonify, request, Blueprint
 import psycopg2
 from flask_restful import Api
 from config import app_config
-# from app import *
+from database import create_table
 from home.view  import Home
 
 
@@ -15,6 +15,8 @@ def create_app(config_name):
 	v2 = Blueprint('api', __name__)
 	api = Api(v2)
 	app.register_blueprint(v2, url_prefix='/api')
+	create_table()
+
 
 	
 	api.add_resource(Home, '/')
