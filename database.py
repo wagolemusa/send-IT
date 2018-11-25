@@ -1,13 +1,10 @@
 import os
 import psycopg2
-from psycopg2 import Error
 connection = psycopg2.connect(dbname='sendit', user='postgres', password='refuge', host='localhost')
 
-
-def init_db():
+def init_db ():
 	conn = connection
 	return conn
-
 
 def create_table():
 	queries = ("""

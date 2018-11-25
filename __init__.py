@@ -4,6 +4,8 @@ from flask_restful import Api
 from config import app_config
 from database import create_table
 from home.view  import Home
+from auth.view  import Register
+from auth.view  import Login
 
 
 
@@ -17,9 +19,10 @@ def create_app(config_name):
 	app.register_blueprint(v2, url_prefix='/api')
 	create_table()
 
-
 	
 	api.add_resource(Home, '/')
+	api.add_resource(Register, '/v1/auth/signup')
+	api.add_resource(Login, '/v1/auth/signin')
 	return app 
 
 
