@@ -68,4 +68,29 @@ class Register(Resource):
 			connection.commit()
 		return {"message": "Successfully registered an account"}
 
+class Login(Resource):
+	""" Class for user login """
+	def post(self):
+		username = request.json['username']
+		password =  request.json['password']
 
+		# hashlib.sha256(base64.b64encode\
+								# (bytes(request.get_json()['password'], 'utf-8'))).hexdigest()
+		print (password)
+
+		if username.strip() == '':
+			return jsonify({"message": "Username cannot be blank"})
+		elif password.strip() == '':
+			return jsonify({"message":"Password cannot be blank"})
+		user = Usermodel()
+		u = user.check_username()
+		curr.execute(u, (username,))
+		data = curr.fetchone()
+		if not data:
+			return jsonify({"message":"User named {} not found".format(username)})
+		if password in data:
+			expire_time  = datetime.timedelta(minutes=30)
+			access_token = create_access_token(identity=username, expires_delta=expire_time)
+			return jsonify({"message":"Login in sucessful  as {}".format(username),
+											'access_token':access_token})
+		return jsonify({"message":"Invalid password"})
