@@ -76,8 +76,6 @@ class Login(Resource):
 
 		# hashlib.sha256(base64.b64encode\
 								# (bytes(request.get_json()['password'], 'utf-8'))).hexdigest()
-		print (password)
-
 		if username.strip() == '':
 			return jsonify({"message": "Username cannot be blank"})
 		elif password.strip() == '':
