@@ -6,6 +6,7 @@ from database import create_table
 from home.view  import Home
 from auth.view  import Register
 from auth.view  import Login
+from home.view import CreateParcel
 
 
 
@@ -23,6 +24,7 @@ def create_app(config_name):
 	api.add_resource(Home, '/')
 	api.add_resource(Register, '/v1/auth/signup')
 	api.add_resource(Login, '/v1/auth/signin')
+	api.add_resource(CreateParcel, '/v1/parcels')
 	return app 
 
 
