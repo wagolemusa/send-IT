@@ -36,3 +36,14 @@ class Usermodel:
 
 	def verify_hash(password, hash):
 		return sha256.verify(password, hash)
+
+	# def modify_order(self):
+	# 	""" Modify an parcel orders """
+	# 	sql = """UPDATE orders SET title= %s, pickup=%s, rec_id=%s, rec_phone=%s, rec_name=%s, destination=%s, weight=%s
+	# 						WHERE  ID""",(title, pickup, rec_id, rec_phone, rec_name, destination, weight)
+	# 	return sql
+
+	def get_specific_order(self):
+		""" Fetch product by Id """
+		sql = "SELECT * FROM orders WHERE parcel_id = %"
+		return sql
