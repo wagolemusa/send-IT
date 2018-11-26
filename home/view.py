@@ -89,3 +89,10 @@ class ModifyOrder(Resource):
 																														WHERE parcel_id=%s """,(title, pickup, rec_id, rec_phone, rec_name, destination, weight, parcel_id))
 		connection.commit()
 		return jsonify({"message": "Successfuly Updated"})
+
+	@jwt_required
+	def delete(self, parcel_id):
+		""" Method for deleting a specific order """
+		username = get_jwt_identity()
+		curr.execute("""DELETE FROM orders WHERE parcel_id = %s AND username = %s""",(parcel_id, username))
+		return jsonify({"message":"Post Deleted"})
