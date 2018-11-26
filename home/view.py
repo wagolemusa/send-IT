@@ -51,6 +51,20 @@ class CreateParcel(Resource):
 		return jsonify({"message": 'Successfuly Created an Order'})
 
 
+class ModifyOrder(Resource):
+	""" Class for put an order """
+	@jwt_required
+	def put(self, parcel_id):
+		""" Method to update an order """
+		title = request.json['title']
+		pickup = request.json['pickup']
+		rec_id = request.json['rec_id']
+		rec_phone = request.json['rec_phone']
+		rec_name  = request.json['rec_name']
+		destination = request.json['destination']
+		weight = request.json['weight']
 
-
-	
+		curr.execute("""UPDATE orders SET title= %s, pickup=%s, rec_id=%s, rec_phone=%s, rec_name=%s, destination=%s, weight=%s
+																														WHERE parcel_id=%s """,(title, pickup, rec_id, rec_phone, rec_name, destination, weight, parcel_id))
+		connection.commit()
+		return jsonify({"message": "Successfuly Updated"})
