@@ -50,6 +50,27 @@ class CreateParcel(Resource):
 		connection.commit()
 		return jsonify({"message": 'Successfuly Created an Order'})
 
+	@jwt_required
+	def get(self):
+		""" Method for get all Parcel Orders """
+		username = get_jwt_identity()
+		curr.execute(" SELECT * FROM  orders WHERE username =%s", [username])
+		data = curr.fetchall()
+		if not data:
+			return jsonify({"message":"There is no orders yet"})
+		else:
+			data_list = []
+			for row in data:
+				parcel_id = row[0]
+				title = row[2]
+				pickup = row[4]
+				rec_id = row[5]
+				rec_phone = row[6]
+				rec_name = row[7]
+				destination = row[8]
+				weight = [9]
+				data_list.append({"parcel_id":parcel_id, "title":title, "pickup":pickup, "rec_id":rec_id, "rec_name":rec_name, "destination":destination, "weight":weight})
+				return jsonify({"data": data_list})	
 
 class ModifyOrder(Resource):
 	""" Class for put an order """
