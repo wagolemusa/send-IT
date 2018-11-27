@@ -96,3 +96,12 @@ class ModifyOrder(Resource):
 		username = get_jwt_identity()
 		curr.execute("""DELETE FROM orders WHERE parcel_id = %s AND username = %s""",(parcel_id, username))
 		return jsonify({"message":"Post Deleted"})
+
+class AnOrder(Resource):
+	@jwt_required
+	def put(self, parcel_id):
+		destination = request.json['destination']
+		curr.execute("""UPDATE orders SET destination=%s WHERE parcel_id=%s """,(destination, parcel_id))
+		connection.commit()
+		return jsonify({"message": "Successfuly Updated"})
+
