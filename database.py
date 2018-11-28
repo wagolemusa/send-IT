@@ -61,3 +61,26 @@ def close_instance():
 	connection.close()
 	curr.close()
 
+def admin():
+	connection = init_db()
+	curr = connection.cursor()
+
+	first_name = 'admin'
+	last_name =  'wise'
+	username  = 'admin'
+	phone = '0725696042'
+	email = 'admin@admin.com'
+	password = 'admin@wise'
+	is_admin=True
+
+	sql = "SELECT * FROM users WHERE username = %s"
+	curr.execute(sql, (username,))
+	data = curr.fetchone()
+
+	if not data:
+		sql = """INSERT INTO users(first_name, last_name, username, phone, email, password, is_admin)\
+					VALUES(%s, %s, %s, %s, %s, %s, %s)"""
+		curr.execute(sql, (first_name, last_name, username, phone, email, password, is_admin))
+		connection.commit()
+
+
