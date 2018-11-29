@@ -40,6 +40,10 @@ class Usermodel:
 		sql = "SELECT * FROM orders WHERE parcel_id = %"
 		return sql
 
+	def all_users(self):
+		sql = "SELECT * FROM users"
+		return sql
+
 		
 class Users(Usermodel):
 	# def get_user_role(self):
