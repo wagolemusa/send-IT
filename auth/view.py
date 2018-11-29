@@ -27,7 +27,7 @@ class Register(Resource):
 		password = request.json['password']
 		confirm_password = request.json['confirm_password']
 		if password == confirm_password:
-			password = sha256_crypt.encrypt(str(request.get_json()['password']))
+			password = request.json['password']
 
 		elif password != confirm_password:
 			return jsonify({"message": "password does not match"})
