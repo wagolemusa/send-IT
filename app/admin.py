@@ -50,20 +50,20 @@ class Admin(Resource):
 		curr.execute(" SELECT * FROM orders")
 		data = curr.fetchall()
 		if not data:
-			return jsonify({"message":"There is no orders yet"})
-		else:
-			for row in data:
-				parcel_id = row[0]
-				title = row[2]
-				username = row[3]
-				pickup = row[4]
-				rec_id = row[5]
-				rec_phone = row[6]
-				rec_name = row[7]
-				destination = row[8]
-				weight = row[9]
-				data_list = ({"parcel_id":parcel_id, "title":title, "username":username, "pickup":pickup, "rec_id":rec_id, "rec_name":rec_name, "destination":destination, "weight":weight})
-				return jsonify({"data": data_list})	
+			 return {"message": "No parcel orders found"}, 401
+		parcel = []
+		for row in data:
+			parcel_id = row[0]
+			title = row[2]
+			username = row[3]
+			pickup = row[4]
+			rec_id = row[5]
+			rec_phone = row[6]
+			rec_name = row[7]
+			destination = row[8]
+			weight = row[9]
+			parcel.append({"parcel_id":parcel_id, "title":title, "username":username, "pickup":pickup, "rec_id":rec_id, "rec_name":rec_name, "destination":destination, "weight":weight})
+		return jsonify({"data": parcel})	
 
 class Challenge(Resource):
 	def put(self, parcel_id):
@@ -71,3 +71,23 @@ class Challenge(Resource):
 		curr.execute("""UPDATE orders SET pickup=%s WHERE parcel_id=%s """,(pickup, parcel_id))
 		connection.commit()
 		return jsonify({"message": "Successfuly Updated"})
+
+class GetAllUser(Resource):
+	def get(self):
+		user = Usermodel()
+		U = user.all_users()
+		curr.execute(U,)
+		x = curr.fetchall()
+		if not x:
+			return {"message": "No users Yet"}, 401
+		users = []
+		for data in x:
+			user_id = data[0]
+			first_name = data[1]
+			last_name = data[2]
+			username = data[3]
+			phone = data[4]
+			email = data[5]
+
+			users.append({"user_id":user_id, "first_name":first_name, "last_name":last_name, "username":username, "phone":phone , "email":email})
+		return jsonify({"all_users": users})

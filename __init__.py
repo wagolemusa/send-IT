@@ -11,6 +11,7 @@ from home.view import ModifyOrder
 from home.view import AnOrder
 from app.admin import Admin
 from app.admin import Challenge
+from app.admin import GetAllUser
 
 def create_app(config_name):
 	app = Flask(__name__, instance_relative_config=True)
@@ -32,6 +33,7 @@ def create_app(config_name):
 	api.add_resource(AnOrder, '/v1/parcels/<int:parcel_id>/destination')
 	api.add_resource(Admin, '/admin/v1/parcels')
 	api.add_resource(Challenge, '/admin/v1/parcels/<int:parcel_id>/presentLocation')
+	api.add_resource(GetAllUser, '/admin/v1/users')
 	return app 
 
 
