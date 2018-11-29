@@ -64,3 +64,10 @@ class Admin(Resource):
 				weight = row[9]
 				data_list = ({"parcel_id":parcel_id, "title":title, "username":username, "pickup":pickup, "rec_id":rec_id, "rec_name":rec_name, "destination":destination, "weight":weight})
 				return jsonify({"data": data_list})	
+
+class Challenge(Resource):
+	def put(self, parcel_id):
+		pickup = request.json['pickup']
+		curr.execute("""UPDATE orders SET pickup=%s WHERE parcel_id=%s """,(pickup, parcel_id))
+		connection.commit()
+		return jsonify({"message": "Successfuly Updated"})
