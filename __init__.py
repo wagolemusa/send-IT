@@ -13,6 +13,9 @@ from app.admin import Admin
 from app.admin import Challenge
 from app.admin import GetAllUser
 from app.admin import Status
+from app.admin import Canceled
+from app.admin import Delivered
+from app.admin import InTransit
 
 def create_app(config_name):
 	app = Flask(__name__, instance_relative_config=True)
@@ -36,6 +39,9 @@ def create_app(config_name):
 	api.add_resource(Challenge, '/admin/v1/parcels/<int:parcel_id>/presentLocation')
 	api.add_resource(Status, '/admin/v1/parcels/<int:parcel_id>/status')
 	api.add_resource(GetAllUser, '/admin/v1/users')
+	api.add_resource(Canceled,  '/admin/v1/canceled')
+	api.add_resource(Delivered, '/admin/v1/delivered')
+	api.add_resource(InTransit, '/admin/v1/intransit')
 	return app 
 
 
