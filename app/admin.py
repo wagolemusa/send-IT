@@ -108,6 +108,8 @@ class Canceled(Resource):
 	def get(self):
 		curr.execute("SELECT * FROM orders WHERE status = 'cancled'")
 		data = curr.fetchall()
+		if not data:
+			return jsonify({"message":"No Cancled Order"})
 		par = []
 		for row in data:
 			parcel_id = row[0]
@@ -127,6 +129,8 @@ class Delivered(Resource):
 	def get(self):
 		curr.execute("SELECT * FROM orders WHERE status = 'delivered'")
 		data = curr.fetchall()
+		if not data:
+			return jsonify({"message":"No Deliverd Order"})
 		par = []
 		for row in data:
 			parcel_id = row[0]
@@ -146,6 +150,8 @@ class InTransit(Resource):
 	def get(self):
 		curr.execute("SELECT * FROM orders WHERE status = 'In Transit'")
 		data = curr.fetchall()
+		if not data:
+			return jsonify({"message":"No In Transit Order"})		
 		par = []
 		for row in data:
 			parcel_id = row[0]
