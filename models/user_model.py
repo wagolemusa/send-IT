@@ -32,16 +32,20 @@ class Usermodel:
 
 	def get_user_by_username(self):
 		""" Method fetch user by username """
-		sql = "SELECT password FROM users WHERE username = %s"
+		sql = "SELECT password FROM users WHERE username = %s", [parcel_id]
 		return sql
 
-	def get_specific_order(self):
+	def get_specific_order(self, parcel_id):
 		""" Fetch product by Id """
-		sql = "SELECT * FROM orders WHERE parcel_id = %"
+		sql = "SELECT * FROM orders WHERE parcel_id = %s"
 		return sql
 
 	def all_users(self):
 		sql = "SELECT * FROM users"
+		return sql
+
+	def check_status(self):
+		sql = "SELECT status FROM orders WHERE parcel_id = %s"
 		return sql
 
 		
