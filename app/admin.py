@@ -104,7 +104,59 @@ class Status(Resource):
 		connection.commit()
 		return jsonify({"message": "Successfuly Status Changed"})		
 
-		# sta = Usermodel()
-		# u = sta.check_status()
-		# curr.execute(u, (status, parcel_id,))
-		# data = curr.fetchall()
+class Canceled(Resource):
+	def get(self):
+		curr.execute("SELECT * FROM orders WHERE status = 'cancled'")
+		data = curr.fetchall()
+		par = []
+		for row in data:
+			parcel_id = row[0]
+			title = row[2]
+			username = row[3]
+			pickup = row[4]
+			rec_id = row[5]
+			rec_phone = row[6]
+			rec_name = row[7]
+			destination = row[8]
+			weight = row[9]
+			status = row[10]
+			par.append({"parcel_id":parcel_id, "title":title, "username":username, "pickup":pickup, "rec_id":rec_id, "rec_name":rec_name, "destination":destination, "weight":weight, "status":status})
+		return jsonify({"data": par})	
+
+class Delivered(Resource):
+	def get(self):
+		curr.execute("SELECT * FROM orders WHERE status = 'delivered'")
+		data = curr.fetchall()
+		par = []
+		for row in data:
+			parcel_id = row[0]
+			title = row[2]
+			username = row[3]
+			pickup = row[4]
+			rec_id = row[5]
+			rec_phone = row[6]
+			rec_name = row[7]
+			destination = row[8]
+			weight = row[9]
+			status = row[10]
+			par.append({"parcel_id":parcel_id, "title":title, "username":username, "pickup":pickup, "rec_id":rec_id, "rec_name":rec_name, "destination":destination, "weight":weight, "status":status})
+		return jsonify({"data": par})	
+
+class InTransit(Resource):
+	def get(self):
+		curr.execute("SELECT * FROM orders WHERE status = 'In Transit'")
+		data = curr.fetchall()
+		par = []
+		for row in data:
+			parcel_id = row[0]
+			title = row[2]
+			username = row[3]
+			pickup = row[4]
+			rec_id = row[5]
+			rec_phone = row[6]
+			rec_name = row[7]
+			destination = row[8]
+			weight = row[9]
+			status = row[10]
+			par.append({"parcel_id":parcel_id, "title":title, "username":username, "pickup":pickup, "rec_id":rec_id, "rec_name":rec_name, "destination":destination, "weight":weight, "status":status})
+		return jsonify({"data": par})	
