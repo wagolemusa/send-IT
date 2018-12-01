@@ -91,3 +91,20 @@ class GetAllUser(Resource):
 
 			users.append({"user_id":user_id, "first_name":first_name, "last_name":last_name, "username":username, "phone":phone , "email":email})
 		return jsonify({"all_users": users})
+
+
+class Status(Resource):
+	def put(self, parcel_id):
+		status = request.json['status']
+
+		if status.strip() == '':
+			return {"message": "Status cannot be empty"}, 403
+ 
+		curr.execute("""UPDATE orders SET status=%s WHERE parcel_id=%s """,(status, parcel_id))
+		connection.commit()
+		return jsonify({"message": "Successfuly Status Changed"})		
+
+		# sta = Usermodel()
+		# u = sta.check_status()
+		# curr.execute(u, (status, parcel_id,))
+		# data = curr.fetchall()
