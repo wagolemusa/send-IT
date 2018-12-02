@@ -12,45 +12,20 @@ from models.user_model import Usermodel, Users
 connection = psycopg2.connect(dbname='sendit', user='postgres', password='refuge', host='localhost')
 curr = connection.cursor()
 
-# class Users():
-	# def get_user_role(self):
-	# 	"""Fetch user role"""
-	# 	current_user = get_jwt_identity()
-	# 	sql = "SELECT is_admin FROM users WHERE username = %s"
-	# 	curr.execute(sql,)
-	# 	is_admin = curr.fetchone()
-	# 	return is_admin
-# def fetch_by_username(self, username):
-# 	""" fetch user by username """
-# 	curr.execute("""SELECT * FROM users WHERE username=%s""", (username,))
-# 	user = curr.fetchone()
-
-# def admin_only(f):
-# 	''' Restrict access if not admin '''
-# 	@wraps(f)
-# 	def wrapper_function(*args, **kwargs):
-# 		# user = get_jwt_identity()
-#  		user = Users().fetch_by_username(get_jwt_identity()["username"])
-#  		if not user.is_admin:
-#  			return {'message': 'Anauthorized access, you must be an admin to access this level'}, 401
-#  		return f(*args, **kwargs)
-# 	return wrapper_function
-
 
 class Admin(Resource):
-	# @jwt_required
-	# @admin_only
+	""" Class and Method endpoint it queries all parcels """
+	@jwt_required
 	def get(self):
-		""" Method for get all Parcel Orders """
-		# role = Users().fetch_by_username()
-
-		# if role != "True":
-		# 	return {"message": "Access allowed only to admin"}, 403
-
+		current_user = get_jwt_identity()
+		U = Users().get_user_role()
+		if current_user != U:
+			return {"message": "Access allowed only to admin"}, 403
+		
 		curr.execute(" SELECT * FROM orders")
 		data = curr.fetchall()
 		if not data:
-			 return {"message": "No parcel orders found"}, 401
+			return {"message": "No parcel orders found"}, 401
 		parcel = []
 		for row in data:
 			parcel_id = row[0]
@@ -66,14 +41,31 @@ class Admin(Resource):
 		return jsonify({"data": parcel})	
 
 class Challenge(Resource):
+	""" Class and Method endpoint it changes the presentLocation """
+	@jwt_required
 	def put(self, parcel_id):
+		# this code it identify the normal user and admin
+		current_user = get_jwt_identity()
+		U = Users().get_user_role()
+		if current_user != U:
+			return {"message": "Access allowed only to admin"}, 403
+		
 		pickup = request.json['pickup']
 		curr.execute("""UPDATE orders SET pickup=%s WHERE parcel_id=%s """,(pickup, parcel_id))
 		connection.commit()
 		return jsonify({"message": "Successfuly Updated"})
 
 class GetAllUser(Resource):
+	""" Class and Method endpoint it queries all users """
+	@jwt_required
 	def get(self):
+
+		# this code it identify the normal user and admin
+		current_user = get_jwt_identity()
+		U = Users().get_user_role()
+		if current_user != U:
+			return {"message": "Access allowed only to admin"}, 403	
+
 		user = Usermodel()
 		U = user.all_users()
 		curr.execute(U,)
@@ -94,7 +86,16 @@ class GetAllUser(Resource):
 
 
 class Status(Resource):
+	""" Class and Method endpoint it puts the status for a specific parcels """
+	@jwt_required
 	def put(self, parcel_id):
+
+		# this code it identify the normal user and admin
+		current_user = get_jwt_identity()
+		U = Users().get_user_role()
+		if current_user != U:
+			return {"message": "Access allowed only to admin"}, 403
+
 		status = request.json['status']
 
 		if status.strip() == '':
@@ -105,7 +106,16 @@ class Status(Resource):
 		return jsonify({"message": "Successfuly Status Changed"})		
 
 class Canceled(Resource):
+	""" Class and Method endpoint it queries parcels in Canceled """
+	@jwt_required
 	def get(self):
+
+		# this code it identify the normal user and admin
+		current_user = get_jwt_identity()
+		U = Users().get_user_role()
+		if current_user != U:
+			return {"message": "Access allowed only to admin"}, 403
+
 		curr.execute("SELECT * FROM orders WHERE status = 'cancled'")
 		data = curr.fetchall()
 		if not data:
@@ -126,7 +136,16 @@ class Canceled(Resource):
 		return jsonify({"data": par})	
 
 class Delivered(Resource):
+	""" Class and Method endpoint it queries parcels in Delivered """
+	@jwt_required
 	def get(self):
+
+		# this code it identify the normal user and admin
+		current_user = get_jwt_identity()
+		U = Users().get_user_role()
+		if current_user != U:
+			return {"message": "Access allowed only to admin"}, 403
+
 		curr.execute("SELECT * FROM orders WHERE status = 'delivered'")
 		data = curr.fetchall()
 		if not data:
@@ -147,7 +166,16 @@ class Delivered(Resource):
 		return jsonify({"data": par})	
 
 class InTransit(Resource):
+	""" Class and Method endpoint it queries parcels in InTransit """
+	@jwt_required
 	def get(self):
+
+		# this code it identify the normal user and admin
+		current_user = get_jwt_identity()
+		U = Users().get_user_role()
+		if current_user != U:
+			return {"message": "Access allowed only to admin"}, 403
+
 		curr.execute("SELECT * FROM orders WHERE status = 'In Transit'")
 		data = curr.fetchall()
 		if not data:

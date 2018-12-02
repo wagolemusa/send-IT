@@ -48,24 +48,11 @@ class Usermodel:
 		sql = "SELECT status FROM orders WHERE parcel_id = %s"
 		return sql
 
-		
-class Users(Usermodel):
-	# def get_user_role(self):
-	# 	"""Fetch user role"""
-	# 	current_user = get_jwt_identity()
-	# 	sql = "SELECT is_admin FROM users WHERE username = %s"
-	# 	curr.execute(sql,)
-	# 	is_admin = curr.fetchone()
-	# 	return is_admin
-	def fetch_by_username(self, username):
-		""" fetch user by username """
-		curr.execute("SELECT * FROM users WHERE username=%s", (username,))
-		user = curr.fetchone()
-
-	def get_user_role(self, username):
+class Users():
+	def get_user_role(self):
 		"""Fetch user role"""
-		current_user = get_jwt_identity()
-		sql = "SELECT is_admin FROM users WHERE username = %s"
-		self.cursor.execute(sql, (current_user,))
-		role = self.cursor.fetchone()
-		return role
+		curr.execute("SELECT username FROM users WHERE is_admin = 'True'")
+		role = curr.fetchone()
+		for data in role:
+			print (data)
+		return data
