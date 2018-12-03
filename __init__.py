@@ -3,12 +3,12 @@ import psycopg2
 from flask_restful import Api
 from config import app_config
 from database import create_table, admin
-from home.view  import Home
-from auth.view  import Register
-from auth.view  import Login
-from home.view import CreateParcel
-from home.view import ModifyOrder
-from home.view import AnOrder
+from app.order  import Home
+from app.user  import Register
+from app.user  import Login
+from app.order import CreateParcel
+from app.order import ModifyOrder
+from app.order import AnOrder
 from app.admin import Admin
 from app.admin import Challenge
 from app.admin import GetAllUser
@@ -16,6 +16,7 @@ from app.admin import Status
 from app.admin import Canceled
 from app.admin import Delivered
 from app.admin import InTransit
+from app.admin import DeleteParcels
 
 def create_app(config_name):
 	app = Flask(__name__, instance_relative_config=True)
@@ -30,18 +31,19 @@ def create_app(config_name):
 
 	
 	api.add_resource(Home, '/')
-	api.add_resource(Register, '/v1/auth/signup')
-	api.add_resource(Login, '/v1/auth/signin')
-	api.add_resource(CreateParcel, '/v1/parcels')
-	api.add_resource(ModifyOrder, '/v1/parcels/<int:parcel_id>')
-	api.add_resource(AnOrder, '/v1/parcels/<int:parcel_id>/destination')
-	api.add_resource(Admin, '/admin/v1/parcels')
-	api.add_resource(Challenge, '/admin/v1/parcels/<int:parcel_id>/presentLocation')
-	api.add_resource(Status, '/admin/v1/parcels/<int:parcel_id>/status')
-	api.add_resource(GetAllUser, '/admin/v1/users')
-	api.add_resource(Canceled,  '/admin/v1/canceled')
-	api.add_resource(Delivered, '/admin/v1/delivered')
-	api.add_resource(InTransit, '/admin/v1/intransit')
+	api.add_resource(Register, '/v2/auth/signup')
+	api.add_resource(Login, '/v2/auth/signin')
+	api.add_resource(CreateParcel, '/v2/parcels')
+	api.add_resource(ModifyOrder, '/v2/parcels/<int:parcel_id>')
+	api.add_resource(AnOrder, '/v2/parcels/<int:parcel_id>/destination')
+	api.add_resource(Admin, '/admin/v2/parcels')
+	api.add_resource(Challenge, '/admin/v2/parcels/<int:parcel_id>/presentLocation')
+	api.add_resource(Status, '/admin/v2/parcels/<int:parcel_id>/status')
+	api.add_resource(GetAllUser, '/admin/v2/users')
+	api.add_resource(Canceled,  '/admin/v2/canceled')
+	api.add_resource(Delivered, '/admin/v2/delivered')
+	api.add_resource(InTransit, '/admin/v2/intransit')
+	api.add_resource(DeleteParcels, '/admin/v2/parcels/<int:parcel_id>')
 	return app 
 
 

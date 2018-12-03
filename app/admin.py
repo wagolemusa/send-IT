@@ -194,3 +194,17 @@ class InTransit(Resource):
 			status = row[10]
 			par.append({"parcel_id":parcel_id, "title":title, "username":username, "pickup":pickup, "rec_id":rec_id, "rec_name":rec_name, "destination":destination, "weight":weight, "status":status})
 		return jsonify({"data": par})	
+
+
+class DeleteParcels(Resource):
+	""" Class and Method deletes all parcel orders """
+	@jwt_required
+	def delete(self, parcel_id):
+		""" Method for deleting a specific order """
+		current_user = get_jwt_identity()
+		U = Users().get_user_role()
+		if current_user != U:
+			return {"message": "Access allowed only to admin"}, 403
+
+		curr.execute("DELETE FROM orders WHERE parcel_id = %s",(parcel_id,))
+		return jsonify({"message":"Post Deleted"})
