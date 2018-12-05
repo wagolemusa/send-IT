@@ -46,14 +46,10 @@ def drop_table():
 	curr = connection.cursor()
 
 	queries = (
-		"""DROP TABLE IF orders;""", """DROP TABLE IF EXISTS users CASCADE;""") 
-	try:
-		for query in queries:
-			curr.execute(query)
-			connection.commit()
-
-	except (Exception, Error) as error:
-		print(error)
+		"""DROP TABLE IF EXISTS orders CASCADE;""", """DROP TABLE IF EXISTS users CASCADE;""")
+	for query in queries:
+		curr.execute(query)
+		connection.commit()
 
 def close_instance():
 	connection = init_db()
