@@ -16,7 +16,7 @@ class TestUserRegisterLogin(unittest.TestCase):
 		# self.app_context.push()
 
 		with self.app.app_context():
-			create_table()
+			# create_table()
 			# drop_table()
 
 
