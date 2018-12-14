@@ -4,11 +4,14 @@ import os
 from __init__ import create_app
 from database import create_table, drop_table
 from models.user_model import Usermodel
-from flask_jwt_extended import (
-  	jwt_required, create_access_token, get_current_user, 
-    get_jwt_identity 
-)
+from run import app
 
+# from flask_jwt_extended import (
+#   	jwt_required, create_access_token, get_current_user, 
+#     get_jwt_identity 
+# )
+# from flask_jwt_extended import JWTManager
+# jwt = JWTManager(app)
 class TestUserRegisterLogin(unittest.TestCase):
 
 	def setUp(self):
@@ -25,7 +28,7 @@ class TestUserRegisterLogin(unittest.TestCase):
 		self.signup_user = {
 			'first_name':'wagole',
 			'last_name' : 'musa',
-			'username' : 'same',
+			'username' : 'opio',
 			'phone' :  725696042,
 			'email' : 'same@gmail.com',
 			'confirm_password': 'wise@12',
@@ -33,7 +36,7 @@ class TestUserRegisterLogin(unittest.TestCase):
 		}
 
 		self.login_user = {
-			'username': 'musa',
+			'username': 'opio',
 			'password': 'wise@12'
 
 		}
@@ -67,33 +70,51 @@ class TestUserRegisterLogin(unittest.TestCase):
 
 	def login(self):
 		""" user login """
+		self.signup()
 		response = self.client.post(
 							"/api/v2/auth/signin",
 							data=json.dumps(self.login_user),
 							headers={'content-type': 'application/json'}
 		)
+		print(response)
 		return response
 
-	def login_admin(self):
-		""" user login """
-		response = self.client.post(
-							"/api/v2/auth/signin",
-							data=json.dumps(self.admin_login),
-							headers={'content-type': 'application/json'}
-		)
-		return response
+	# def login_admin(self):
+	# 	""" user login """
+	# 	response = self.client.post(
+	# 						"/api/v2/auth/signin",
+	# 						data=json.dumps(self.admin_login),
+	# 						headers={'content-type': 'application/json'}
+	# 	)
+	# 	return response
 
-	def get_user_token(self):
-		""" get token """
-		self.signup()
+	# def get_user_token(self):
+	# 	""" get token """
+	# 	self.signup()
+	# 	response = self.login()
+	# 	token = json.loads(response.data.decode('utf-8')).get("token", None)
+	# 	return token
+
+	# def get_admin_token(self):
+	# 	response = self.login_admin()
+	# 	token = json.loads(response.data.decode('utf-8')).get("token", None)
+	# 	return token
+
+
+	def test_order_post(self):
 		response = self.login()
-		token = json.loads(response.data.decode('utf-8')).get("token", None)
-		return token
+		token  = json.loads(response.data.decode('utf-8'))['token']
+		print(token)
+		headers = { 'Authorization':'Bearer'}
 
-	def get_admin_token(self):
-		response = self.login_admin()
-		token = json.loads(response.data.decode('utf-8')).get("token", None)
-		return token
+
+		response = self.client.post(
+															"/api/v2/parcels",headers=headers,
+															data=json.dumps(self.parcels), content_type = 'application/json')
+		result = json.loads(response.data.decode())
+		self.assertEqual(response.status_code, 201)
+		self.assertEqual(result["message"],"Successfuly Created an Order")
+															
 
 	# def test_post_parcels_order(self):
 	# 	token = self.get_user_token()
@@ -113,33 +134,33 @@ class TestUserRegisterLogin(unittest.TestCase):
 	# 	self.assertEqual(response_post.status_code, 200)
 
 
-	def test_user_post(self):
-		# self.signup()
-		response_login = self.client.post(
-												'/api/v2/auth/signin',
-												data=json.dumps(self.admin_login),
-												content_type='application/json')
-		result_login = json.loads(response_login.data.decode('utf-8'))
-		token = result_login
+	# def test_user_post(self):
+	# 	# self.signup()
+	# 	response_login = self.client.post(
+	# 											'/api/v2/auth/signin',
+	# 											data=json.dumps(self.admin_login),
+	# 											content_type='application/json')
+	# 	result_login = json.loads(response_login.data.decode('utf-8'))
+	# 	token = result_login
 
-		response = self.client.post(
-    													'/api/v2/parcels', 
-    													data=json.dumps(self.parcels),
-    													headers={'content_type': 'application/json',
-																				'Authorization':'Bearer {token}'})     
-		# result = json.loads(response.data.decode('utf-8'))
-		# self.assertIn(b'Successfuly Created an Order', response.data)
-		self.assertEqual(response.status_code, 200)
+	# 	response = self.client.post(
+ #    													'/api/v2/parcels', 
+ #    													data=json.dumps(self.parcels),
+ #    													headers={'content_type': 'application/json',
+	# 																			'Authorization':'Bearer {token}'})     
+	# 	# result = json.loads(response.data.decode('utf-8'))
+	# 	# self.assertIn(b'Successfuly Created an Order', response.data)
+	# 	self.assertEqual(response.status_code, 200)
 
 
-	def test_admin_get_all_parcel(self):
-		token = self.get_admin_token()
-		response = self.client.get(
-												"/api/admin/v2/parcels",
-	            					headers={'content-type': 'application/json',
-												'Authorization': 'Bearer {token}'}
-												)
-		self.assertEqual(response.status_code, 200)
+	# def test_admin_get_all_parcel(self):
+	# 	token = self.get_admin_token()
+	# 	response = self.client.get(
+	# 											"/api/admin/v2/parcels",
+	#             					headers={'content-type': 'application/json',
+	# 											'Authorization': 'Bearer {token}'}
+	# 											)
+	# 	self.assertEqual(response.status_code, 200)
 
 
 
