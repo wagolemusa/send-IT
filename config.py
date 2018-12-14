@@ -16,7 +16,7 @@ class ProductionConfig(Config):
 
 class DevelopmentConfig(Config):
     TESTING = True
-    DATABASE_URI = "dbname='sendit', user='postgres', password='refuge', host='localhost'"
+    DATABASE_URI = "connection = psycopg2.connect(dbname='d92a0rb0j8rphh', user='gaijmyignhvtkw', password='7e0acadc7013645d81437d922b7030782cdee4006cadf7f54501aa291b29d3e6', host='ec2-23-21-65-173.compute-1.amazonaws.com'"
     APP_ENV='development'
 
 class Testing(Config):

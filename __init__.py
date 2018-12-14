@@ -21,7 +21,7 @@ from app.admin import DeleteParcels
 def create_app(config_name):
 	app = Flask(__name__, instance_relative_config=True)
 	# app.config.from_object(app_config[config_name])
-	app.config.from_pyfile('config.py')
+	# app.config.from_pyfile('config.py')
 	# db.int_app(app)
 	v2 = Blueprint('api', __name__)
 	api = Api(v2)
