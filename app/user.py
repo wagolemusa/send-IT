@@ -28,32 +28,24 @@ class Register(Resource):
 		confirm_password = request.json['confirm_password']
 		if password == confirm_password:
 			password = request.json['password']
-
 		elif password != confirm_password:
-			return jsonify({"message": "password does not match"})
-		if not username or len(username.strip()) == 0:
-			return jsonify({"message": "Username cannot be blank"})
-		elif first_name.strip() == '':
-			return jsonify({"message": "Firstname cannot be blank"})
-		elif last_name.strip() == '':
-			return jsonify({"message": "Lastname cannot be blant"})
+			return {"message": "password does not match"}, 400
+
+		if username.strip() == '' or first_name.strip() == '' or last_name.strip() =='' \
+		or email.strip() == '':
+			return {"message": "You must fill all the fields"}, 400
 		elif type(phone) != int:
 			return jsonify({"message": "Field can only except Numbers"})
-		elif not email:
-			return jsonify({"message": "Email cannot be blank"})
-		elif not password:
-			return jsonify({"message": "Password cannot be black"})
-
 		elif not re.match(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)", email):
 			return jsonify({"message": "Invalid email"})
 		elif len(password) < 5:
-			return jsonify({"message": "Password too short"})
+			return {"message":"Password too short"}, 400
 		user = Usermodel()
 		u = user.check_username()
 		curr.execute(u, (username,))
 		x = curr.fetchone()
 		if x is not None:
-			return jsonify({"message": "Username is already taken"})
+			return {"message": "Username is already taken"}, 400
 
 		user = Usermodel()
 		E = user.check_email()
@@ -66,7 +58,7 @@ class Register(Resource):
 			sql = new_user.register_user()
 			curr.execute(sql,(first_name, last_name, username, phone, email, password))
 			connection.commit()
-		return {"message": "Successfully registered an account"}
+		return {"message": "Successfully registered an account"}, 201
 
 class Login(Resource):
 	""" Class for user login """
@@ -76,10 +68,8 @@ class Login(Resource):
 
 		# hashlib.sha256(base64.b64encode\
 								# (bytes(request.get_json()['password'], 'utf-8'))).hexdigest()
-		if username.strip() == '':
-			return jsonify({"message": "Username cannot be blank"})
-		elif password.strip() == '':
-			return jsonify({"message":"Password cannot be blank"})
+		if username.strip() == '' or password.strip() == '':
+			return {"message": "Username or Password cannot be blank"}, 400
 		user = Usermodel()
 		u = user.check_username()
 		curr.execute(u, (username,))
@@ -91,4 +81,4 @@ class Login(Resource):
 			access_token = create_access_token(identity=username, expires_delta=expire_time)
 			return jsonify({"message":"Login in sucessful  as {}".format(username),
 											'access_token':access_token})
-		return jsonify({"message":"Invalid password"})
+		return {"message":"Invalid password"}, 400

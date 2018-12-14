@@ -14,7 +14,7 @@ curr = connection.cursor()
 
 class Home(Resource):
 	def get(self):
-		return {"message": "Hello, World!"}
+		return {"message": "SendIT is one of the popular courier services"}
 
 class CreateParcel(Resource):
 	""" Class for create parcel methods """
