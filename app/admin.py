@@ -9,7 +9,7 @@ from flask_jwt_extended import (
 )
 from models.user_model import Usermodel, Users
 
-connection = psycopg2.connect(dbname='sendit', user='postgres', password='refuge', host='localhost')
+connection = psycopg2.connect(dbname='d92a0rb0j8rphh', user='gaijmyignhvtkw', password='7e0acadc7013645d81437d922b7030782cdee4006cadf7f54501aa291b29d3e6', host='ec2-23-21-65-173.compute-1.amazonaws.com')
 curr = connection.cursor()
 
 
