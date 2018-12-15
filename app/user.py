@@ -1,5 +1,6 @@
 import re
 import datetime
+import jwt
 import psycopg2
 from passlib.hash import sha256_crypt
 import hashlib
