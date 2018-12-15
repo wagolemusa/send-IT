@@ -79,6 +79,5 @@ class Login(Resource):
 		if password in data:
 			expire_time  = datetime.timedelta(minutes=30)
 			access_token = create_access_token(identity=username, expires_delta=expire_time)
-			return jsonify({"message":"Login in sucessful  as {}".format(username),
-											'access_token':access_token})
+			return jsonify({'access_token':access_token})
 		return {"message":"Invalid password"}, 400
