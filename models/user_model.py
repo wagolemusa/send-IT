@@ -22,6 +22,11 @@ class Usermodel:
 					VALUES(%s, %s, %s, %s, %s, %s)"""
 		return sql
 
+	def data_price(self):
+		data = """ INSERT INTO prices(from_location, to_location, price)
+					VALUES(%s, %s, %s)"""
+		return data
+
 	def check_username(self):
 		sql = "SELECT * FROM users WHERE username = %s"
 		return sql

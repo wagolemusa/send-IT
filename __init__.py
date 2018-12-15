@@ -17,6 +17,7 @@ from app.admin import Canceled
 from app.admin import Delivered
 from app.admin import InTransit
 from app.admin import DeleteParcels
+from app.admin import PostPrice
 
 def create_app(config_name):
 	app = Flask(__name__, instance_relative_config=True)
@@ -44,6 +45,7 @@ def create_app(config_name):
 	api.add_resource(Delivered, '/admin/v2/delivered')
 	api.add_resource(InTransit, '/admin/v2/intransit')
 	api.add_resource(DeleteParcels, '/admin/v2/parcels/<int:parcel_id>')
+	api.add_resource(PostPrice, '/admin/v2/locations')
 	return app 
 
 

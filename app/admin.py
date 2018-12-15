@@ -208,3 +208,49 @@ class DeleteParcels(Resource):
 
 		curr.execute("DELETE FROM orders WHERE parcel_id = %s",(parcel_id,))
 		return jsonify({"message":"Post Deleted"})
+
+class PostPrice(Resource):
+	""" Class and Method post price form location """
+	@jwt_required
+	def post(self):
+		current_user = get_jwt_identity()
+		U = Users().get_user_role()
+		if current_user != U:
+			return {"message": "Access allowed only to admin"}, 403
+
+		from_location = request.json['from_location']
+		to_location = requset.json['to_location']
+		price  = requset.json['price']
+
+		if from_location.strip() == '' or to_location.strip() == '':
+			return {"message": "Fields cannot be empty"}, 403
+		elif type(price) != int:
+			return {"message": "Price should be only Numbers"}, 403
+		loc = Usermodel()
+		data = loc.data_price()
+		curr.execute(data, (from_location, to_location, price))
+		connection.commit()
+		return  {"message": "Location and Price are Successfully submited"}, 201
+
+	@jwt_required
+	def get(self):
+		current_user = get_jwt_identity()
+		U = Users().get_user_role()
+		if current_user != U:
+			return {"message": "Access allowed only to admin"}, 403
+
+		curr.execute("SELECT * FROM prices")
+		data = curr.fetchall()
+
+		if not data:
+			return {"message": "There is no location"}, 403
+		location = []
+
+		for row in data:
+			price_id = row[0]
+			from_location = [1]
+			to_location = [2]
+
+			location.append({"price_id":price_id, "from_location": from_location, "to_location":to_location})
+		return jsonify({"collection": location})
+

@@ -18,6 +18,12 @@ def create_table():
 			password VARCHAR(250) NOT NULL,
 			is_admin BOOLEAN DEFAULT False);""",
 
+				"""CREATE TABLE IF NOT EXISTS prices(
+			price_id SERIAL PRIMARY KEY UNIQUE NOT NULL,
+			from_location VARCHAR(50) NOT NULL,
+			to_location  VARCHAR(50) NOT NULL,
+			price INT);"""
+
 				"""CREATE TABLE IF NOT EXISTS orders(
 			parcel_id SERIAL PRIMARY KEY UNIQUE NOT NULL,
 			user_id  INT,
