@@ -63,9 +63,9 @@ def create_app(config_name):
 	# 	return "500 error"
 
 	@app.errorhandler(HTTPException)
-    def http_exception(e):
-      return 'generic', 500
-      
+	def http_exception(e):
+		return 'generic', 500
+
 	return app 
 
 
