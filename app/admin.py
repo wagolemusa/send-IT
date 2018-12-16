@@ -261,8 +261,8 @@ class EditPrices(Resource):
 		to_location = request.json["to_location"]
 		price = request.json["price"]
 
-		curr.execute("""UPDATE prices SET from_location = %s, to_location = %s, price = %s
-										WHERE price_id = %s""", (from_location, to_location, price))
+		curr.execute("""UPDATE prices SET from_location =%s, to_location =%s, price =%s
+															WHERE price_id =%s """, (from_location, to_location, price, price_id))
 		connection.commit()
 		return {"message": "Successfuly updated"}, 403
 
