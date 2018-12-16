@@ -78,8 +78,10 @@ class Login(Resource):
 		if not data:
 			return jsonify({"message":"User named {} not found".format(username)})
 		if password in data:
-			# expire_time  = datetime.timedelta(minutes=30)
 			access_token = create_access_token(identity=username)
-			return jsonify({"message":"Login in sucessful  as {}".format(username),
-											'access_token':access_token})
+			return jsonify(access_token=access_token), 200
+			# expire_time  = datetime.timedelta(minutes=30)
+			# access_token = create_access_token(identity=username)
+			# return jsonify({"message":"Login in sucessful  as {}".format(username),
+			# 								'access_token':access_token})
 		return {"message":"Invalid password"}, 400
