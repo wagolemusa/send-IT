@@ -248,9 +248,10 @@ class PostPrice(Resource):
 
 		for row in data:
 			price_id = row[0]
-			from_location = [1]
-			to_location = [2]
+			from_location row= [1]
+			to_location = row[2]
+			price = row[3]
 
-			location.append({"price_id":price_id, "from_location": from_location, "to_location":to_location})
+			location.append({"price_id":price_id, "from_location": from_location, "to_location":to_location, "price":price})
 		return jsonify({"collection": location})
 
