@@ -51,6 +51,16 @@ def create_app(config_name):
 	api.add_resource(DeleteParcels, '/admin/v2/parcels/<int:parcel_id>')
 	api.add_resource(PostPrice, '/admin/v2/locations')
 	api.add_resource(EditPrices, '/admin/v2/locations/<int:price_id>')
+
+
+	@app.errorhandler(404)
+	def not_found(error):
+		return "404 error", 404
+
+	@app.errorhandler(500)
+	def internal_error(error):
+		return "500 error"
+		
 	return app 
 
 
