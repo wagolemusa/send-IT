@@ -50,7 +50,7 @@ def create_app(config_name):
 	api.add_resource(InTransit, '/admin/v2/intransit')
 	api.add_resource(DeleteParcels, '/admin/v2/parcels/<int:parcel_id>')
 	api.add_resource(PostPrice, '/admin/v2/locations')
-	api.add_resource(EditPrices, '/admin/v2/locations/<int:parcel_id>')
+	api.add_resource(EditPrices, '/admin/v2/locations/<int:price_id>')
 	return app 
 
 
