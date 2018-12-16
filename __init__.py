@@ -54,9 +54,9 @@ def create_app(config_name):
 	api.add_resource(EditPrices, '/admin/v2/locations/<int:price_id>')
 
 
-	@app.errorhandler(404)
-	def not_found(error):
-		return {"message": "Page Not Found"},404
+	# @app.errorhandler(404)
+	# def not_found(error):
+	# 	return {"message": "Page Not Found"},404
 
 	# @app.errorhandler(500)
 	# def internal_error(error):
@@ -65,6 +65,10 @@ def create_app(config_name):
 	@app.errorhandler(HTTPException)
 	def http_exception(e):
 		return 'generic', 500
+
+	@app.errorhandler(NotFound)
+	def notfound_exception(e):
+		return 'not found', 404
 
 	return app 
 
