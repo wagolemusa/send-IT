@@ -219,8 +219,8 @@ class PostPrice(Resource):
 			return {"message": "Access allowed only to admin"}, 403
 
 		from_location = request.json['from_location']
-		to_location = requset.json['to_location']
-		price  = requset.json['price']
+		to_location = request.json['to_location']
+		price  = request.json['price']
 
 		if from_location.strip() == '' or to_location.strip() == '':
 			return {"message": "Fields cannot be empty"}, 403
