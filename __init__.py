@@ -2,6 +2,7 @@ from flask import Flask, jsonify, request, Blueprint
 import psycopg2
 from flask_restful import Api
 from config import app_config
+from flask_jwt_extended import JWTManager
 from database import create_table, admin
 from app.order  import Home
 from app.user  import Register
@@ -27,9 +28,11 @@ def create_app(config_name):
 	v2 = Blueprint('api', __name__)
 	api = Api(v2)
 	app.register_blueprint(v2, url_prefix='/api')
+	app.config['JWT_SECRET_KEY'] = 'refuge'
 	create_table()
 	admin()
-
+	
+	jwt=JWTManager(app)
 	
 	api.add_resource(Home, '/')
 	api.add_resource(Register, '/v2/auth/signup')
