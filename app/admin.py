@@ -255,3 +255,15 @@ class PostPrice(Resource):
 			location.append({"price_id":price_id, "from_location": from_location, "to_location":to_location, "price":price})
 		return jsonify({"collection": location})
 
+class EditPrices(Resource):
+	def put(self, price_id):
+		from_location = request.json["from_location"]
+		to_location = request.json["to_location"]
+		price = request.json["price"]
+
+		curr.execute("""UPDATE prices WHERE from_location = %s, to_location = %s, price = %s
+										WHERE price_id = %s""", (from_location, to_location, price))
+		connection.commit()
+		return {"message": "Successfuly updated"}, 403
+
+
