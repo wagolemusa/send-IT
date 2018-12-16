@@ -256,7 +256,15 @@ class PostPrice(Resource):
 		return jsonify({"collection": location})
 
 class EditPrices(Resource):
+	""" Class and Method updates the locations and price """
+
+	@jwt_required
 	def put(self, price_id):
+
+		current_user = get_jwt_identity()
+		U = Users().get_user_role()
+		if current_user != U:
+			return {"message": "Access allowed only to admin"}, 403
 		from_location = request.json["from_location"]
 		to_location = request.json["to_location"]
 		price = request.json["price"]

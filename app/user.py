@@ -59,7 +59,7 @@ class Register(Resource):
 			sql = new_user.register_user()
 			curr.execute(sql,(first_name, last_name, username, phone, email, password))
 			connection.commit()
-		return {"message": "Successfully registered an account"}, 200
+		return {"message": "Successfully registered an account"}, 201
 
 class Login(Resource):
 	""" Class for user login """
