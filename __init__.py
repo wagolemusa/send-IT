@@ -1,4 +1,5 @@
 from flask import Flask, jsonify, request, Blueprint
+from werkzeug.exceptions import HTTPException, NotFound
 import psycopg2
 from flask_restful import Api
 from config import app_config
@@ -55,12 +56,16 @@ def create_app(config_name):
 
 	@app.errorhandler(404)
 	def not_found(error):
-		return "404 error", 404
+		return {"message": "Page Not Found"},404
 
-	@app.errorhandler(500)
-	def internal_error(error):
-		return "500 error"
-		
+	# @app.errorhandler(500)
+	# def internal_error(error):
+	# 	return "500 error"
+
+	@app.errorhandler(HTTPException)
+    def http_exception(e):
+      return 'generic', 500
+      
 	return app 
 
 
