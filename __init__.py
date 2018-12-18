@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, request, Blueprint
-from werkzeug.exceptions import HTTPException, NotFound
+from werkzeug.exceptions import HTTPException, NotFound, default_exceptions
 import psycopg2
 from flask_restful import Api
 from config import app_config
@@ -61,6 +61,9 @@ def create_app(config_name):
 	# @app.errorhandler(500)
 	# def internal_error(error):
 	# 	return "500 error"
+	# for code, ex in default_exceptions:
+	# 	app.errorhandler(code)(_handle_http_exception)
+
 
 	@app.errorhandler(HTTPException)
 	def http_exception(e):

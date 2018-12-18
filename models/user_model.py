@@ -53,6 +53,19 @@ class Usermodel:
 		sql = "SELECT status FROM orders WHERE parcel_id = %s"
 		return sql
 
+
+	def found_by_Id(self, parcel_id):
+		sql = "SELECT * FROM orders WHERE parcel_id = %s"
+		curr.execute(sql, (parcel_id,)) 
+		data = curr.fetchone()
+		return data
+		
+
+	def delete(self, parcel_id):
+		curr.execute("DELETE FROM orders WHERE parcel_id = %s", (parcel_id,))
+		connection.commit()
+
+
 class Users():
 	def get_user_role(self):
 		"""Fetch user role"""

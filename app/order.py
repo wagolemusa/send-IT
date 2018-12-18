@@ -91,10 +91,20 @@ class ModifyOrder(Resource):
 
 	@jwt_required
 	def delete(self, parcel_id):
-		""" Method for deleting a specific order """
 		username = get_jwt_identity()
+		""" Method for deleting a specific order """
+		parcel_order = Usermodel().found_by_Id(parcel_id)
+
+		if not parcel_order:
+			return {"message":"There is no order ID {} found".format(parcel_id)}, 403
+		# parcel_order.delete(parcel_id)
+		# return {"message": "order deleted sucessfully"}, 200	
 		curr.execute("""DELETE FROM orders WHERE parcel_id = %s AND username = %s""",(parcel_id, username))
+		connection.commit()
+
 		return jsonify({"message":"Post Deleted"})
+# 	return {"message":"Id not found"}
+
 
 class AnOrder(Resource):
 	@jwt_required
