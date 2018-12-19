@@ -75,7 +75,13 @@ class ModifyOrder(Resource):
 	""" Class for put an order """
 	@jwt_required
 	def put(self, parcel_id):
-		""" Method to update an order """
+		""" Method to update an order """		
+		
+		parcel_order = Usermodel().found_by_Id(parcel_id)
+
+		if not parcel_order:
+			return {"message":"There is no order ID {} found".format(parcel_id)}, 403	
+
 		title = request.json['title']
 		pickup = request.json['pickup']
 		rec_id = request.json['rec_id']
@@ -96,20 +102,16 @@ class ModifyOrder(Resource):
 		parcel_order = Usermodel().found_by_Id(parcel_id)
 
 		if not parcel_order:
-			return {"message":"There is no order ID {} found".format(parcel_id)}, 403
-		# parcel_order.delete(parcel_id)
-		# return {"message": "order deleted sucessfully"}, 200	
+			return {"message":"There is no order ID {} found".format(parcel_id)}, 403	
 		curr.execute("""DELETE FROM orders WHERE parcel_id = %s AND username = %s""",(parcel_id, username))
 		connection.commit()
-
 		return jsonify({"message":"Post Deleted"})
-# 	return {"message":"Id not found"}
-
 
 class AnOrder(Resource):
 	@jwt_required
 	def put(self, parcel_id):
 		destination = request.json['destination']
+
 		curr.execute("""UPDATE orders SET destination=%s WHERE parcel_id=%s """,(destination, parcel_id))
 		connection.commit()
 		return jsonify({"message": "Successfuly Updated"})
