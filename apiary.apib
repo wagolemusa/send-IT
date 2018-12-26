@@ -1,0 +1,348 @@
+FORMAT: 1A
+HOST: https://senditparcel.herokuapp.com/api/
+
+# SendIT
+
+SendIT is a courier service that helps users deliver parcels to different destinations. 
+provides courier quotes based on weight categories.
+
+## Signup [/v2/auth/signup]
+
+### Sign up [POST]
+
+Users can create an account to send parcel. Users have to provide the following details.
+first_name, last_name, username, phone, email, password.
+
+    + Request (application/json)
+    
+        + Attributes (Signup user)
+
+    
+            + Body
+        
+                {
+                    "first_name":"musa",
+                    "last_name":"wagole",
+                    "username":"refuge",
+                    "phone": "745234567",
+                    "email":"homiemusa@gmail.com",
+                    "password":"wise@2222"
+            
+                }
+
++ Response 200
+
+
+## Login [/v2/auth/signin]
+
+### Signin [POST]
+
+
+    + Request (application/json)
+    
+        + Attributes (Login user)
+
+    
+            + Body
+                
+                {
+                    "username":"refuge",
+                    "password":"wise@2222"
+                }
++ Response 200
+
+
+## Send parcel [/v2/parcel]
+
+### Send parcel [POST]
+
+After a user is successfuly authenticated from the system
+He or her can send parcel with the following details, title, pickup, receiver
+   
+    + Request (application/json)
+    
+        + Headers
+
+            Authorization:eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJpYXQiOjE1Mzg2MTA5MTQsImV4cCI6MTUzODYwMzcxNH0.ipbREgCxmtZlq5W3Y3X26W4QUOkvsSPTUrQGCnR9EeE
+
+    
+        + Attributes (Send Parcel)
+        
+            + Body
+                {
+                    "title":"wires",
+                    "pickup":"kisumu",
+                    "rec_id":344556,
+                    "rec_phone":725696042,
+                    "rec_name":"musa",
+                    "destination":"nairobi",
+                    "weight":
+                    
+                }
+                
++ Response 201
+
+### Get Individual parcel post[GET /v2/parcels/{parcel_id}]
+
+    + Request (application/json)
+
+        + Paramenter
+
+            + parcel_id: `1` - The ID of the Post
+    
++ Response 200 
+
+
+###  Change loction [PUT /v2/parcels/parcel_id/destination]
+
+Change the location of a specific parcel delivery order 
+
++ Paramenter
+
+    + parcel_id: `1` - The ID of the Post
+    
++ Request (application/json)
+    
+    + Headers
+
+            Authorization: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJpYXQiOjE1Mzg2MTA5MTQsImV4cCI6MTUzODYwMzcxNH0.ipbREgCxmtZlq5W3Y3X26W4QUOkvsSPTUrQGCnR9EeE
+
+
+    + Attributes
+        
+            - destination : `Busia` (string, required)
+    
++ Response 200
+
+
+## Admin Collection [/Admin]
+        
+
+This endpoints should be accessible by the Admin only.
+
+
+
+
+### Get all users[GET /v2/users]
+
+Admin retrieve all users's details to know how many users in the system
+
+
+    + Request 
+
+        + Headers
+
+            Authorization: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJpYXQiOjE1Mzg2MTA5MTQsImV4cCI6MTUzODYwMzcxNH0.ipbREgCxmtZlq5W3Y3X26W4QUOkvsSPTUrQGCnR9EeE
+
+
++ Response 200 
+
+
+### Get all users[GET /v2/parcels]
+
+Admin retrieve all users's details to know the of users
+
+
+    + Request 
+
+        + Headers
+
+            Authorization: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJpYXQiOjE1Mzg2MTA5MTQsImV4cCI6MTUzODYwMzcxNH0.ipbREgCxmtZlq5W3Y3X26W4QUOkvsSPTUrQGCnR9EeE
+
+
++ Response 200 
+
+### Change location [PUT /v2/parcels/{parcel_id}/presentLocation]
+
+Admin change the present location of a specific parcel delivery order 
+
++ Paramenter
+
+    + parcel_id: `1` - The ID of the Post
+    
++ Request (application/json)
+    
+    + Headers
+
+            Authorization: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJpYXQiOjE1Mzg2MTA5MTQsImV4cCI6MTUzODYwMzcxNH0.ipbREgCxmtZlq5W3Y3X26W4QUOkvsSPTUrQGCnR9EeE
+
+
+    + Attributes
+        
+            - pickup : `Mombasa` (string, required)
+    
++ Response 200
+
+
+### Change Status  [PUT /v2/parcels/{parcel_id}/status]
+
+Change the status of a specific parcel delivery order.
+
++ Paramenter
+
+    + parcel_id: `1` - The ID of the Post
+    
++ Request (application/json)
+    
+    + Headers
+
+            Authorization: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJpYXQiOjE1Mzg2MTA5MTQsImV4cCI6MTUzODYwMzcxNH0.ipbREgCxmtZlq5W3Y3X26W4QUOkvsSPTUrQGCnR9EeE
+
+
+    + Attributes
+        
+            - active : `canceled` (string, required)
+    
++ Response 200
+
+
+### Get all Canceled[GET /v2/canceled]
+
+This endpoint queries parcels in Canceled
+
+    + Request 
+
+        + Headers
+
+            Authorization: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJpYXQiOjE1Mzg2MTA5MTQsImV4cCI6MTUzODYwMzcxNH0.ipbREgCxmtZlq5W3Y3X26W4QUOkvsSPTUrQGCnR9EeE
+
+
++ Response 200 
+
+
+### Get all Delivered[GET /v2/delivered]
+
+This endpoint queries parcels in Delivered
+
+    + Request 
+
+        + Headers
+
+            Authorization: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJpYXQiOjE1Mzg2MTA5MTQsImV4cCI6MTUzODYwMzcxNH0.ipbREgCxmtZlq5W3Y3X26W4QUOkvsSPTUrQGCnR9EeE
+
+
++ Response 200 
+
+
+### Get all Intransit[GET /v2/intransit]
+
+This endpoint queries parcels in Intransit
+
+    + Request 
+
+        + Headers
+
+            Authorization: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJpYXQiOjE1Mzg2MTA5MTQsImV4cCI6MTUzODYwMzcxNH0.ipbREgCxmtZlq5W3Y3X26W4QUOkvsSPTUrQGCnR9EeE
+
+
++ Response 200 
+
+
+### Get all users[DELETE /v2/parcels/{parcel_id}]
+
+This endponit deletes a specific order
+
+
+    + Request 
+
+        + Headers
+
+            Authorization: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJpYXQiOjE1Mzg2MTA5MTQsImV4cCI6MTUzODYwMzcxNH0.ipbREgCxmtZlq5W3Y3X26W4QUOkvsSPTUrQGCnR9EeE
+
+
++ Response 200 
+
+
+
+### Post Prices [POST /v2/locations]
+Admin post prices for transport 
+
+    + Request (application/json)
+    
+        + Headers
+
+            Authorization:eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJpYXQiOjE1Mzg2MTA5MTQsImV4cCI6MTUzODYwMzcxNH0.ipbREgCxmtZlq5W3Y3X26W4QUOkvsSPTUrQGCnR9EeE
+
+            + Body
+                {
+                    "from_location":"Kisumu",
+                    "to_location":"Mumbasa",
+                    "price":3300
+            
+                    
+                }
+                
++ Response 201
+
+
+### Edit Prices [PUT /v2/locations/{parcel_id}]
+
+This endponit edit posted prices 
+
+
+    + Request 
+
+        + Headers
+
+                Authorization: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJpYXQiOjE1Mzg2MTA5MTQsImV4cCI6MTUzODYwMzcxNH0.ipbREgCxmtZlq5W3Y3X26W4QUOkvsSPTUrQGCnR9EeE
+            
+            + Body
+                {
+                    "from_location":"kissi",
+                    "to_location":"busia",
+                    "price":3300
+            
+                    
+                }
+
++ Response 200 
+
+
+### Get all Prices [GET /v2/location]
+
+This endpoint queries all prices for locations
+
+    + Request 
+
+        + Headers
+
+            Authorization: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJpYXQiOjE1Mzg2MTA5MTQsImV4cCI6MTUzODYwMzcxNH0.ipbREgCxmtZlq5W3Y3X26W4QUOkvsSPTUrQGCnR9EeE
+
+
++ Response 200 
+
+
+# Data Structure
+
+
+## Signup user (object)
+
+### Properties
+
++ `first_name`: `musa` (string, required)
++ `last_name`: `wagole` (string, required)
++ `username` : `refuge` (string, required)
++ `phone` : `725696042`(number)
++ `email`: `homiemusa@gmail.com` (string, required)
++ `password` : wise@2222` (string, required)
+
+
+## Login user (object)
+
+### Properties
+
++ `username` : `refuge` (string, required)
++ `password` : `wise@2222` (string, required)
+
+
+## Send Parcel (object)
+
+### Properties
+
++ `title`:`wires` (string, required)
++ `pickup`:`kisumu` (string, required)
++ `rec_id`:`2345556` (number)
++ `rec_phone`: `725696042` (number)
++ `rec_name`:`musa` (string, required)
++ `destination`: `nairobi` (string, required)
++ `wieght`:`45` (number)
