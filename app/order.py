@@ -28,18 +28,10 @@ class CreateParcel(Resource):
 		destination = request.json['destination']
 		weight = request.json['weight']
 
-		if title.strip() == '':
-			return jsonify({"message":"Title cannot be blank"})
-		elif pickup.strip() == '':
-			return jsonify({"message":"Pickup cannot be blank"})
-		elif type(rec_id) != int:
-			return jsonify({"meassge":"ID Number can only be numbers"})
-		elif type(rec_phone) != int:
-			return jsonify({"message":"Phone can only be numbers"})
-		elif destination.strip() == '':
-			return jsonify({"message":"Destination cannot be black"})
-		elif type(weight) != int:
-			return jsonify({"message": "Weight can only be numbers"})
+		if title.strip() == '' or pickup.strip() =='' or destination.strip() =='':
+			return jsonify({"message":"Feilds  cannot be blank"})
+		elif type(rec_id) != int or type(rec_phone) != int or type(weight) != int:
+			return jsonify({"meassge":"ID, Phone and weight master be numbers"})
 
 		current_user = get_jwt_identity()
 		username = current_user

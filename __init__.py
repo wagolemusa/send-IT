@@ -2,6 +2,7 @@ from flask import Flask, jsonify, request, Blueprint
 from werkzeug.exceptions import HTTPException, NotFound, default_exceptions
 import psycopg2
 from flask_restful import Api
+from flask_cors import CORS
 from config import app_config
 from flask_jwt_extended import JWTManager
 from database import create_table, admin
@@ -28,8 +29,9 @@ def create_app(config_name):
 	# app.config.from_pyfile('config.py')
 	# db.int_app(app)
 	v2 = Blueprint('api', __name__)
+	CORS(v2, resources=r'/api/*', headers='Content-Type')
 	api = Api(v2)
-	app.register_blueprint(v2, url_prefix='/api')
+
 	app.config['JWT_SECRET_KEY'] = 'refuge'
 	create_table()
 	admin()
