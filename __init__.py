@@ -31,6 +31,7 @@ def create_app(config_name):
 	v2 = Blueprint('api', __name__)
 	CORS(v2, resources=r'/api/*', headers='Content-Type')
 	api = Api(v2)
+	app.register_blueprint(v2, url_prefix='/api')
 
 	app.config['JWT_SECRET_KEY'] = 'refuge'
 	create_table()
@@ -67,13 +68,13 @@ def create_app(config_name):
 	# 	app.errorhandler(code)(_handle_http_exception)
 
 
-	@app.errorhandler(HTTPException)
-	def http_exception(e):
-		return 'generic', 500
+	# @app.errorhandler(HTTPException)
+	# def http_exception(e):
+	# 	return 'Oops! Internal Error', 500
 
 	@app.errorhandler(NotFound)
 	def notfound_exception(e):
-		return 'not found', 404
+		return 'Page not found', 404
 
 	return app 
 
