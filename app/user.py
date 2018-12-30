@@ -35,12 +35,12 @@ class Register(Resource):
 		if username.strip() == '' or first_name.strip() == '' or last_name.strip() =='' \
 		or email.strip() == '':
 			return {"message": "You must fill all the fields"}, 400
-		elif type(phone) != int:
-			return jsonify({"message": "Field can only except Numbers"})
+		# elif type(phone) != int:
+		# 	return jsonify({"message": "Field can only except Numbers"})
 		elif not re.match(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)", email):
 			return jsonify({"message": "Invalid email"})
 		elif len(password) < 5:
-			return {"message":"Password too short"}, 400
+			return {"message":"Password is too short"}, 400
 		user = Usermodel()
 		u = user.check_username()
 		curr.execute(u, (username,))
