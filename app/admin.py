@@ -218,9 +218,11 @@ class PostPrice(Resource):
 		if current_user != U:
 			return {"message": "Access allowed only to admin"}, 403
 
+		car_number = request.json['car_number']
 		from_location = request.json['from_location']
 		to_location = request.json['to_location']
 		price  = request.json['price']
+		day_time = request.json['day_time']
 
 		if from_location.strip() == '' or to_location.strip() == '':
 			return {"message": "Fields cannot be empty"}, 403
@@ -228,7 +230,7 @@ class PostPrice(Resource):
 			return {"message": "Price should be only Numbers"}, 403
 		loc = Usermodel()
 		data = loc.data_price()
-		curr.execute(data, (from_location, to_location, price))
+		curr.execute(data, (car_number, from_location, to_location, price, day_time))
 		connection.commit()
 		return  {"message": "Location and Price are Successfully submited"}, 201
 
@@ -248,11 +250,13 @@ class PostPrice(Resource):
 
 		for row in data:
 			price_id = row[0]
-			from_location = row[1]
-			to_location =row[2]
-			price = row[3]
+			car_number = row[1]
+			from_location = row[2]
+			to_location =row[3]
+			price = row[4]
+			day_time = row[5]
 
-			location.append({"price_id":price_id, "from_location": from_location, "to_location":to_location, "price":price})
+			location.append({"price_id":price_id, "car_number":car_number, "from_location": from_location, "to_location":to_location, "price":price, "day_time":day_time})
 		return jsonify({"collection": location})
 
 class EditPrices(Resource):
@@ -265,12 +269,15 @@ class EditPrices(Resource):
 		U = Users().get_user_role()
 		if current_user != U:
 			return {"message": "Access allowed only to admin"}, 403
+
+		car_number = request.json["car_number"]
 		from_location = request.json["from_location"]
 		to_location = request.json["to_location"]
 		price = request.json["price"]
+		day_time = request.json["day_time"]
 
-		curr.execute("""UPDATE prices SET from_location =%s, to_location =%s, price =%s
-															WHERE price_id =%s """, (from_location, to_location, price, price_id))
+		curr.execute("""UPDATE prices SET car_number =%s, from_location =%s, to_location =%s, price =%s, day_time =%s
+															WHERE price_id =%s """, (car_number, from_location, to_location, price, price_id, day_time))
 		connection.commit()
 		return {"message": "Successfuly updated"}, 403
 

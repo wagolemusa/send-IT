@@ -20,9 +20,11 @@ def create_table():
 
 				"""CREATE TABLE IF NOT EXISTS prices(
 			price_id SERIAL PRIMARY KEY UNIQUE NOT NULL,
+			car_number INT,
 			from_location VARCHAR(50) NOT NULL,
 			to_location  VARCHAR(50) NOT NULL,
-			price INT);"""
+			price INT,
+			day_time VARCHAR);"""
 
 				"""CREATE TABLE IF NOT EXISTS orders(
 			parcel_id SERIAL PRIMARY KEY UNIQUE NOT NULL,
