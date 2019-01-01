@@ -5,7 +5,7 @@ from flask_restful import Api
 from flask_cors import CORS
 from config import app_config
 from flask_jwt_extended import JWTManager
-from database import create_table, admin
+from database import create_table, admin, drop_table
 from app.order  import Home
 from app.user  import Register
 from app.user  import Login
