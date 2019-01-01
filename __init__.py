@@ -36,7 +36,7 @@ def create_app(config_name):
 	app.config['JWT_SECRET_KEY'] = 'refuge'
 	create_table()
 	admin()
-	
+	drop_table()
 	jwt=JWTManager(app)
 	
 	api.add_resource(Home, '/')
