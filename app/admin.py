@@ -213,10 +213,10 @@ class PostPrice(Resource):
 	""" Class and Method post price form location """
 	@jwt_required
 	def post(self):
-		# current_user = get_jwt_identity()
-		# U = Users().get_user_role()
-		# if current_user != U:
-		# 	return {"message": "Access allowed only to admin"}, 403
+		current_user = get_jwt_identity()
+		U = Users().get_user_role()
+		if current_user != U:
+			return {"message": "Access allowed only to admin"}, 403
 
 		car_number = request.json['car_number']
 		from_location = request.json['from_location']
