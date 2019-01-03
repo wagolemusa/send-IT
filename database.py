@@ -24,7 +24,7 @@ def create_table():
 			from_location VARCHAR(50) NOT NULL,
 			to_location  VARCHAR(50) NOT NULL,
 			price INT,
-			day_time VARCHAR);"""
+			day_time VARCHAR(50));"""
 
 				"""CREATE TABLE IF NOT EXISTS orders(
 			parcel_id SERIAL PRIMARY KEY UNIQUE NOT NULL,
