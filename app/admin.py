@@ -226,8 +226,8 @@ class PostPrice(Resource):
 
 		if from_location.strip() == '' or to_location.strip() == '':
 			return {"message": "Fields cannot be empty"}, 403
-		elif type(price) != int:
-			return {"message": "Price should be only Numbers"}, 403
+		# elif type(price) != int:
+		# 	return {"message": "Price should be only Numbers"}, 403
 		loc = Usermodel()
 		data = loc.data_price()
 		curr.execute(data, (car_number, from_location, to_location, price, day_time,))
