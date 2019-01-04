@@ -213,6 +213,7 @@ class PostPrice(Resource):
 	""" Class and Method post price form location """
 	@jwt_required
 	def post(self):
+		connection.commit()
 		current_user = get_jwt_identity()
 		U = Users().get_user_role()
 		if current_user != U:
