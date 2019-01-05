@@ -230,9 +230,14 @@ class PostPrice(Resource):
 		# 	return {"message": "Price should be only Numbers"}, 403
 		loc = Usermodel()
 		data = loc.data_price()
-		curr.execute(data, (car_number, from_location, to_location, price, day_time,))
-		connection.commit()
-		return  {"message": "Location and Price are Successfully submited"}, 201
+		try:
+
+			curr.execute(data, (car_number, from_location, to_location, price, day_time,))
+			connection.commit()
+			return  {"message": "Location and Price are Successfully submited"}, 201
+		except:
+			connection.rollback()
+			return {"message": "already exists"}
 
 	@jwt_required
 	def get(self):
