@@ -35,13 +35,18 @@ class CreateParcel(Resource):
 
 		current_user = get_jwt_identity()
 		username = current_user
+		try:
 
-		curr.execute(""" INSERT INTO orders(title, username, pickup,rec_id, rec_phone, rec_name, destination, weight)
+			curr.execute(""" INSERT INTO orders(title, username, pickup,rec_id, rec_phone, rec_name, destination, weight)
 																				VALUES(%s, %s, %s, %s, %s, %s, %s, %s)""",\
 																				(title, username, pickup, rec_id, rec_phone,rec_name, destination, weight))
-		connection.commit()
-		return jsonify({"message": 'Successfuly Created an Order'})
+			connection.commit()
+			return jsonify({"message": 'Successfuly Created an Order'})
+		except:
+			connection.rollback()
+			return {"message": "already exists"}
 
+			
 	@jwt_required
 	def get(self):
 		""" Method for get all Parcel Orders """
