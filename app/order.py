@@ -67,7 +67,7 @@ class CreateParcel(Resource):
 			weight = row[9]
 			status = row[10]
 			created_on = row[11]
-			data_list.append({"parcel_id":parcel_id, "title":title, "pickup":pickup, "rec_id":rec_id, "rec_name":rec_name, "destination":destination, "weight":weight, "status":status, "created_on":created_on})
+			data_list.append({"parcel_id":parcel_id, "title":title, "pickup":pickup, "rec_id":rec_id, "rec_phone":rec_phone, "rec_name":rec_name, "destination":destination, "weight":weight, "status":status, "created_on":created_on})
 		return jsonify({"data": data_list})	
 
 class ModifyOrder(Resource):
