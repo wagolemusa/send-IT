@@ -30,8 +30,8 @@ class CreateParcel(Resource):
 
 		if title.strip() == '' or pickup.strip() =='' or destination.strip() =='':
 			return jsonify({"message":"Feilds  cannot be blank"})
-		elif type(rec_id) != int or type(rec_phone) != int or type(weight) != int:
-			return jsonify({"meassge":"ID, Phone and weight master be numbers"})
+		# elif type(rec_id) != int or type(rec_phone) != int or type(weight) != int:
+			# return jsonify({"meassge":"ID, Phone and weight master be numbers"})
 
 		current_user = get_jwt_identity()
 		username = current_user
