@@ -19,7 +19,8 @@ class Home(Resource):
 class CreateParcel(Resource):
 	""" Class for create parcel methods """
 	@jwt_required
-	def post(self):
+	def post(self):		
+		connection.commit()
 		title = request.json['title']
 		pickup = request.json['pickup']
 		rec_id = request.json['rec_id']
