@@ -46,7 +46,7 @@ class CreateParcel(Resource):
 			connection.rollback()
 			return {"message": "already exists"}
 
-			
+
 	@jwt_required
 	def get(self):
 		""" Method for get all Parcel Orders """
@@ -64,8 +64,10 @@ class CreateParcel(Resource):
 			rec_phone = row[6]
 			rec_name = row[7]
 			destination = row[8]
-			weight = [9]
-			data_list.append({"parcel_id":parcel_id, "title":title, "pickup":pickup, "rec_id":rec_id, "rec_name":rec_name, "destination":destination, "weight":weight})
+			weight = row[9]
+			status = row[10]
+			created_on = row[11]
+			data_list.append({"parcel_id":parcel_id, "title":title, "pickup":pickup, "rec_id":rec_id, "rec_name":rec_name, "destination":destination, "weight":weight, "status":status, "created_on":created_on})
 		return jsonify({"data": data_list})	
 
 class ModifyOrder(Resource):
