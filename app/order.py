@@ -113,7 +113,7 @@ class AnOrder(Resource):
 		destination = request.json['destination']
 		try:
 
-			curr.execute("""UPDATE orders SET destination=%s WHERE parcel_id=%s """,(destination, parcel_id))
+			curr.execute("""UPDATE orders SET destination=%s WHERE parcel_id=%s """,(destination, parcel_id,))
 			connection.commit()
 			return jsonify({"message": "Successfuly Updated"})
 		except:
