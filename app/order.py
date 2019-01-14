@@ -116,7 +116,7 @@ class AnOrder(Resource):
 			curr.execute("""UPDATE orders SET destination=%s WHERE parcel_id=%s """,(destination, parcel_id,))
 			connection.commit()
 			return jsonify({"message": "Successfuly Updated"})
-		except:
+		except TypeError:
 			connection.rollback()
 			return {"message": "already exists"}
 
