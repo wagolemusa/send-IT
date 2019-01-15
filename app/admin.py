@@ -37,7 +37,10 @@ class Admin(Resource):
 			rec_name = row[7]
 			destination = row[8]
 			weight = row[9]
-			parcel.append({"parcel_id":parcel_id, "title":title, "username":username, "pickup":pickup, "rec_id":rec_id, "rec_name":rec_name, "destination":destination, "weight":weight})
+			status = row[10]
+			created_on = row[11]
+
+			parcel.append({"parcel_id":parcel_id, "title":title, "username":username, "pickup":pickup, "rec_id":rec_id, "rec_name":rec_name, "destination":destination, "weight":weight, "status":status, "created_on":created_on})
 		return jsonify({"data": parcel})	
 
 class Challenge(Resource):
