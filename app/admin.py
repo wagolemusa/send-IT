@@ -135,7 +135,9 @@ class Canceled(Resource):
 			destination = row[8]
 			weight = row[9]
 			status = row[10]
-			par.append({"parcel_id":parcel_id, "title":title, "username":username, "pickup":pickup, "rec_id":rec_id, "rec_name":rec_name, "destination":destination, "weight":weight, "status":status})
+			created_on = row[11]
+
+			par.append({"parcel_id":parcel_id, "title":title, "username":username, "pickup":pickup, "rec_id":rec_id, "rec_phone":rec_phone, "rec_name":rec_name, "destination":destination, "weight":weight, "status":status, "created_on":created_on})
 		return jsonify({"data": par})	
 
 class Delivered(Resource):
@@ -165,7 +167,8 @@ class Delivered(Resource):
 			destination = row[8]
 			weight = row[9]
 			status = row[10]
-			par.append({"parcel_id":parcel_id, "title":title, "username":username, "pickup":pickup, "rec_id":rec_id, "rec_name":rec_name, "destination":destination, "weight":weight, "status":status})
+			created_on = row[11]
+			par.append({"parcel_id":parcel_id, "title":title, "username":username, "pickup":pickup, "rec_id":rec_id, "rec_phone":rec_phone, "rec_name":rec_name, "destination":destination, "weight":weight, "status":status, "created_on":created_on})
 		return jsonify({"data": par})	
 
 class InTransit(Resource):
@@ -195,7 +198,8 @@ class InTransit(Resource):
 			destination = row[8]
 			weight = row[9]
 			status = row[10]
-			par.append({"parcel_id":parcel_id, "title":title, "username":username, "pickup":pickup, "rec_id":rec_id, "rec_name":rec_name, "destination":destination, "weight":weight, "status":status})
+			created_on = row[11]
+			par.append({"parcel_id":parcel_id, "title":title, "username":username, "pickup":pickup, "rec_id":rec_id, "rec_phone":rec_phone, "rec_name":rec_name, "destination":destination, "weight":weight, "status":status, "created_on":created_on})
 		return jsonify({"data": par})	
 
 
