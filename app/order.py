@@ -110,10 +110,10 @@ class AnOrder(Resource):
 	@jwt_required
 	def put(self, parcel_id):
 
-		destination = request.json["destination"]
+		destination = request.json()['destination']
 		try:
 
-			curr.execute("""UPDATE orders SET destination=%s WHERE parcel_id=%s """,(destination,))
+			curr.execute("""UPDATE orders SET destination=%s WHERE parcel_id=%s """,(destination,	parcel_id))
 			connection.commit()
 			return jsonify({"message": "Successfuly Updated"})
 		except TypeError:
