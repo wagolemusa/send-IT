@@ -110,7 +110,8 @@ class AnOrder(Resource):
 	@jwt_required
 	def put(self, parcel_id):
 
-		destination = request.get_json()['destination']
+		if request.method == 'PUT':
+			destination = request.get_json()['destination']
 		try:
 
 			curr.execute("""UPDATE orders SET destination=%s WHERE parcel_id=%s """,(destination,	parcel_id))
