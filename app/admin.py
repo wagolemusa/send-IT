@@ -293,4 +293,8 @@ class EditPrices(Resource):
 		connection.commit()
 		return {"message": "Successfuly updated"}, 403
 
-
+class GetNumbers(Resource):
+	def get(self):
+		curr.execute("SELECT COUNT(*) FROM users")
+		data = curr.fetchall()
+		return {"number": data}

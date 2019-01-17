@@ -22,6 +22,7 @@ from app.admin import InTransit
 from app.admin import DeleteParcels
 from app.admin import PostPrice
 from app.admin import EditPrices
+from app.admin import GetNumbers
 
 def create_app(config_name):
 	app = Flask(__name__, instance_relative_config=True)
@@ -55,6 +56,7 @@ def create_app(config_name):
 	api.add_resource(DeleteParcels, '/admin/v2/parcels/<int:parcel_id>')
 	api.add_resource(PostPrice, '/admin/v2/locations')
 	api.add_resource(EditPrices, '/admin/v2/locations/<int:price_id>')
+	api.add_resource(GetNumbers, '/admin/v2/number')
 
 
 	# @app.errorhandler(404)
