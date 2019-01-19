@@ -23,6 +23,7 @@ from app.admin import DeleteParcels
 from app.admin import PostPrice
 from app.admin import EditPrices
 from app.admin import GetNumbers
+from app.order import Booking
 
 def create_app(config_name):
 	app = Flask(__name__, instance_relative_config=True)
@@ -37,7 +38,7 @@ def create_app(config_name):
 	app.config['JWT_SECRET_KEY'] = 'refuge'
 	create_table()
 	admin()
-	# drop_table()
+	drop_table()
 	jwt=JWTManager(app)
 	
 	api.add_resource(Home, '/')
@@ -57,6 +58,7 @@ def create_app(config_name):
 	api.add_resource(PostPrice, '/admin/v2/locations')
 	api.add_resource(EditPrices, '/admin/v2/locations/<int:price_id>')
 	api.add_resource(GetNumbers, '/admin/v2/number')
+	api.add_resource(Booking, '/v2/book')
 
 
 	# @app.errorhandler(404)

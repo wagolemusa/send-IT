@@ -298,3 +298,4 @@ class GetNumbers(Resource):
 		curr.execute("SELECT COUNT(*) FROM users")
 		data = curr.fetchall()
 		return {"number": data}
+

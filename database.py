@@ -40,7 +40,21 @@ def create_table():
 			status VARCHAR DEFAULT 'In Transit',
 			created_on TIMESTAMP DEFAULT NOW(),
 			FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
-		);""",)
+		);"""
+				"""CREATE TABLE IF NOT EXISTS booking(
+			book_id SERIAL PRIMARY KEY UNIQUE NOT NULL,
+			bookingref INT,
+			car_number INT,
+			from_location VARCHAR(50) NOT NULL,
+			to_location VARCHAR(50) NOT NULL,
+			price INT,
+			quality INT,
+			data VARCHAR(50) NOT NULL,
+			total INT,
+			status VARCHAR DEFAULT 'True',
+			created_on TIMESTAMP DEFAULT NOW(),
+			FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
+			);""")
 	connection = init_db()
 	curr = connection.cursor()
 	for query in queries:

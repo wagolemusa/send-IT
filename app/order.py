@@ -1,5 +1,6 @@
 import datetime
 import psycopg2
+import random 
 from flask import Flask,jsonify,request, make_response
 from flask_restful import Resource
 from functools import wraps
@@ -131,4 +132,34 @@ class AnOrder(Resource):
 		except TypeError:
 			connection.rollback()
 			return {"message": "already exists"}
+
+
+class Booking(Resource):
+	def post(self):
+		bookingref = random.randint(1, 1000)
+		bookingref = str(bookingref)
+		car_number = request_json['car_number']
+		from_location = request_json['from_location']
+		to_location = request_json['to_location']
+		price = request_json['price']
+		quality = request_json['quality']
+		date  = request_json['date']
+		total = price * quality
+		if car_number.strip() == '' or from_location.strip() == '' or price.strip() == '' or quality.strip() == '' or data.strip() == '':
+			return{"message": "All Fields Cannot be empty!"}
+
+		current_user = get_jwt_identity()
+		username = current_user
+		try:
+
+			curr.execute(""" INSERT INTO booking(bookingref, username, car_number,from_location, to_location, price, quality, total)
+																				VALUES(%s, %s, %s, %s, %s, %s, %s, %s)""",\
+																				(bookingref, username, car_number, from_location, to_location,price, quality, total))
+			connection.commit()
+			return jsonify({"message": 'Thanks for booking make sure that you came with number'})
+		except:
+			connection.rollback()
+			return {"message": "already exists"}
+
+
 
