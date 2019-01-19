@@ -145,8 +145,8 @@ class Booking(Resource):
 		quality = request.json['quality']
 		date  = request.json['date']
 		total = price * quality
-		if car_number.strip() == '' or from_location.strip() == '' or price.strip() == '' or quality.strip() == '' or data.strip() == '':
-			return{"message": "All Fields Cannot be empty!"}
+		# if car_number.strip() == '' or from_location.strip() == '' or price.strip() == '' or quality.strip() == '' or data.strip() == '':
+			# return{"message": "All Fields Cannot be empty!"}
 
 		current_user = get_jwt_identity()
 		username = current_user
