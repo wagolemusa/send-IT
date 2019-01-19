@@ -43,6 +43,7 @@ def create_table():
 		);"""
 				"""CREATE TABLE IF NOT EXISTS booking(
 			book_id SERIAL PRIMARY KEY UNIQUE NOT NULL,
+			user_id  INT,
 			bookingref INT,
 			car_number INT,
 			from_location VARCHAR(50) NOT NULL,
