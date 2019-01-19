@@ -138,12 +138,12 @@ class Booking(Resource):
 	def post(self):
 		bookingref = random.randint(1, 1000)
 		bookingref = str(bookingref)
-		car_number = request_json['car_number']
-		from_location = request_json['from_location']
-		to_location = request_json['to_location']
-		price = request_json['price']
-		quality = request_json['quality']
-		date  = request_json['date']
+		car_number = request.json['car_number']
+		from_location = request.json['from_location']
+		to_location = request.json['to_location']
+		price = request.json['price']
+		quality = request.json['quality']
+		date  = request.json['date']
 		total = price * quality
 		if car_number.strip() == '' or from_location.strip() == '' or price.strip() == '' or quality.strip() == '' or data.strip() == '':
 			return{"message": "All Fields Cannot be empty!"}
