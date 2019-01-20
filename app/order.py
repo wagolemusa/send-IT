@@ -150,16 +150,12 @@ class Booking(Resource):
 
 		current_user = get_jwt_identity()
 		username = current_user
-		try:
-
-			curr.execute(""" INSERT INTO booking(bookingref, username, car_number,from_location, to_location, price, quality, total)
+		curr.execute(""" INSERT INTO booking(bookingref, username, car_number,from_location, to_location, price, quality, total)
 																				VALUES(%s, %s, %s, %s, %s, %s, %s, %s)""",\
 																				(bookingref, username, car_number, from_location, to_location,price, quality, total))
-			connection.commit()
-			return jsonify({"message": 'Thanks for booking make sure that you came with number'})
-		except:
-			connection.rollback()
-			return {"message": "already exists"}
+		connection.commit()
+		return jsonify({"message": 'Thanks for booking make sure that you came with number'})
+	
 
 
 
