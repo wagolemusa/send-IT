@@ -135,6 +135,7 @@ class AnOrder(Resource):
 
 
 class Booking(Resource):
+	@jwt_required
 	def post(self):
 		bookingref = random.randint(1, 1000)
 		bookingref = str(bookingref)
