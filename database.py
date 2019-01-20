@@ -51,7 +51,7 @@ def create_table():
 			to_location VARCHAR(50) NOT NULL,
 			price INT,
 			quality INT,
-			data VARCHAR(50) NOT NULL,
+			dates VARCHAR(50) NOT NULL,
 			total INT,
 			status VARCHAR DEFAULT 'True',
 			created_on TIMESTAMP DEFAULT NOW(),

@@ -144,16 +144,16 @@ class Booking(Resource):
 		to_location = request.json['to_location']
 		price = request.json['price']
 		quality = request.json['quality']
-		data  = request.json['data']
+		dates  = request.json['dates']
 		total = price * quality
 		# if car_number.strip() == '' or from_location.strip() == '' or price.strip() == '' or quality.strip() == '' or data.strip() == '':
 			# return{"message": "All Fields Cannot be empty!"}
 
 		current_user = get_jwt_identity()
 		username = current_user
-		curr.execute(""" INSERT INTO booking(bookingref, username, car_number,from_location, to_location, price, quality, data, total)
+		curr.execute(""" INSERT INTO booking(bookingref, username, car_number,from_location, to_location, price, quality, dates, total)
 																				VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s)""",\
-																				(bookingref, username, car_number, from_location, to_location,price, quality, data, total))
+																				(bookingref, username, car_number, from_location, to_location,price, quality, dates, total))
 		connection.commit()
 		return jsonify({"message": 'Thanks for booking make sure that you came with number'})
 	
