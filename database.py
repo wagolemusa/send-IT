@@ -45,6 +45,7 @@ def create_table():
 			book_id SERIAL PRIMARY KEY UNIQUE NOT NULL,
 			user_id  INT,
 			bookingref INT,
+			username VARCHAR(50) NOT NULL,
 			car_number INT,
 			from_location VARCHAR(50) NOT NULL,
 			to_location VARCHAR(50) NOT NULL,
