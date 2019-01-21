@@ -24,6 +24,7 @@ from app.admin import PostPrice
 from app.admin import EditPrices
 from app.admin import GetNumbers
 from app.order import Booking
+from app.order import BookPostpond
 
 def create_app(config_name):
 	app = Flask(__name__, instance_relative_config=True)
@@ -59,6 +60,7 @@ def create_app(config_name):
 	api.add_resource(EditPrices, '/admin/v2/locations/<int:price_id>')
 	api.add_resource(GetNumbers, '/admin/v2/number')
 	api.add_resource(Booking, '/v2/book')
+	api.add_resource(BookPostpond, '/v2/book/<int:book_id>postpond')
 
 
 	# @app.errorhandler(404)
