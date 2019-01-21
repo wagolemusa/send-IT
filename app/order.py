@@ -137,6 +137,7 @@ class AnOrder(Resource):
 class Booking(Resource):
 	@jwt_required
 	def post(self):
+		"""This methods helps a user to book the transport service"""
 		bookingref = random.randint(1, 1000)
 		bookingref = str(bookingref)
 		car_number = request.json['car_number']
@@ -158,5 +159,26 @@ class Booking(Resource):
 		return jsonify({"message": 'Thanks for booking make sure that you came with number'})
 	
 
-
-
+	@jwt_required
+	def get(self):
+		""" Method for get all bookings """
+		username = get_jwt_identity()
+		curr.execute(" SELECT * FROM booking WHERE username =%s", [username])
+		book = curr.fetchall()
+		if not book:
+			return jsonify({"message":"There is no bookings yet"})
+		book_list = []
+		for row in book:
+			book_id = row[0]
+			bookingref = row[2]
+			car_number = row[4]
+			from_location = row[5]
+			to_location = row[6]
+			price = row[7]
+			quality = row[8]
+			dates = row[9]
+			total = row[10]
+			status = row[11]
+			created_on = row[12]
+			book_list.append({"book_id":book_id, "bookingref":bookingref, "car_number":car_number, "from_location":from_location, "to_location":to_location, "price":price, "quality":quality, "dates":dates, "total":total, "status":status, "created_on":created_on})
+		return jsonify({"book": book_list})	
