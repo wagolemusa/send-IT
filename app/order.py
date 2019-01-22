@@ -210,3 +210,25 @@ class BookPostpond(Resource):
 		except TypeError:
 			connection.rollback()
 			return {"message": "already exists"}
+
+
+class SearchBooking(Resource):
+	def post(self):
+		from_location = request_json['from_location']
+		# to_location = request_json['to_location']
+
+		curr.execute("SELECT * FROM prices WHERE from_location =%s")
+		data = curr.fetchall()
+		if not data:
+			return jsonify({"message":"There is no root yet"})
+		books = []
+		for row in prices:
+			price_id = row[0]
+			car_number = row[1]
+			from_location = row[2]
+			to_location =row[3]
+			price = row[4]
+			day_time = row[5]
+
+			books.append({"price_id":price_id, "car_number":car_number, "from_location": from_location, "to_location":to_location, "price":price, "day_time":day_time})
+		return jsonify({"collection": location})
