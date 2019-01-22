@@ -213,16 +213,17 @@ class BookPostpond(Resource):
 
 
 class SearchBooking(Resource):
+	""" Methods for searching towns """
 	def post(self):
-		from_location = request_json['from_location']
-		# to_location = request_json['to_location']
+		from_location = request.json['from_location']
+		to_location = request.json['to_location']
 
-		curr.execute("SELECT * FROM prices WHERE from_location =%s")
+		curr.execute("SELECT * FROM prices WHERE from_location = %s AND to_location =%s",[from_location,to_location])
 		data = curr.fetchall()
 		if not data:
 			return jsonify({"message":"There is no root yet"})
 		books = []
-		for row in prices:
+		for row in data:
 			price_id = row[0]
 			car_number = row[1]
 			from_location = row[2]
@@ -231,4 +232,4 @@ class SearchBooking(Resource):
 			day_time = row[5]
 
 			books.append({"price_id":price_id, "car_number":car_number, "from_location": from_location, "to_location":to_location, "price":price, "day_time":day_time})
-		return jsonify({"collection": location})
+		return jsonify({"data": books})

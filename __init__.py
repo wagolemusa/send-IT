@@ -62,7 +62,7 @@ def create_app(config_name):
 	api.add_resource(GetNumbers, '/admin/v2/number')
 	api.add_resource(Booking, '/v2/book')
 	api.add_resource(BookPostpond, '/v2/book/<int:book_id>/postpond')
-	api.add_resource(SearchBooking, 'v2/search')
+	api.add_resource(SearchBooking, '/v2/search')
 
 	# @app.errorhandler(404)
 	# def not_found(error):
