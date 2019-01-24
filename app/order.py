@@ -165,7 +165,7 @@ class Booking(Resource):
 		username = get_jwt_identity()
 		curr.execute(" SELECT * FROM booking WHERE username =%s", [username])
 		book = curr.fetchall()
-		if book is not None:
+		if not book:
 			return jsonify({"message":"There is no bookings yet"})
 		book_list = []
 		for row in book:
@@ -221,16 +221,16 @@ class SearchBooking(Resource):
 
 		curr.execute("SELECT * FROM prices WHERE from_location = %s AND to_location =%s",[from_location,to_location])
 		data = curr.fetchall()
-		if data not None:
+		if not data:
 			return jsonify({"message":"There is no root yet"})
 		books = []
-		for row in data:
-			price_id = row[0]
-			car_number = row[1]
-			from_location = row[2]
-			to_location =row[3]
-			price = row[4]
-			day_time = row[5]
+		if data is not None:
+			price_id = data[0]
+			car_number = data[1]
+			from_location = data[2]
+			to_location =data[3]
+			price = data[4]
+			day_time = data[5]
 
 			books.append({"price_id":price_id, "car_number":car_number, "from_location": from_location, "to_location":to_location, "price":price, "day_time":day_time})
 		return jsonify({"data": books})
