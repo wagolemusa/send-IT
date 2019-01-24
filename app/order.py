@@ -214,6 +214,7 @@ class BookPostpond(Resource):
 
 class SearchBooking(Resource):
 	""" Methods for searching towns """
+	@jwt_required
 	def post(self):
 		from_location = request.json['from_location']
 		to_location = request.json['to_location']
