@@ -228,7 +228,7 @@ class SearchBooking(Resource):
 			price_id = data[0]
 			car_number = data[1]
 			from_location = data[2]
-			to_location =data[3]
+			# to_location = data[3]
 			price = data[4]
 			day_time = data[5]
 
