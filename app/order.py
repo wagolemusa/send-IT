@@ -233,3 +233,4 @@ class SearchBooking(Resource):
 
 			books.append({"price_id":price_id, "car_number":car_number, "from_location": from_location, "to_location":to_location, "price":price, "day_time":day_time})
 		return jsonify({"data": books})
+		return jsonify({"message":"You can book now"})
