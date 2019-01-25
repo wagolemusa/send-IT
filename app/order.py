@@ -140,12 +140,12 @@ class Booking(Resource):
 		"""This methods helps a user to book the transport service"""
 		bookingref = random.randint(1, 1000)
 		bookingref = str(bookingref)
-		car_number = request.get_json()['car_number']
-		from_location = request.get_json()['from_location']
-		to_location = request.get_json()['to_location']
-		price = request.get_json()['price']
-		quality = request.get_json()['quality']
-		dates  = request.get_json()['dates']
+		car_number = request.get.json()['car_number']
+		from_location = request.get.json()['from_location']
+		to_location = request.get.json()['to_location']
+		price = request.get.json()['price']
+		quality = request.get.json()['quality']
+		dates  = request.get.json()['dates']
 		total = price * quality
 		# if car_number.strip() == '' or from_location.strip() == '' or price.strip() == '' or quality.strip() == '' or data.strip() == '':
 			# return{"message": "All Fields Cannot be empty!"}
