@@ -110,29 +110,23 @@ class ModifyOrder(Resource):
 class AnOrder(Resource):
 	@jwt_required
 	def put(self, parcel_id):
+		data = request.get_json(force=True)
+		
+		destination = data['destination']
 
-		if request.method == "PUT":
-			destination = request.get_json()['destination']
-		try:
+		curr.execute("""UPDATE orders SET destination=%s WHERE parcel_id=%s """,(destination,	parcel_id))
+		connection.commit()
 
-			curr.execute("""UPDATE orders SET destination=%s WHERE parcel_id=%s """,(destination,	parcel_id))
-			connection.commit()
-
-			curr.execute(" SELECT * FROM orders WHERE parcel_id =%s", [parcel_id])
-			data = curr.fetchall()
-	
-			data_list = []
-			for row in data:
-				parcel_id = row[0]
-				destination = row[8]
-				data_list.append({"parcel_id":parcel_id, "destination":destination})
-				return jsonify({"data": data_list})	
-
-			return jsonify({"message": "Successfuly Updated"})
-		except TypeError:
-			connection.rollback()
-			return {"message": "already exists"}
-
+		curr.execute(" SELECT * FROM orders WHERE parcel_id =%s", [parcel_id])
+		data = curr.fetchall()
+		data_list = []
+		for row in data:
+			parcel_id = row[0]
+			destination = row[8]
+			data_list.append({"parcel_id":parcel_id, "destination":destination})
+			return jsonify({"data": data_list})	
+		return jsonify({"message": "Successfuly Updated"})
+		
 
 class Booking(Resource):
 	@jwt_required
