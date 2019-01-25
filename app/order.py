@@ -224,13 +224,13 @@ class SearchBooking(Resource):
 		if not data:
 			return jsonify({"message":"There is no root yet"})
 		books = []
-		if data is not None:
-			price_id = data[0][0]
-			car_number = data[1]
-			from_location = data[2]
-			to_location = data[3]
-			price = data[4]
-			day_time = data[5]
+		for row in data:
+			price_id = row[0]
+			car_number = row[1]
+			from_location = row[2]
+			to_location =row[3]
+			price = row[4]
+			day_time = row[5]
 
 			books.append({"price_id":price_id, "car_number":car_number, "from_location": from_location, "to_location":to_location, "price":price, "day_time":day_time})
 		return jsonify({"data": books})
