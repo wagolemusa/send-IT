@@ -147,7 +147,7 @@ class Booking(Resource):
 		price = data['price']
 		quality = data['quality']
 		dates  = data['dates']
-		# total = int(price * quality)
+		total = data['total']
 		# if car_number.strip() == '' or from_location.strip() == '' or price.strip() == '' or quality.strip() == '' or data.strip() == '':
 			# return{"message": "All Fields Cannot be empty!"}
 
