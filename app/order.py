@@ -138,7 +138,7 @@ class Booking(Resource):
 	@jwt_required
 	def post(self):
 		"""This methods helps a user to book the transport service"""
-		data = request.get_json()
+		data = request.get_json(force=True)
 		bookingref = random.randint(1, 1000)
 		bookingref = str(bookingref)
 		car_number = data['car_number']
