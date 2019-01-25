@@ -282,14 +282,14 @@ class EditPrices(Resource):
 		if current_user != U:
 			return {"message": "Access allowed only to admin"}, 403
 		data = request.get_json(force=True)
-		car_number = data["car_number"]
-		from_location = data["from_location"]
-		to_location = data["to_location"]
-		price = data["price"]
-		day_time = data["day_time"]
+		car_number = data['car_number']
+		from_location = data['from_location']
+		to_location = data['to_location']
+		price = data['price']
+		day_time = data['day_time']
 
 		curr.execute("""UPDATE prices SET car_number =%s, from_location =%s, to_location =%s, price =%s, day_time =%s
-															WHERE price_id =%s """, (car_number, from_location, to_location, price, price_id, day_time))
+															WHERE price_id =%s """, (car_number, from_location, to_location, price, day_time))
 		connection.commit()
 		return {"message": "Successfuly updated"}, 403
 
