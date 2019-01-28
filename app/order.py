@@ -184,13 +184,11 @@ class BookPostpond(Resource):
 	@jwt_required
 	def put(self, book_id):
 
-		if request.method == "PUT":
-			dates = request.get_json()['dates']
-			status = request.get_json()['status']
-		try:
-
-			curr.execute("""UPDATE booking SET dates=%s, status=%s WHERE book_id=%s """,(dates, status,	book_id))
-			connection.commit()
+		data = request.get_json(force=True)
+		dates = data['dates']
+		status = data['status']
+		curr.execute("""UPDATE booking SET dates=%s, status=%s WHERE book_id=%s """,(dates, status,	book_id))
+		connection.commit()
 
 			# curr.execute(" SELECT * FROM booking WHERE book_id =%s", [book_id])
 			# data = curr.fetchall()
