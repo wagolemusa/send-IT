@@ -287,9 +287,8 @@ class EditPrices(Resource):
 		to_location = data['to_location']
 		price = data['price']
 		day_time = data['day_time']
-
 		curr.execute("""UPDATE prices SET car_number =%s, from_location =%s, to_location =%s, price =%s, day_time =%s
-															WHERE price_id =%s """, (car_number, from_location, to_location, price, day_time))
+															WHERE price_id =%s """, (car_number, from_location, to_location, price, day_time, price_id))
 		connection.commit()
 		return {"message": "Successfuly updated"}, 403
 
