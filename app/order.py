@@ -183,26 +183,14 @@ class Booking(Resource):
 class BookPostpond(Resource):
 	@jwt_required
 	def put(self, book_id):
-
 		data = request.get_json(force=True)
 		dates = data['dates']
 		status = data['status']
 		curr.execute("""UPDATE booking SET dates=%s, status=%s WHERE book_id=%s """,(dates, status,	book_id))
 		connection.commit()
-
-			# curr.execute(" SELECT * FROM booking WHERE book_id =%s", [book_id])
-			# data = curr.fetchall()
-			# data_list = []
-			# for row in data:
-			# 	parcel_id = row[0]
-			# 	destination = row[8]
-			# 	data_list.append({"parcel_id":parcel_id, "destination":destination})
-			# 	return jsonify({"data": data_list})	
-
-			return jsonify({"message": "Successfuly Updated"})
-		except TypeError:
-			connection.rollback()
-			return {"message": "already exists"}
+		return jsonify({"message": "Successfuly Updated"})
+		connection.rollback()
+		return {"message": "already exists"}
 
 
 class SearchBooking(Resource):
