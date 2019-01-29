@@ -26,6 +26,7 @@ from app.admin import GetNumbers
 from app.order import Booking
 from app.order import BookPostpond
 from app.order import SearchBooking
+from app.order import Users
 
 def create_app(config_name):
 	app = Flask(__name__, instance_relative_config=True)
@@ -63,6 +64,7 @@ def create_app(config_name):
 	api.add_resource(Booking, '/v2/book')
 	api.add_resource(BookPostpond, '/v2/book/<int:book_id>/postpond')
 	api.add_resource(SearchBooking, '/v2/search')
+	api.add_resource(Users, '/v2/profile')
 
 	# @app.errorhandler(404)
 	# def not_found(error):

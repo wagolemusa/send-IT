@@ -216,3 +216,24 @@ class SearchBooking(Resource):
 			books.append({"price_id":price_id, "car_number":car_number, "from_location": from_location, "to_location":to_location, "price":price, "day_time":day_time})
 		return jsonify({"data": books})
 		return jsonify({"message":"You can book now"})
+
+
+class Users(Resource):
+	""" Get a user account """
+	def get(self):
+				""" Method for get all Parcel Orders """
+		username = get_jwt_identity()
+		curr.execute(" SELECT * FROM users WHERE username =%s", [username])
+		data = curr.fetchall()
+		if not data:
+			return jsonify({"message":"There is no user yet"})
+		user = []
+		for row in data:
+			user_id = row[0]
+			first_name = row[1]
+			last_name = row[2]
+			username = row[3]
+			phone = row[4]
+			email = row[5]
+			user.append({"user_id":user_id, "first_name":first_name, "last_name":last_name, "username":username, "phone":phone, "email":email})
+			return jsonify({"data":user})
