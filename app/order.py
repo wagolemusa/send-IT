@@ -221,7 +221,7 @@ class SearchBooking(Resource):
 class Users(Resource):
 	""" Get a user account """
 	def get(self):
-				""" Method for get all Parcel Orders """
+		""" Method for get all Parcel Orders """
 		username = get_jwt_identity()
 		curr.execute(" SELECT * FROM users WHERE username =%s", [username])
 		data = curr.fetchall()
