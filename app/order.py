@@ -220,10 +220,11 @@ class SearchBooking(Resource):
 
 class Users(Resource):
 	""" Get a user account """
+	@jwt_required
 	def get(self):
 		""" Method for get all Parcel Orders """
 		username = get_jwt_identity()
-		curr.execute(" SELECT * FROM users WHERE username =%s", [username])
+		curr.execute(" SELECT * FROM users WHERE username =%s", [username,])
 		data = curr.fetchall()
 		if not data:
 			return jsonify({"message":"There is no user yet"})
