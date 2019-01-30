@@ -238,3 +238,20 @@ class Users(Resource):
 			email = row[5]
 			user.append({"user_id":user_id, "first_name":first_name, "last_name":last_name, "username":username, "phone":phone, "email":email})
 			return jsonify({"data":user})
+
+
+class UpdateUser(Resource):
+	""" Class updates user """
+	@jwt_required
+	def put(self, user_id):
+		data = request.get_json(force=True)
+		first_name = data['first_name']
+		last_name = data['last_name']
+		username = data['username']
+		phone = data['phone']
+		email = data['email']
+		curr.execute("""UPDATE users SET first_name=%s, last_name=%s, username=%s, phone=%s, email=%s WHERE user_id=%s """,(first_name, last_name, username, phone, email, user_id))
+		connection.commit()
+		return jsonify({"message": "Successfuly Updated"})
+		connection.rollback()
+		return {"message": "already exists"}
