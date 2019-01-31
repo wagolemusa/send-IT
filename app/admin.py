@@ -292,9 +292,81 @@ class EditPrices(Resource):
 		connection.commit()
 		return {"message": "Successfuly updated"}, 403
 
+class SearchSerial(Resource):
+	""" Methods for searching serial number """
+	@jwt_required
+	def post(self):
+		current_user = get_jwt_identity()
+		U = Users().get_user_role()
+		if current_user != U:
+			return {"message": "Access allowed only to admin"}, 403
+
+		bookingref = request.json['bookingref']
+		curr.execute("SELECT * FROM booking WHERE bookingref = %s",[bookingref])
+		data = curr.fetchall()
+		if not data:
+			return jsonify({"message":"There is no root yet"})
+		books = []
+		for row in data:
+			book_id = row[0]
+			bookingref = row[2]
+			car_number = row[4]
+			from_location = row[5]
+			to_location = row[6]
+			price = row[7]
+			quality = row[8]
+			dates = row[9]
+			total = row[10]
+			status = row[11]
+			created_on = row[12]
+			book_list.append({"book_id":book_id, "bookingref":bookingref, "car_number":car_number, "from_location":from_location, "to_location":to_location, "price":price, "quality":quality, "dates":dates, "total":total, "status":status, "created_on":created_on})
+		return jsonify({"data": book})	
+
+class SearchDates(Resource):
+	""" Methods for searching dates """
+	@jwt_required
+	def post(self):
+		current_user = get_jwt_identity()
+		U = Users().get_user_role()
+		if current_user != U:
+			return {"message": "Access allowed only to admin"}, 403
+		dates = request.json['dates']
+		curr.execute("SELECT * FROM booking WHERE dates = %s",[dates])
+		data = curr.fetchall()
+		if not data:
+			return jsonify({"message":"There is no root yet"})
+		books = []
+		for row in data:
+			book_id = row[0]
+			bookingref = row[2]
+			car_number = row[4]
+			from_location = row[5]
+			to_location = row[6]
+			price = row[7]
+			quality = row[8]
+			dates = row[9]
+			total = row[10]
+			status = row[11]
+			created_on = row[12]
+			book_list.append({"book_id":book_id, "bookingref":bookingref, "car_number":car_number, "from_location":from_location, "to_location":to_location, "price":price, "quality":quality, "dates":dates, "total":total, "status":status, "created_on":created_on})
+		return jsonify({"data": book})	
+
+
 class GetNumbers(Resource):
 	def get(self):
 		curr.execute("SELECT COUNT(*) FROM users")
 		data = curr.fetchall()
 		return {"number": data}
 
+class BookingNumber(Resource):
+	def get(self):
+		curr.execute("SELECT COUNT(*) FROM booking")
+		data = curr.fetchall()
+		return {"number": data}
+
+
+class ParcelNumber(Resource):
+	def get(self):
+		curr.execute("SELECT COUNT(*) FROM orders")
+		data = curr.fetchall()
+		return {"number": data}

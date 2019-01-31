@@ -23,6 +23,8 @@ from app.admin import DeleteParcels
 from app.admin import PostPrice
 from app.admin import EditPrices
 from app.admin import GetNumbers
+from app.admin import SearchSerial
+from app.admin import SearchDates
 from app.order import Booking
 from app.order import BookPostpond
 from app.order import SearchBooking
@@ -67,6 +69,8 @@ def create_app(config_name):
 	api.add_resource(SearchBooking, '/v2/search')
 	api.add_resource(Users, '/v2/profile')
 	api.add_resource(UpdateUser, '/v2/profile/<int:user_id>')
+	api.add_resource(SearchSerial, '/v2/search/bookers')
+	api.add_resource(SearchDates, '/v2/search/date')
 
 	# @app.errorhandler(404)
 	# def not_found(error):

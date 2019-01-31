@@ -181,6 +181,7 @@ class Booking(Resource):
 
 
 class BookPostpond(Resource):
+	""" Class for postpond bookings """
 	@jwt_required
 	def put(self, book_id):
 		data = request.get_json(force=True)
