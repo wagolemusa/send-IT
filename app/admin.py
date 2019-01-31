@@ -310,6 +310,7 @@ class SearchSerial(Resource):
 		for row in data:
 			book_id = row[0]
 			bookingref = row[2]
+			username = row[3]
 			car_number = row[4]
 			from_location = row[5]
 			to_location = row[6]
@@ -319,7 +320,7 @@ class SearchSerial(Resource):
 			total = row[10]
 			status = row[11]
 			created_on = row[12]
-			books.append({"book_id":book_id, "bookingref":bookingref, "car_number":car_number, "from_location":from_location, "to_location":to_location, "price":price, "quality":quality, "dates":dates, "total":total, "status":status, "created_on":created_on})
+			books.append({"book_id":book_id, "bookingref":bookingref, "username":username, "car_number":car_number, "from_location":from_location, "to_location":to_location, "price":price, "quality":quality, "dates":dates, "total":total, "status":status, "created_on":created_on})
 		return jsonify({"data": books})	
 
 class SearchDates(Resource):
