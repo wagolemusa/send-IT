@@ -30,6 +30,9 @@ from app.order import BookPostpond
 from app.order import SearchBooking
 from app.order import Users
 from app.order import UpdateUser
+from app.admin import BookingNumber
+from app.admin import ParcelNumber
+
 
 def create_app(config_name):
 	app = Flask(__name__, instance_relative_config=True)
@@ -71,6 +74,8 @@ def create_app(config_name):
 	api.add_resource(UpdateUser, '/v2/profile/<int:user_id>')
 	api.add_resource(SearchSerial, '/v2/search/bookers')
 	api.add_resource(SearchDates, '/v2/search/date')
+	api.add_resource(BookingNumber, '/v2/booking/numbers')
+	api.add_resource(ParcelNumber, '/v2/parcel/numbers')
 
 	# @app.errorhandler(404)
 	# def not_found(error):

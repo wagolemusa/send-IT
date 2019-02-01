@@ -362,12 +362,12 @@ class GetNumbers(Resource):
 class BookingNumber(Resource):
 	def get(self):
 		curr.execute("SELECT COUNT(*) FROM booking")
-		data = curr.fetchall()
-		return {"number": data}
+		y = curr.fetchall()
+		return {"nums": y}
 
 
 class ParcelNumber(Resource):
 	def get(self):
 		curr.execute("SELECT COUNT(*) FROM orders")
-		data = curr.fetchall()
-		return {"number": data}
+		x = curr.fetchall()
+		return {"num": x}
