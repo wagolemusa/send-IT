@@ -32,6 +32,7 @@ from app.order import Users
 from app.order import UpdateUser
 from app.admin import BookingNumber
 from app.admin import ParcelNumber
+from app.admin import Booking_By_Id
 
 
 def create_app(config_name):
@@ -76,6 +77,7 @@ def create_app(config_name):
 	api.add_resource(SearchDates, '/v2/search/date')
 	api.add_resource(BookingNumber, '/v2/booking/numbers')
 	api.add_resource(ParcelNumber, '/v2/parcel/numbers')
+	api.add_resource(Booking_By_Id, '/v2/booking/<int:book_id>')
 
 	# @app.errorhandler(404)
 	# def not_found(error):

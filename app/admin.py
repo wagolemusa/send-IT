@@ -323,6 +323,40 @@ class SearchSerial(Resource):
 			books.append({"book_id":book_id, "bookingref":bookingref, "username":username, "car_number":car_number, "from_location":from_location, "to_location":to_location, "price":price, "quality":quality, "dates":dates, "total":total, "status":status, "created_on":created_on})
 		return jsonify({"data": books})	
 
+
+class Booking_By_Id(Resource):
+	""" 
+	Class Method get a specific book by ID 
+	"""
+	@jwt_required
+	def get(self, book_id):
+		current_user = get_jwt_identity()
+		U = Users().get_user_role()
+		if current_user != U:
+			return {"message": "Access allowed only to admin"}, 403
+			
+		curr.execute("SELECT * FROM booking WHERE book_id = %s",[book_id])
+		data = curr.fetchall()
+		if not data:
+			return jsonify({"message":"There is no root yet"})
+		booker = []
+		for row in data:
+			book_id = row[0]
+			bookingref = row[2]
+			username = row[3]
+			car_number = row[4]
+			from_location = row[5]
+			to_location = row[6]
+			price = row[7]
+			quality = row[8]
+			dates = row[9]
+			total = row[10]
+			status = row[11]
+			created_on = row[12]
+			booker.append({"book_id":book_id, "bookingref":bookingref, "username":username, "car_number":car_number, "from_location":from_location, "to_location":to_location, "price":price, "quality":quality, "dates":dates, "total":total, "status":status, "created_on":created_on})
+		return jsonify({"data": booker})	
+
+
 class SearchDates(Resource):
 	""" Methods for searching dates """
 	@jwt_required
