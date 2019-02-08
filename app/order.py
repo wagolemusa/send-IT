@@ -10,6 +10,8 @@ from flask_jwt_extended import (
 )
 from models.user_model import Usermodel
 
+post_pond = ["postpond"]
+
 connection = psycopg2.connect(dbname='d92a0rb0j8rphh', user='gaijmyignhvtkw', password='7e0acadc7013645d81437d922b7030782cdee4006cadf7f54501aa291b29d3e6', host='ec2-23-21-65-173.compute-1.amazonaws.com')
 curr = connection.cursor()
 
@@ -187,6 +189,16 @@ class BookPostpond(Resource):
 		data = request.get_json(force=True)
 		dates = data['dates']
 		status = data['status']
+
+		curr.execute("""SELECT * FROM booking WHERE book_id=%s """,(book_id,))
+		booker = curr.fetchone()
+		# parcel_id = state[0]
+		record = booker[11]
+
+		if record in post_pond:
+			return {"message":"You can not change this status is already in " + record}, 403
+
+
 		curr.execute("""UPDATE booking SET dates=%s, status=%s WHERE book_id=%s """,(dates, status,	book_id))
 		connection.commit()
 		return jsonify({"message": "Successfuly Updated"})

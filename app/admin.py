@@ -9,6 +9,8 @@ from flask_jwt_extended import (
 )
 from models.user_model import Usermodel, Users
 
+types_status = ["delivered", "cancled"]
+
 connection = psycopg2.connect(dbname='d92a0rb0j8rphh', user='gaijmyignhvtkw', password='7e0acadc7013645d81437d922b7030782cdee4006cadf7f54501aa291b29d3e6', host='ec2-23-21-65-173.compute-1.amazonaws.com')
 curr = connection.cursor()
 
@@ -98,12 +100,21 @@ class Status(Resource):
 		U = Users().get_user_role()
 		if current_user != U:
 			return {"message": "Access allowed only to admin"}, 403
+
 		data = request.get_json(force=True)
 		status = data['status']
 
 		if status.strip() == '':
 			return {"message": "Status cannot be empty"}, 403
  
+		curr.execute("""SELECT * FROM orders WHERE parcel_id=%s """,(parcel_id,))
+		state = curr.fetchone()
+		# parcel_id = state[0]
+		record = state[10]
+
+		if record in types_status:
+			return {"message":"You can not change this status is already in " + record}, 403
+
 		curr.execute("""UPDATE orders SET status=%s WHERE parcel_id=%s """,(status, parcel_id))
 		connection.commit()
 		return jsonify({"message": "Successfuly Status Changed"})		
