@@ -1,5 +1,7 @@
 import datetime
 import psycopg2
+import smtplib
+
 from flask import Flask,jsonify,request, make_response
 from flask_restful import Resource
 from functools import wraps
@@ -13,6 +15,8 @@ types_status = ["delivered", "cancled"]
 
 connection = psycopg2.connect(dbname='d92a0rb0j8rphh', user='gaijmyignhvtkw', password='7e0acadc7013645d81437d922b7030782cdee4006cadf7f54501aa291b29d3e6', host='ec2-23-21-65-173.compute-1.amazonaws.com')
 curr = connection.cursor()
+
+
 
 
 class Admin(Resource):
@@ -91,6 +95,15 @@ class GetAllUser(Resource):
 
 
 class Status(Resource):
+
+	def odrer_fetch(self):
+		sql = "SELECT * FROM orders WHERE parcel_id=%s;"
+		return sql
+
+	def check_user(self, username):
+		curr.execute("""SELECT * FROM users WHERE username=%s """,(username,))
+		user = curr.fetchone()
+		return user
 	""" Class and Method endpoint it puts the status for a specific parcels """
 	@jwt_required
 	def put(self, parcel_id):
@@ -115,9 +128,34 @@ class Status(Resource):
 		if record in types_status:
 			return {"message":"You can not change this status is already in " + record}, 403
 
+		sql = self.odrer_fetch()
+		curr.execute(sql,(parcel_id,))
+		parcel_data = curr.fetchone()
+		creator = parcel_data[3]
+
+		owner_data = self.check_user(creator)
+		email_owner = owner_data[5]
+		print (email_owner)
+
 		curr.execute("""UPDATE orders SET status=%s WHERE parcel_id=%s """,(status, parcel_id))
 		connection.commit()
-		return jsonify({"message": "Successfuly Status Changed"})		
+		FROM = "homiemusa@gmail.com"
+		TO = email_owner
+		SUBJECT = "Parcel Status Changed"
+		MESSAGE = "You Parcel is now {}".format(status)
+		
+		mail = smtplib.SMTP('smtp.gmail.com', 587)
+		mail.starttls()
+		mail.login("homiemusa@gmail.com", "djrefuge@12")
+		msg = """From: %s\nTo: %s\nSubject: %s\n\n%s
+		""" % (FROM, ", ".join(TO), SUBJECT, MESSAGE)
+		mail.sendmail(FROM, TO, msg)
+		mail.quit()
+		return {"message":"status set to {} could not send email".format(status)}
+		# return jsonify({"message": "Successfuly Status Changed"})	
+
+
+	
 
 class Canceled(Resource):
 	""" Class and Method endpoint it queries parcels in Canceled """
@@ -416,3 +454,8 @@ class ParcelNumber(Resource):
 		curr.execute("SELECT COUNT(*) FROM orders")
 		x = curr.fetchall()
 		return {"num": x}
+
+
+
+
+	
