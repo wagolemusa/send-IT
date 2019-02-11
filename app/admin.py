@@ -347,6 +347,8 @@ class SearchSerial(Resource):
 			return {"message": "Access allowed only to admin"}, 403
 
 		bookingref = request.json['bookingref']
+		if type(bookingref) != int:
+			return {"message": "Search Number must be only integer"}, 403
 		curr.execute("SELECT * FROM booking WHERE bookingref = %s",[bookingref])
 		data = curr.fetchall()
 		if not data:
