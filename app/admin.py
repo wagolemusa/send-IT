@@ -16,9 +16,6 @@ types_status = ["delivered", "cancled"]
 connection = psycopg2.connect(dbname='d92a0rb0j8rphh', user='gaijmyignhvtkw', password='7e0acadc7013645d81437d922b7030782cdee4006cadf7f54501aa291b29d3e6', host='ec2-23-21-65-173.compute-1.amazonaws.com')
 curr = connection.cursor()
 
-
-
-
 class Admin(Resource):
 	""" Class and Method endpoint it queries all parcels """
 	@jwt_required
@@ -132,11 +129,9 @@ class Status(Resource):
 		curr.execute(sql,(parcel_id,))
 		parcel_data = curr.fetchone()
 		creator = parcel_data[3]
-
 		owner_data = self.check_user(creator)
 		email_owner = owner_data[5]
 		print (email_owner)
-
 		curr.execute("""UPDATE orders SET status=%s WHERE parcel_id=%s """,(status, parcel_id))
 		connection.commit()
 		FROM = "homiemusa@gmail.com"
@@ -352,6 +347,7 @@ class SearchSerial(Resource):
 
 		bookingref = request.json['bookingref']
 		curr.execute("SELECT * FROM booking WHERE bookingref = %s",[bookingref])
+		connection.commit()
 		data = curr.fetchall()
 		if not data:
 			return jsonify({"message":"There is no root yet"})

@@ -82,6 +82,6 @@ class Login(Resource):
 			access_token = create_access_token(identity=username, expires_delta=expire_time)
 			return jsonify({"message":"Login in sucessful  as {}".format(username),
 											'access_token':access_token})
-		return {"message":"Invalid password"}, 400
+		return {"message":"Invalid password"}, 401
 
 
