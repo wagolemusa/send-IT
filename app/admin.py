@@ -26,6 +26,8 @@ class Admin(Resource):
 			return {"message": "Access allowed only to admin"}, 403
 		
 		curr.execute(" SELECT * FROM orders")
+		connection.commit()
+
 		data = curr.fetchall()
 		if not data:
 			return {"message": "No parcel orders found"}, 401
@@ -100,6 +102,7 @@ class Status(Resource):
 
 	def check_user(self, username):
 		curr.execute("""SELECT * FROM users WHERE username=%s """,(username,))
+		connection.commit()
 		user = curr.fetchone()
 		return user
 	""" Class and Method endpoint it puts the status for a specific parcels """
@@ -165,6 +168,8 @@ class Canceled(Resource):
 			return {"message": "Access allowed only to admin"}, 403
 
 		curr.execute("SELECT * FROM orders WHERE status = 'cancled'")
+		connection.commit()
+
 		data = curr.fetchall()
 		if not data:
 			return jsonify({"message":"No Cancled Order"})
@@ -198,6 +203,8 @@ class Delivered(Resource):
 
 		curr.execute("SELECT * FROM orders WHERE status = 'delivered'")
 		data = curr.fetchall()
+		connection.commit()
+
 		if not data:
 			return jsonify({"message":"No Deliverd Order"})
 		par = []
@@ -228,6 +235,8 @@ class InTransit(Resource):
 			return {"message": "Access allowed only to admin"}, 403
 
 		curr.execute("SELECT * FROM orders WHERE status = 'In Transit'")
+		connection.commit()
+
 		data = curr.fetchall()
 		if not data:
 			return jsonify({"message":"No In Transit Order"})		
@@ -299,6 +308,8 @@ class PostPrice(Resource):
 			return {"message": "Access allowed only to admin"}, 403
 
 		curr.execute("SELECT * FROM prices")
+		connection.commit()
+
 		data = curr.fetchall()
 
 		if not data:
@@ -354,6 +365,8 @@ class SearchSerial(Resource):
 
 		curr.execute("SELECT * FROM booking WHERE bookingref = %s",[bookingref])
 		data = curr.fetchall()
+		connection.commit()
+
 		if not data:
 			return jsonify({"message":"There is no root yet"})
 		books = []
@@ -386,6 +399,8 @@ class Booking_By_Id(Resource):
 			return {"message": "Access allowed only to admin"}, 403
 			
 		curr.execute("SELECT * FROM booking WHERE book_id = %s",[book_id])
+		connection.commit()
+
 		data = curr.fetchall()
 		if not data:
 			return jsonify({"message":"There is no root yet"})
@@ -416,6 +431,7 @@ class SearchDates(Resource):
 		if current_user != U:
 			return {"message": "Access allowed only to admin"}, 403
 		dates = request.json['dates']
+		connection.commit()
 		curr.execute("SELECT * FROM booking WHERE dates = %s",[dates])
 		data = curr.fetchall()
 		if not data:
@@ -440,12 +456,15 @@ class SearchDates(Resource):
 class GetNumbers(Resource):
 	def get(self):
 		curr.execute("SELECT COUNT(*) FROM users")
+		connection.commit()
+
 		data = curr.fetchall()
 		return {"number": data}
 
 class BookingNumber(Resource):
 	def get(self):
 		curr.execute("SELECT COUNT(*) FROM booking")
+		connection.commit()
 		y = curr.fetchall()
 		return {"nums": y}
 
@@ -453,6 +472,8 @@ class BookingNumber(Resource):
 class ParcelNumber(Resource):
 	def get(self):
 		curr.execute("SELECT COUNT(*) FROM orders")
+		connection.commit()
+
 		x = curr.fetchall()
 		return {"num": x}
 
