@@ -75,6 +75,7 @@ class GetAllUser(Resource):
 		user = Usermodel()
 		U = user.all_users()
 		curr.execute(U,)
+		connection.commit()
 		x = curr.fetchall()
 		if not x:
 			return {"message": "No users Yet"}, 401
@@ -347,7 +348,7 @@ class SearchSerial(Resource):
 			return {"message": "Access allowed only to admin"}, 403
 
 		bookingref = request.json['bookingref']
-		
+
 		# if type(bookingref) != int:
 			# return jsonify({"message": "Search Number must be only integer"})
 
