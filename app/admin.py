@@ -340,6 +340,7 @@ class SearchSerial(Resource):
 	""" Methods for searching serial number """
 	@jwt_required
 	def post(self):
+		connection.commit()
 		current_user = get_jwt_identity()
 		U = Users().get_user_role()
 		if current_user != U:
@@ -347,7 +348,6 @@ class SearchSerial(Resource):
 
 		bookingref = request.json['bookingref']
 		curr.execute("SELECT * FROM booking WHERE bookingref = %s",[bookingref])
-		connection.commit()
 		data = curr.fetchall()
 		if not data:
 			return jsonify({"message":"There is no root yet"})
