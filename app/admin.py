@@ -96,6 +96,7 @@ class GetAllUser(Resource):
 
 class Status(Resource):
 
+
 	def odrer_fetch(self):
 		sql = "SELECT * FROM orders WHERE parcel_id=%s;"
 		return sql
@@ -131,11 +132,14 @@ class Status(Resource):
 
 		sql = self.odrer_fetch()
 		curr.execute(sql,(parcel_id,))
+
 		parcel_data = curr.fetchone()
 		creator = parcel_data[3]
+
 		owner_data = self.check_user(creator)
 		email_owner = owner_data[5]
 		print (email_owner)
+
 		curr.execute("""UPDATE orders SET status=%s WHERE parcel_id=%s """,(status, parcel_id))
 		connection.commit()
 		FROM = "homiemusa@gmail.com"
@@ -154,7 +158,6 @@ class Status(Resource):
 		# return jsonify({"message": "Successfuly Status Changed"})	
 
 
-	
 
 class Canceled(Resource):
 	""" Class and Method endpoint it queries parcels in Canceled """

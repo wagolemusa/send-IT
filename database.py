@@ -14,7 +14,7 @@ def create_table():
 			last_name VARCHAR(50) NOT NULL,
 			username VARCHAR(50) NOT NULL,
 			phone INT,
-			email VARCHAR(150) NOT NULL,
+			email VARCHAR(150) NOT NULL, DEFAULT False,
 			password VARCHAR(250) NOT NULL,
 			is_admin BOOLEAN DEFAULT False);""",
 
