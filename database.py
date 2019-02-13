@@ -102,7 +102,7 @@ def admin():
 
 	if not data:
 		sql = """INSERT INTO users(first_name, last_name, username, phone, email, password, confirmed, is_admin)\
-					VALUES(%s, %s, %s, %s, %s, %s, %s)"""
+					VALUES(%s, %s, %s, %s, %s, %s, %s, %s)"""
 		curr.execute(sql, (first_name, last_name, username, phone, email, password, confirmed, is_admin))
 		connection.commit()
 
