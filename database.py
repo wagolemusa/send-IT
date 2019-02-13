@@ -93,6 +93,7 @@ def admin():
 	phone = '0725696042'
 	email = 'admin@admin.com'
 	password = 'admin@wise'
+	confirmed=True
 	is_admin=True
 
 	sql = "SELECT * FROM users WHERE username = %s"
