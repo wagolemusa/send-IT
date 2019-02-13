@@ -101,9 +101,9 @@ def admin():
 	data = curr.fetchone()
 
 	if not data:
-		sql = """INSERT INTO users(first_name, last_name, username, phone, email, password, is_admin)\
+		sql = """INSERT INTO users(first_name, last_name, username, phone, email, password, confirmed, is_admin)\
 					VALUES(%s, %s, %s, %s, %s, %s, %s)"""
-		curr.execute(sql, (first_name, last_name, username, phone, email, password, is_admin))
+		curr.execute(sql, (first_name, last_name, username, phone, email, password, confirmed, is_admin))
 		connection.commit()
 
 
