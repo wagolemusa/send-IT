@@ -46,8 +46,8 @@ def create_app(config_name):
 	app.register_blueprint(v2, url_prefix='/api')
 
 	app.config['JWT_SECRET_KEY'] = 'refuge'
-	# create_table()
-	# admin()
+	create_table()
+	admin()
 	drop_table()
 	jwt=JWTManager(app)
 	
