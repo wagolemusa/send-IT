@@ -14,8 +14,9 @@ def create_table():
 			last_name VARCHAR(50) NOT NULL,
 			username VARCHAR(50) NOT NULL,
 			phone INT,
-			email BOOLEAN DEFAULT False,
+			email VARCHAR(250) NOT NULL,
 			password VARCHAR(250) NOT NULL,
+			confirmed BOOLEAN DEFAULT False,
 			is_admin BOOLEAN DEFAULT False);""",
 
 				"""CREATE TABLE IF NOT EXISTS prices(
