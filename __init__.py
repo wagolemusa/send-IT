@@ -33,6 +33,7 @@ from app.order import UpdateUser
 from app.admin import BookingNumber
 from app.admin import ParcelNumber
 from app.admin import Booking_By_Id
+from app.admin import Get_All_Bookings
 
 
 def create_app(config_name):
@@ -78,6 +79,7 @@ def create_app(config_name):
 	api.add_resource(BookingNumber, '/v2/booking/numbers')
 	api.add_resource(ParcelNumber, '/v2/parcel/numbers')
 	api.add_resource(Booking_By_Id, '/admin/v2/booking/<int:book_id>')
+	api.add_resource(Get_All_Bookings, '/admin/v2/bookings')
 
 	# @app.errorhandler(404)
 	# def not_found(error):
