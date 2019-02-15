@@ -493,6 +493,7 @@ class Get_All_Bookings(Resource):
 		for row in book:
 			book_id = row[0]
 			bookingref = row[2]
+			username = row[3]
 			car_number = row[4]
 			from_location = row[5]
 			to_location = row[6]
@@ -502,7 +503,7 @@ class Get_All_Bookings(Resource):
 			total = row[10]
 			status = row[11]
 			created_on = row[12]
-			book_list.append({"book_id":book_id, "bookingref":bookingref, "car_number":car_number, "from_location":from_location, "to_location":to_location, "price":price, "quality":quality, "dates":dates, "total":total, "status":status, "created_on":created_on})
+			book_list.append({"book_id":book_id, "bookingref":bookingref, "car_number":car_number, "username":username, "from_location":from_location, "to_location":to_location, "price":price, "quality":quality, "dates":dates, "total":total, "status":status, "created_on":created_on})
 		return jsonify({"book": book_list})	
 
 
