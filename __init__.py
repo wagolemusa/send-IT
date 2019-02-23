@@ -34,6 +34,8 @@ from app.admin import BookingNumber
 from app.admin import ParcelNumber
 from app.admin import Booking_By_Id
 from app.admin import Get_All_Bookings
+from app.order import Mpesa
+from app.order import Callback
 
 
 def create_app(config_name):
@@ -80,6 +82,8 @@ def create_app(config_name):
 	api.add_resource(ParcelNumber, '/v2/parcel/numbers')
 	api.add_resource(Booking_By_Id, '/admin/v2/booking/<int:book_id>')
 	api.add_resource(Get_All_Bookings, '/admin/v2/bookings')
+	api.add_resource(Mpesa, '/v2/lipa')
+	api.add_resource(Callback, '/v2/callback')
 
 	# @app.errorhandler(404)
 	# def not_found(error):
