@@ -1,6 +1,9 @@
 import datetime
 import psycopg2
 import random 
+import base64
+import requests
+from requests.auth import HTTPBasicAuth
 from flask import Flask,jsonify,request, make_response
 from flask_restful import Resource
 from functools import wraps
@@ -268,3 +271,64 @@ class UpdateUser(Resource):
 		return jsonify({"message": "Successfuly Updated"})
 		connection.rollback()
 		return {"message": "already exists"}
+
+
+class Mpesa(Resource):
+	def post(self):
+
+		data = request.get_json(force=True)
+		amount = data['amount']
+		phone  = data['phone']
+
+		consumer_key = "TDWYCw9ChsdHr7QdfcXUS1ddp8gchOC6"
+		consumer_secret = "BdYN5qcwGQvJnMGF"
+
+		api_URL = "https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials" #AUTH URL
+
+		r = requests.get(api_URL, auth=HTTPBasicAuth(consumer_key, consumer_secret))
+
+		data = r.json()
+		access_token = "Bearer" + ' ' + data['access_token']
+
+		#GETTING THE PASSWORD
+		timestamp = datetime.datetime.today().strftime('%Y%m%d%H%M%S')
+		passkey = 'bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919'
+		business_short_code = "174379"
+		data = business_short_code + passkey + timestamp
+		encoded = base64.b64encode(data.encode())
+		password = encoded.decode('utf-8')
+
+
+		# BODY OR PAYLOAD
+		payload = {
+		    "BusinessShortCode": business_short_code,
+		    "Password": password,
+		    "Timestamp": timestamp,
+		    "TransactionType": "CustomerPayBillOnline",
+		    "Amount": amount,
+		    "PartyA": phone,
+		    "PartyB": business_short_code,
+		    "PhoneNumber": phone,
+		    "CallBackURL": "https://senditparcel.herokuapp.com/api/v2/callback",
+		    "AccountReference": "account",
+		    "TransactionDesc": "account"
+		}
+
+		#POPULAING THE HTTP HEADER
+		headers = {
+		    "Authorization": access_token,
+		    "Content-Type": "application/json"
+		}
+
+		url = "https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest" #C2B URL
+
+		response = requests.post(url, json=payload, headers=headers)
+
+		print (response.text)
+
+
+class Callback(Resource):
+	def post(self):
+		results = request.get_json()
+		print (results)
+
