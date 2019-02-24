@@ -285,15 +285,15 @@ class Mpesa(Resource):
 		price = data['price']
 		quality = data['quality']
 		dates  = data['dates']
-		total = data['total']
+		# total = data['total']
 		amount = data['amount']
 		phone  = data['phone']
 
 		current_user = get_jwt_identity()
 		username = current_user
-		curr.execute(""" INSERT INTO payments(bookingref, username, car_number,from_location, to_location, price, quality, dates, total, amount, phone)
-																				VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",\
-																				(bookingref, username, car_number, from_location, to_location,price, quality, dates, total, amount, phone))
+		curr.execute(""" INSERT INTO payments(bookingref, username, car_number,from_location, to_location, price, quality, dates,  amount, phone)
+																				VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",\
+																				(bookingref, username, car_number, from_location, to_location,price, quality, dates,  amount, phone))
 		connection.commit()
 		
 
