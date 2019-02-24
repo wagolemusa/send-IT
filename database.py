@@ -57,6 +57,23 @@ def create_table():
 			status VARCHAR DEFAULT 'True',
 			created_on TIMESTAMP DEFAULT NOW(),
 			FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
+			);"""
+					"""CREATE TABLE IF NOT EXISTS payments(
+			payment_id SERIAL PRIMARY KEY UNIQUE NOT NULL,
+			user_id INT,
+			bookingref INT,
+			username VARCHAR(50) NOT NULL,
+			car_number INT,
+			from_location VARCHAR(50) NOT NULL,
+			to_location VARCHAR(50) NOT NULL,
+			price INT,
+			quality INT,
+			dates VARCHAR(50) NOT NULL,
+			amount INT,
+			phone  INT,
+			status VARCHAR(10),
+			created_on TIMESTAMP DEFAULT NOW(),
+			FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
 			);""")
 	connection = init_db()
 	curr = connection.cursor()
@@ -72,7 +89,8 @@ def drop_table():
 
 	queries = (
 		"""DROP TABLE IF EXISTS orders CASCADE;""", """DROP TABLE IF EXISTS users CASCADE;""",\
-		"""DROP TABLE IF EXISTS prices CASCADE;""", """DROP TABLE IF EXISTS booking CASCADE;""")
+		"""DROP TABLE IF EXISTS prices CASCADE;""", """DROP TABLE IF EXISTS booking CASCADE;""",\
+		"""DROP TABLE IF EXISTS payments CASCADE;""")
 	for query in queries:
 		curr.execute(query)
 		connection.commit()

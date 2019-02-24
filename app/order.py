@@ -274,11 +274,28 @@ class UpdateUser(Resource):
 
 
 class Mpesa(Resource):
+	@jwt_required
 	def post(self):
 
 		data = request.get_json(force=True)
+		bookingref = data['bookingref']
+		car_number = data['car_number']
+		from_location = data['from_location']
+		to_location = data['to_location']
+		price = data['price']
+		quality = data['quality']
+		dates  = data['dates']
+		total = data['total']
 		amount = data['amount']
 		phone  = data['phone']
+
+		current_user = get_jwt_identity()
+		username = current_user
+		curr.execute(""" INSERT INTO payments(bookingref, username, car_number,from_location, to_location, price, quality, dates, total, amount, phone)
+																				VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",\
+																				(bookingref, username, car_number, from_location, to_location,price, quality, dates, total, amount, phone))
+		connection.commit()
+		
 
 		consumer_key = "TDWYCw9ChsdHr7QdfcXUS1ddp8gchOC6"
 		consumer_secret = "BdYN5qcwGQvJnMGF"
@@ -325,6 +342,7 @@ class Mpesa(Resource):
 		response = requests.post(url, json=payload, headers=headers)
 
 		print (response.text)
+		return jsonify({"message": 'Thanks for paying'})
 
 
 class Callback(Resource):
