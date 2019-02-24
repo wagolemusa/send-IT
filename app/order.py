@@ -276,6 +276,8 @@ class UpdateUser(Resource):
 class Mpesa(Resource):
 	@jwt_required
 	def post(self):
+		connection.commit()
+
 
 		data = request.get_json(force=True)
 		bookingref = data['bookingref']

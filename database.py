@@ -70,7 +70,7 @@ def create_table():
 			quality INT,
 			dates VARCHAR(50) NOT NULL,
 			amount INT,
-			phone  INT,
+			phone  VARCHAR(50) NOT NULL,
 			status VARCHAR(10),
 			created_on TIMESTAMP DEFAULT NOW(),
 			FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
