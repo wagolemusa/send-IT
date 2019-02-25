@@ -276,9 +276,6 @@ class UpdateUser(Resource):
 class Mpesa(Resource):
 	@jwt_required
 	def post(self):
-		connection.commit()
-
-
 		data = request.get_json(force=True)
 		bookingref = data['bookingref']
 		car_number = data['car_number']
@@ -350,5 +347,21 @@ class Mpesa(Resource):
 class Callback(Resource):
 	def post(self):
 		results = request.get_json()
-		print (results)
+		data = json.loads(results)
+		json_da = data['Body']
+		resultcode = json_da['stkCallback']['ResultCode']
 
+		def pay():
+			if resultcode == 0:
+				return "paid"
+			elif resultcode == 1:
+				return "faild"
+			else:
+				return "badrequest"
+
+		status = pay()
+		print(status)
+		curr.execute(""" INSERT INTO payments(status,)
+																				VALUES(%s)""",\
+																				(status))
+		connection.commit()
