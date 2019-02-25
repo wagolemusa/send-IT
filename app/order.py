@@ -350,7 +350,7 @@ class Callback(Resource):
 		results = request.get_json()
 		print (requests)
 
-		data = json.jumps(results)
+		data = json.dumps(results)
 		print(data)
 
 		json_da = data['Body']
