@@ -348,9 +348,13 @@ class Mpesa(Resource):
 class Callback(Resource):
 	def post(self):
 		results = request.get_json()
-		me  = 'requests'
-		data = json.loads(me)
+		print (requests)
+
+		data = json.jumps(results)
+		print(data)
+
 		json_da = data['Body']
+
 		resultcode = json_da['stkCallback']['ResultCode']
 
 		def pay():
