@@ -509,6 +509,7 @@ class Get_All_Bookings(Resource):
 
 class PaymentAdmin(Resource):
 	""" Method Query all payments """
+	@jwt_required
 	def get(self):
 		""" Method for query all payments"""
 		current_user = get_jwt_identity()
