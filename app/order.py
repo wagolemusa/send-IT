@@ -345,6 +345,32 @@ class Mpesa(Resource):
 		return jsonify({"message": 'Thanks for paying'})
 
 
+	@jwt_required
+	def get(self):
+		""" Method for query all payments"""
+		username = get_jwt_identity()
+		curr.execute(" SELECT * FROM payments WHERE username =%s", [username])
+		book = curr.fetchall()
+		if not book:
+			return jsonify({"message":"There is no Payments yet"})
+		book_list = []
+		for row in book:
+			payment_id = row[0]
+			bookingref = row[2]
+			car_number = row[4]
+			from_location = row[5]
+			to_location = row[6]
+			price = row[7]
+			quality = row[8]
+			dates = row[9]
+			amount = row[10]
+			phone = row[12]
+			status = row[12]
+			created_on = row[13]
+			book_list.append({"payment_id":payment_id, "bookingref":bookingref, "car_number":car_number, "from_location":from_location, "to_location":to_location, "price":price, "quality":quality, "dates":dates, "amount":amount, "phone":phone, "status":status, "created_on":created_on})
+		return jsonify({"book": book_list})	
+
+
 class Callback(Resource):
 	def post(self):
 		requests = request.get_json()
@@ -371,27 +397,3 @@ class Callback(Resource):
 		connection.commit()
 
 
-	@jwt_required
-	def get(self):
-		""" Method for query all payments"""
-		username = get_jwt_identity()
-		curr.execute(" SELECT * FROM payments WHERE username =%s", [username])
-		book = curr.fetchall()
-		if not book:
-			return jsonify({"message":"There is no Payments yet"})
-		book_list = []
-		for row in book:
-			payment_id = row[0]
-			bookingref = row[2]
-			car_number = row[4]
-			from_location = row[5]
-			to_location = row[6]
-			price = row[7]
-			quality = row[8]
-			dates = row[9]
-			amount = row[10]
-			phone = row[12]
-			status = row[12]
-			created_on = row[13]
-			book_list.append({"payment_id":payment_id, "bookingref":bookingref, "car_number":car_number, "from_location":from_location, "to_location":to_location, "price":price, "quality":quality, "dates":dates, "amount":amount, "phone":phone, "status":status, "created_on":created_on})
-		return jsonify({"book": book_list})	
