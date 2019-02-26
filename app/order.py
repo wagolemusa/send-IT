@@ -370,6 +370,33 @@ class Mpesa(Resource):
 			book_list.append({"payment_id":payment_id, "bookingref":bookingref, "car_number":car_number, "from_location":from_location, "to_location":to_location, "price":price, "quality":quality, "dates":dates, "amount":amount, "phone":phone, "status":status, "created_on":created_on})
 		return jsonify({"book": book_list})	
 
+class Payments_id(Resource):
+	""" Methods Queries all Payments """
+	def get(self, payment_id):
+		curr.execute("SELECT * FROM payments WHERE payment_id = %s",[payment_id])
+		connection.commit()
+
+		data = curr.fetchall()
+		if not data:
+			return jsonify({"message":"There is no Payments yet"})
+		booker = []
+		for row in data:
+			payment_id = row[0]
+			bookingref = row[2]
+			username = row[3]
+			car_number = row[4]
+			from_location = row[5]
+			to_location = row[6]
+			price = row[7]
+			quality = row[8]
+			dates = row[9]
+			amount = row[10]
+			phone = row[11]
+			status = row[12]
+			created_on = row[13]
+			booker.append({"payment_id":payment_id, "bookingref":bookingref, "username":username, "car_number":car_number, "from_location":from_location, "to_location":to_location, "price":price, "quality":quality, "dates":dates, "amount":amount, "phone":phone "status":status, "created_on":created_on})
+		return jsonify({"data": booker})	
+
 
 class Callback(Resource):
 	def post(self):

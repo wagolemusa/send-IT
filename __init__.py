@@ -83,6 +83,7 @@ def create_app(config_name):
 	api.add_resource(Booking_By_Id, '/admin/v2/booking/<int:book_id>')
 	api.add_resource(Get_All_Bookings, '/admin/v2/bookings')
 	api.add_resource(Mpesa, '/v2/lipa')
+	api.add_resource(Payments_id, '/v2/lipa/<int:payment_id>')
 	api.add_resource(Callback, '/v2/callback')
 
 	# @app.errorhandler(404)
