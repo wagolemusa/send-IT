@@ -347,10 +347,10 @@ class Mpesa(Resource):
 
 class Callback(Resource):
 	def post(self):
-		results = 'https://senditparcel.herokuapp.com/api/v2/callback'
-		print (results)
+		# results = request.get_json()
+		print (requests)
 
-		data = json.dumps(results)
+		data = json.dumps(requests)
 		print(data)
 
 		json_da = data['Body']
