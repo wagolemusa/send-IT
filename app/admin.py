@@ -480,10 +480,10 @@ class Get_All_Bookings(Resource):
 	@jwt_required
 	def get(self):
 		""" Method for get all bookings """
-		current_user = get_jwt_identity()
-		U = Users().get_user_role()
-		if current_user != U:
-			return {"message": "Access allowed only to admin"}, 403
+		# current_user = get_jwt_identity()
+		# U = Users().get_user_role()
+		# if current_user != U:
+		# 	return {"message": "Access allowed only to admin"}, 403
 
 		curr.execute(" SELECT * FROM booking ")
 		book = curr.fetchall()
