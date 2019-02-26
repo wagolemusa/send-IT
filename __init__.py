@@ -6,7 +6,7 @@ from flask_cors import CORS
 from config import app_config
 from flask_jwt_extended import JWTManager
 from database import create_table, admin, drop_table
-from app.order  import Home
+from app.order import Home
 from app.user  import Register
 from app.user  import Login
 from app.order import CreateParcel
@@ -35,7 +35,7 @@ from app.admin import ParcelNumber
 from app.admin import Booking_By_Id
 from app.admin import Get_All_Bookings
 from app.order import Mpesa
-from app.order import Payments_id
+from app.order import PaymentId
 from app.order import Callback
 
 
@@ -84,7 +84,7 @@ def create_app(config_name):
 	api.add_resource(Booking_By_Id, '/admin/v2/booking/<int:book_id>')
 	api.add_resource(Get_All_Bookings, '/admin/v2/bookings')
 	api.add_resource(Mpesa, '/v2/lipa')
-	api.add_resource(Payments_id, '/v2/lipa/<int:payment_id>')
+	api.add_resource(PaymentId, '/v2/payments/<int:payment_id>')
 	api.add_resource(Callback, '/v2/callback')
 
 	# @app.errorhandler(404)
