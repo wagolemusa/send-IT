@@ -347,7 +347,7 @@ class Mpesa(Resource):
 
 class Callback(Resource):
 	def post(self):
-		# results = request.get_json()
+		requests = request.get_json()
 		print (requests)
 
 		data = json.dumps(requests)
