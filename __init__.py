@@ -36,6 +36,8 @@ from app.admin import Booking_By_Id
 from app.admin import Get_All_Bookings
 from app.order import Mpesa
 from app.order import PaymentId
+from app.admin import PaymentAdmin
+from app.admin import PrintPayment
 from app.order import Callback
 
 
@@ -86,7 +88,8 @@ def create_app(config_name):
 	api.add_resource(Mpesa, '/v2/lipa')
 	api.add_resource(PaymentId, '/v2/payments/<int:payment_id>')
 	api.add_resource(Callback, '/v2/callback')
-
+	api.add_resource(PaymentAdmin, '/admin/v2/payments/query')
+	api.add_resource(PrintPayment, '/admin/v2/query/<int:payment_id>')
 	# @app.errorhandler(404)
 	# def not_found(error):
 	# 	return {"message": "Page Not Found"},404

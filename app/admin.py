@@ -507,6 +507,65 @@ class Get_All_Bookings(Resource):
 		return jsonify({"book": book_list})	
 
 
+class PaymentAdmin(Resource):
+	""" Method Query all payments """
+	def get(self):
+		""" Method for query all payments"""
+		current_user = get_jwt_identity()
+		U = Users().get_user_role()
+		if current_user != U:
+			return {"message": "Access allowed only to admin"}, 403
+		curr.execute(" SELECT * FROM payments ")
+		book = curr.fetchall()
+		if not book:
+			return jsonify({"message":"There is no Payments yet"})
+		book_list = []
+		for row in book:
+			payment_id = row[0]
+			bookingref = row[2]
+			car_number = row[4]
+			from_location = row[5]
+			to_location = row[6]
+			price = row[7]
+			quality = row[8]
+			dates = row[9]
+			amount = row[10]
+			phone = row[11]
+			status = row[12]
+			created_on = row[13]
+			book_list.append({"payment_id":payment_id, "bookingref":bookingref, "car_number":car_number, "from_location":from_location, "to_location":to_location, "price":price, "quality":quality, "dates":dates, "amount":amount, "phone":phone, "status":status, "created_on":created_on})
+		return jsonify({"book": book_list})			
 
 
-	
+class PrintPayment(Resource):
+
+	@jwt_required
+	def get(self, payment_id):
+		current_user = get_jwt_identity()
+		U = Users().get_user_role()
+		if current_user != U:
+			return {"message": "Access allowed only to admin"}, 403
+
+		curr.execute("SELECT * FROM payments WHERE payment_id = %s",[payment_id])
+		connection.commit()
+
+		data = curr.fetchall()
+		if not data:
+			return jsonify({"message":"There is no Payments yet"})
+		booker = []
+		for row in data:
+			payment_id = row[0]
+			bookingref = row[2]
+			username = row[3]
+			car_number = row[4]
+			from_location = row[5]
+			to_location = row[6]
+			price = row[7]
+			quality = row[8]
+			dates = row[9]
+			amount = row[10]
+			phone = row[11]
+			status = row[12]
+			created_on = row[13]
+			booker.append({"payment_id":payment_id, "bookingref":bookingref, "username":username, "car_number":car_number, "from_location":from_location, "to_location":to_location, "price":price, "quality":quality, "dates":dates, "amount":amount, "phone":phone, "status":status, "created_on":created_on})
+		return jsonify({"data": booker})	
