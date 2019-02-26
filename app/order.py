@@ -370,8 +370,9 @@ class Mpesa(Resource):
 			book_list.append({"payment_id":payment_id, "bookingref":bookingref, "car_number":car_number, "from_location":from_location, "to_location":to_location, "price":price, "quality":quality, "dates":dates, "amount":amount, "phone":phone, "status":status, "created_on":created_on})
 		return jsonify({"book": book_list})	
 
-class Payments_id(Resource):
+class PaymentId(Resource):
 	""" Methods Queries all Payments """
+	@jwt_required
 	def get(self, payment_id):
 		curr.execute("SELECT * FROM payments WHERE payment_id = %s",[payment_id])
 		connection.commit()
