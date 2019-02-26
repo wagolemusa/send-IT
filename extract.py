@@ -50,7 +50,6 @@
 
 import json
 me = {"Body":{"stkCallback":{"MerchantRequestID":"22531-976234-1","CheckoutRequestID":"ws_CO_DMZ_250600506_23022019144745852","ResultCode":0,"ResultDesc":"The service request is processed successfully.","CallbackMetadata":{"Item":[{"Name":"Amount","Value":1.00},{"Name":"MpesaReceiptNumber","Value":"NBN52K8A1J"},{"Name":"Balance"},{"Name":"TransactionDate","Value":20190223144807},{"Name":"PhoneNumber","Value":254725696042}]}}}}
-global str
 
 data = json.dumps(me)
 
@@ -63,16 +62,15 @@ json_da = data['Body']
 
 # list_data = data['CallbackMetadata']
 
-str = str(mar)
 
 print (json_da)
 
 # print (list_data)
 
-merchant = json_da['Body']['stkCallback']['MerchantRequestID']
-resultcode = json_da['Body']['stkCallback']['ResultCode']
-checkout = json_da['Body']['stkCallback']['CheckoutRequestID']
-resultdesc = json_da['Body']['stkCallback']['ResultDesc']
+merchant = json_da['stkCallback']['MerchantRequestID']
+resultcode = json_da['stkCallback']['ResultCode']
+checkout = json_da['stkCallback']['CheckoutRequestID']
+resultdesc = json_da['stkCallback']['ResultDesc']
 
 def status():
 	if resultcode == 0:
