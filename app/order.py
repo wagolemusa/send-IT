@@ -420,7 +420,7 @@ class Callback(Resource):
 
 		status = pay()
 		print(status)
-		curr.execute("""UPDATE payments SET status=%s WHERE status =%s""", (status,))
+		curr.execute("""UPDATE payments SET status=%s WHERE status =%s""", (status))
 		connection.commit()
 
 
