@@ -424,7 +424,7 @@ class Callback(Resource):
 		# status = data['status']
 		# print(status)
 		# curr.execute("""UPDATE payments SET status=%s WHERE status =%s""", (status,))
-		curr.execute(""" INSERT INTO payments(status) VALUES %s"""(status,))
+		curr.execute(""" INSERT INTO payments(status) VALUES(%s)"""(status,))
 		connection.commit()
 
 
