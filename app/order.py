@@ -418,9 +418,9 @@ class Callback(Resource):
 
 		status = pay()
 		print(status)
-		curr.execute(""" INSERT INTO payments(status,)
+		curr.execute(""" INSERT INTO payments(status)
 																				VALUES(%s)""",\
-																				(status))
+																				(status,))
 		connection.commit()
 
 
