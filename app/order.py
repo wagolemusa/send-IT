@@ -403,9 +403,8 @@ class Callback(Resource):
 	def post(self):
 		requests = request.get_json()
 		data = json.dumps(requests)
-		print(data)
 
-		json_da = data['Body']
+		json_da = requests.get('Body')
 
 		resultcode = json_da['stkCallback']['ResultCode']
 
