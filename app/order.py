@@ -291,11 +291,6 @@ class Mpesa(Resource):
 
 		current_user = get_jwt_identity()
 		username = current_user
-		curr.execute(""" INSERT INTO payments(bookingref, username, car_number,from_location, to_location, price, quality, dates,  amount, phone)
-																				VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",\
-																				(bookingref, username, car_number, from_location, to_location,price, quality, dates,  amount, phone))
-		connection.commit()
-		
 
 		consumer_key = "TDWYCw9ChsdHr7QdfcXUS1ddp8gchOC6"
 		consumer_secret = "BdYN5qcwGQvJnMGF"
@@ -342,8 +337,29 @@ class Mpesa(Resource):
 		response = requests.post(url, json=payload, headers=headers)
 
 		print (response.text)
-		return jsonify({"message": 'Thanks for paying'})
 
+		requests = request.get_json()
+		data = json.dumps(requests)
+
+		json_da = requests.get('Body')
+
+		resultcode = json_da['stkCallback']['ResultCode']
+
+		def pay():
+			if resultcode == 0:
+				return "paid"
+			elif resultcode == 1:
+				return "faild"
+			else:
+				return "badrequest"
+
+		status = pay()
+		print(status)
+		status = data['status']
+		curr.execute(""" INSERT INTO payments(bookingref, username, car_number,from_location, to_location, price, quality, dates,  amount, phone,status)
+																				VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s)""",\
+																				(bookingref, username, car_number, from_location, to_location,price, quality, dates,  amount, phone,status))
+		connection.commit()
 
 	@jwt_required
 	def get(self):
@@ -418,10 +434,10 @@ class Callback(Resource):
 
 		status = pay()
 		print(status)
-		data = request.get_json(force=True)
-		status = data['status']
-		curr.execute(""" INSERT INTO payments(status)VALUES(%s)"""(status,))
-		connection.commit()
+		# data = request.get_json(force=True)
+		# status = data['status']
+		# curr.execute(""" INSERT INTO payments(status)VALUES(%s)"""(status,))
+		# connection.commit()
 
 
 		# status = pay()
