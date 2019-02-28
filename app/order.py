@@ -420,7 +420,9 @@ class Callback(Resource):
 
 		status = pay()
 		print(status)
-		curr.execute("""UPDATE payments SET status=%s WHERE status =%s""", (status))
+		data = request.get_json(force=True)
+		status = data['status']
+		curr.execute("""UPDATE payments SET status=%s WHERE status =%s""", (status,))
 		connection.commit()
 
 
