@@ -419,7 +419,7 @@ class Callback(Resource):
 		status = pay()
 		print(status)
 
-		# curr.execute("SELECT status FROM payments WHERE status = 'null'")
+		# curr.execute("SELECT status FROM payments WHERE status = 'no'")
 		# role = curr.fetchone()
 		# for data in role:
 		# 	print (data)
