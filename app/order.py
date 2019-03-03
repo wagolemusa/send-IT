@@ -410,11 +410,11 @@ class Callback(Resource):
 
 		def pay():
 			if resultcode == 0:
-				return "paid"
+				return "Paid"
 			elif resultcode == 1:
-				return "faild"
+				return "Faild"
 			else:
-				return "badrequest"
+				return "Badrequest"
 
 		status = pay()
 		curr.execute("""UPDATE payments SET status=%s WHERE status = 'no' """,(status,))
