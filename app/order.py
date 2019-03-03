@@ -422,10 +422,10 @@ class Callback(Resource):
 		curr.execute("SELECT status FROM payments WHERE status = 'no'")
 		role = curr.fetchone()
 		for data in role:
-			cash = data[12]
-			print (cash)
+			# cash = data[12]
+			print (data)
 
-		curr.execute("""UPDATE payments SET status=%s WHERE cash = 'no' """,(status,))
+		curr.execute("""UPDATE payments SET status=%s WHERE status = 'data' """,(status,))
 		# curr.execute(""" INSERT INTO payments(status)VALUES(%s)"""(status,))
 		connection.commit()
 
