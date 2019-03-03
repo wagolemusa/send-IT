@@ -417,24 +417,5 @@ class Callback(Resource):
 				return "badrequest"
 
 		status = pay()
-		print(status)
-
-		# curr.execute("SELECT status FROM payments WHERE status = 'no'")
-		# role = curr.fetchone()
-		# for data in role:
-		# 	cash = data
-		# 	print (cash)
-
 		curr.execute("""UPDATE payments SET status=%s WHERE status = 'no' """,(status,))
-		# curr.execute(""" INSERT INTO payments(status)VALUES(%s)"""(status,))
 		connection.commit()
-
-
-		# status = pay()
-		# print(status)
-		# data = request.get_json(force=True)
-		# status = data['status']
-		# print(status)
-		# curr.execute("""UPDATE payments SET status=%s WHERE status =%s""", (status,))
-		# curr.execute("""INSERT INTO payments(status)VALUES(%s)"""(status,))
-		# connection.commit()
