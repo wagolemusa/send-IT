@@ -59,17 +59,24 @@ print (data)
 
 json_da = me.get('Body')# -> the only thing changed. use dict.get(key) which returns the content inside the body.
 
-# list_data = data['CallbackMetadata']
+list_data = me.get('Item')
 
 
 print (json_da)
 
-# print (list_data)
+print (list_data)
 
 merchant = json_da['stkCallback']['MerchantRequestID']
 resultcode = json_da['stkCallback']['ResultCode']
 checkout = json_da['stkCallback']['CheckoutRequestID']
 resultdesc = json_da['stkCallback']['ResultDesc']
+
+CallbackMetadata = json_da['stkCallback']['CallbackMetadata']
+
+yes = CallbackMetadata.get('Item')
+
+
+serial = ['CallbackMetadata']['MpesaReceiptNumber']
 
 def status():
   if resultcode == 0:
@@ -84,8 +91,9 @@ print(resultcode)
 print(checkout)
 print(resultdesc)
 print()
-print()
-print()
+print(yes)
+# print(CallbackMetadata)
+print(serial)
 
 p = status()
 print(p)
