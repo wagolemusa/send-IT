@@ -90,11 +90,9 @@ def drop_table():
 	curr = connection.cursor()
 
 	queries = (
-		"""DROP TABLE IF EXISTS orders CASCADE;"""
-		# """DROP TABLE IF EXISTS users CASCADE;""",\
-		# """DROP TABLE IF EXISTS prices CASCADE;""", """DROP TABLE IF EXISTS booking CASCADE;""",\
-		# """DROP TABLE IF EXISTS payments CASCADE;"""
-		)
+		"""DROP TABLE IF EXISTS orders CASCADE;""", """DROP TABLE IF EXISTS users CASCADE;""",\
+		"""DROP TABLE IF EXISTS prices CASCADE;""", """DROP TABLE IF EXISTS booking CASCADE;""",\
+		"""DROP TABLE IF EXISTS payments CASCADE;""")
 	for query in queries:
 		curr.execute(query)
 		connection.commit()
