@@ -300,7 +300,7 @@ class PostPrice(Resource):
 			return  {"message": "Location and Price are Successfully submited"}, 201
 		except:
 			connection.rollback()
-			return {"message": "already exists"}
+			return {"message": "Failed to post location"}
 
 	@jwt_required
 	def get(self):
@@ -339,6 +339,7 @@ class EditPrices(Resource):
 		U = Users().get_user_role()
 		if current_user != U:
 			return {"message": "Access allowed only to admin"}, 403
+			
 		data = request.get_json(force=True)
 		car_number = data['car_number']
 		from_location = data['from_location']
@@ -456,12 +457,15 @@ class SearchDates(Resource):
 
 
 class GetNumbers(Resource):
+	""" Class Counts Numbers of users"""
 	def get(self):
 		curr.execute("SELECT COUNT(*) FROM users")
 		data = curr.fetchall()
 		return {"number": data}
 
 class BookingNumber(Resource):
+	""" Class Counts Numbers of bookings"""
+
 	def get(self):
 		curr.execute("SELECT COUNT(*) FROM booking")
 		y = curr.fetchall()
@@ -469,6 +473,7 @@ class BookingNumber(Resource):
 
 
 class ParcelNumber(Resource):
+	""" Class Counts Numbers of Orders"""
 	def get(self):
 		curr.execute("SELECT COUNT(*) FROM orders")
 		x = curr.fetchall()

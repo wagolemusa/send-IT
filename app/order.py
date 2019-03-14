@@ -51,7 +51,7 @@ class CreateParcel(Resource):
 			return jsonify({"message": 'Successfuly Created an Order'})
 		except:
 			connection.rollback()
-			return {"message": "already exists"}
+			return {"message": "Failed to book try again"}
 
 
 	@jwt_required
@@ -207,7 +207,7 @@ class BookPostpond(Resource):
 		connection.commit()
 		return jsonify({"message": "Successfuly Updated"})
 		connection.rollback()
-		return {"message": "already exists"}
+		return {"message": "Failed to change status try again"}
 
 
 class SearchBooking(Resource):
@@ -271,7 +271,7 @@ class UpdateUser(Resource):
 		connection.commit()
 		return jsonify({"message": "Successfuly Updated"})
 		connection.rollback()
-		return {"message": "already exists"}
+		return {"message": "Failed to update"}
 
 
 class Mpesa(Resource):
