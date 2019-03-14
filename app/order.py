@@ -35,7 +35,6 @@ class CreateParcel(Resource):
 		destination = request.json['destination']
 		weight = request.json['weight']
 		chash = request.json['chash']
-		payments = request.json['payments']
 		phone = request.json['phone']
 
 		if title.strip() == '' or pickup.strip() =='' or destination.strip() =='':
@@ -47,9 +46,9 @@ class CreateParcel(Resource):
 		username = current_user
 		try:
 
-			curr.execute(""" INSERT INTO orders(title, username, pickup,rec_id, rec_phone, rec_name, destination, weight, chash, payments, phone)
-																				VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",\
-																				(title, username, pickup, rec_id, rec_phone,rec_name, destination, weight, chash, payments, phone))
+			curr.execute(""" INSERT INTO orders(title, username, pickup,rec_id, rec_phone, rec_name, destination, weight, chash, phone)
+																				VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",\
+																				(title, username, pickup, rec_id, rec_phone,rec_name, destination, weight, chash, phone))
 			connection.commit()
 			return jsonify({"message": 'Successfuly Created an Order'})
 		except:
