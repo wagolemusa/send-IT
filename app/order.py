@@ -26,16 +26,17 @@ class Home(Resource):
 class CreateParcel(Resource):
 	""" Class for create parcel methods """
 	@jwt_required
-	def post(self):		
-		title = request.json['title']
-		pickup = request.json['pickup']
-		rec_id = request.json['rec_id']
-		rec_phone = request.json['rec_phone']
-		rec_name  = request.json['rec_name']
-		destination = request.json['destination']
-		weight = request.json['weight']
-		chash = request.json['chash']
-		phone = request.json['phone']
+	def post(self):
+		data = request.get_json(force=True)
+		title = data['title']
+		pickup = data['pickup']
+		rec_id = data['rec_id']
+		rec_phone = data['rec_phone']
+		rec_name  = data['rec_name']
+		destination = data['destination']
+		weight = data['weight']
+		chash = data['chash']
+		phone = data['phone']
 
 		if title.strip() == '' or pickup.strip() =='' or destination.strip() =='':
 			return jsonify({"message":"Feilds  cannot be blank"})
@@ -44,8 +45,6 @@ class CreateParcel(Resource):
 
 		current_user = get_jwt_identity()
 		username = current_user
-	
-
 		curr.execute(""" INSERT INTO orders(title, username, pickup,rec_id, rec_phone, rec_name, destination, weight, chash, phone)
 																				VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",\
 																				(title, username, pickup, rec_id, rec_phone,rec_name, destination, weight, chash, phone))
