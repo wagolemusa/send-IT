@@ -38,6 +38,8 @@ def create_table():
 			rec_name  VARCHAR(50) NOT NULL,
 			destination VARCHAR(50) NOT NULL,
 			weight INT,
+			chash INT,
+			payments VARCHAR DEFAULT 'NotPaid'
 			status VARCHAR DEFAULT 'In Transit',
 			created_on TIMESTAMP DEFAULT NOW(),
 			FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
@@ -88,9 +90,11 @@ def drop_table():
 	curr = connection.cursor()
 
 	queries = (
-		"""DROP TABLE IF EXISTS orders CASCADE;""", """DROP TABLE IF EXISTS users CASCADE;""",\
-		"""DROP TABLE IF EXISTS prices CASCADE;""", """DROP TABLE IF EXISTS booking CASCADE;""",\
-		"""DROP TABLE IF EXISTS payments CASCADE;""")
+		"""DROP TABLE IF EXISTS orders CASCADE;"""
+		# """DROP TABLE IF EXISTS users CASCADE;""",\
+		# """DROP TABLE IF EXISTS prices CASCADE;""", """DROP TABLE IF EXISTS booking CASCADE;""",\
+		# """DROP TABLE IF EXISTS payments CASCADE;"""
+		)
 	for query in queries:
 		curr.execute(query)
 		connection.commit()
