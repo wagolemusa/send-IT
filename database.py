@@ -40,6 +40,7 @@ def create_table():
 			weight INT,
 			chash INT,
 			payments VARCHAR DEFAULT 'NotPaid',
+			phone INT,
 			status VARCHAR DEFAULT 'In Transit',
 			created_on TIMESTAMP DEFAULT NOW(),
 			FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE

@@ -34,6 +34,9 @@ class CreateParcel(Resource):
 		rec_name  = request.json['rec_name']
 		destination = request.json['destination']
 		weight = request.json['weight']
+		chash = request.json['chash']
+		payments = request.json['payments']
+		phone = request.json['phone']
 
 		if title.strip() == '' or pickup.strip() =='' or destination.strip() =='':
 			return jsonify({"message":"Feilds  cannot be blank"})
@@ -44,14 +47,86 @@ class CreateParcel(Resource):
 		username = current_user
 		try:
 
-			curr.execute(""" INSERT INTO orders(title, username, pickup,rec_id, rec_phone, rec_name, destination, weight)
-																				VALUES(%s, %s, %s, %s, %s, %s, %s, %s)""",\
-																				(title, username, pickup, rec_id, rec_phone,rec_name, destination, weight))
+			curr.execute(""" INSERT INTO orders(title, username, pickup,rec_id, rec_phone, rec_name, destination, weight, chash, payments, phone)
+																				VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",\
+																				(title, username, pickup, rec_id, rec_phone,rec_name, destination, weight, chash, payments, phone))
 			connection.commit()
 			return jsonify({"message": 'Successfuly Created an Order'})
 		except:
 			connection.rollback()
 			return {"message": "Failed to book try again"}
+
+
+		# Lipa na mpesa Functionality 
+		consumer_key = "TDWYCw9ChsdHr7QdfcXUS1ddp8gchOC6"
+		consumer_secret = "BdYN5qcwGQvJnMGF"
+
+		api_URL = "https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials" #AUTH URL
+
+		r = requests.get(api_URL, auth=HTTPBasicAuth(consumer_key, consumer_secret))
+
+		data = r.json()
+		access_token = "Bearer" + ' ' + data['access_token']
+
+		#GETTING THE PASSWORD
+		timestamp = datetime.datetime.today().strftime('%Y%m%d%H%M%S')
+		passkey = 'bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919'
+		business_short_code = "174379"
+		data = business_short_code + passkey + timestamp
+		encoded = base64.b64encode(data.encode())
+		password = encoded.decode('utf-8')
+
+
+		# BODY OR PAYLOAD
+		payload = {
+		    "BusinessShortCode": business_short_code,
+		    "Password": password,
+		    "Timestamp": timestamp,
+		    "TransactionType": "CustomerPayBillOnline",
+		    "Amount": amount,
+		    "PartyA": phone,
+		    "PartyB": business_short_code,
+		    "PhoneNumber": phone,
+		    "CallBackURL": "https://senditparcel.herokuapp.com/api/v2/parcel/callbackurl",
+		    "AccountReference": "account",
+		    "TransactionDesc": "account"
+		}
+
+		#POPULAING THE HTTP HEADER
+		headers = {
+		    "Authorization": access_token,
+		    "Content-Type": "application/json"
+		}
+
+		url = "https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest" #C2B URL
+
+		response = requests.post(url, json=payload, headers=headers)
+		print (response.text)
+		return jsonify({"message": 'Thanks for paying'})
+
+
+class ParcelCallbackUrl(Resource):
+	""" Class And Methods creates Callback url for sending parcel"""
+	def post(self):
+		requests = request.get_json()
+		data = json.dumps(requests)
+
+		json_da = requests.get('Body')
+
+		resultcode = json_da['stkCallback']['ResultCode']
+
+		def pay():
+			if resultcode == 0:
+				return "Paid"
+			elif resultcode == 1:
+				return "Faild"
+			else:
+				return "Badrequest"
+
+		status = pay()
+		curr.execute("""UPDATE orders SET payments=%s WHERE payments = 'NotPaid' """,(payments,))
+		connection.commit()
+
 
 
 	@jwt_required
@@ -296,7 +371,7 @@ class Mpesa(Resource):
 																				(bookingref, username, car_number, from_location, to_location,price, quality, dates,  amount, phone))
 		connection.commit()
 		
-
+		# Lipa na mpesa Functionality 
 		consumer_key = "TDWYCw9ChsdHr7QdfcXUS1ddp8gchOC6"
 		consumer_secret = "BdYN5qcwGQvJnMGF"
 
