@@ -27,6 +27,7 @@ class CreateParcel(Resource):
 	""" Class for create parcel methods """
 	@jwt_required
 	def post(self):
+		connection.commit()
 		data = request.get_json(force=True)
 		title = data['title']
 		pickup = data['pickup']
@@ -45,11 +46,15 @@ class CreateParcel(Resource):
 
 		current_user = get_jwt_identity()
 		username = current_user
+		# try:
 		curr.execute(""" INSERT INTO orders(title, username, pickup,rec_id, rec_phone, rec_name, destination, weight, cash, phone)
-																				VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",\
-																				(title, username, pickup, rec_id, rec_phone,rec_name, destination, weight, cash, phone))
+																	VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",\
+																		(title, username, pickup, rec_id, rec_phone,rec_name, destination, weight, cash, phone))
 		connection.commit()
-		return jsonify({"message": 'Successfuly Created an Order'})
+		# return jsonify({"message": 'Successfuly Created an Order'})
+		# except:
+		# 	connection.rollback()
+		# 	return {"message": "Failed to post location"}
 		
 		# Lipa na mpesa Functionality 
 		consumer_key = "TDWYCw9ChsdHr7QdfcXUS1ddp8gchOC6"
@@ -77,7 +82,7 @@ class CreateParcel(Resource):
 		    "Password": password,
 		    "Timestamp": timestamp,
 		    "TransactionType": "CustomerPayBillOnline",
-		    "Amount": amount,
+		    "Amount": cash,
 		    "PartyA": phone,
 		    "PartyB": business_short_code,
 		    "PhoneNumber": phone,

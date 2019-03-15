@@ -39,7 +39,7 @@ def create_table():
 			destination VARCHAR(50) NOT NULL,
 			weight INT,
 			cash INT,
-			phone INT,
+			phone BIGINT NOT NULL CHECK(phone >= 0),
 			payments VARCHAR DEFAULT 'NotPaid',
 			status VARCHAR DEFAULT 'In Transit',
 			created_on TIMESTAMP DEFAULT NOW(),
