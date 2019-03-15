@@ -38,7 +38,7 @@ def create_table():
 			rec_name  VARCHAR(50) NOT NULL,
 			destination VARCHAR(50) NOT NULL,
 			weight INT,
-			chash INT,
+			cash INT,
 			phone INT,
 			payments VARCHAR DEFAULT 'NotPaid',
 			status VARCHAR DEFAULT 'In Transit',

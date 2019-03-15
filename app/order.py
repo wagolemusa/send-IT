@@ -35,7 +35,7 @@ class CreateParcel(Resource):
 		rec_name  = data['rec_name']
 		destination = data['destination']
 		weight = data['weight']
-		chash = data['chash']
+		cash = data['cash']
 		phone = data['phone']
 
 		if title.strip() == '' or pickup.strip() =='' or destination.strip() =='':
@@ -45,9 +45,9 @@ class CreateParcel(Resource):
 
 		current_user = get_jwt_identity()
 		username = current_user
-		curr.execute(""" INSERT INTO orders(title, username, pickup,rec_id, rec_phone, rec_name, destination, weight, chash, phone)
+		curr.execute(""" INSERT INTO orders(title, username, pickup,rec_id, rec_phone, rec_name, destination, weight, cash, phone)
 																				VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",\
-																				(title, username, pickup, rec_id, rec_phone,rec_name, destination, weight, chash, phone))
+																				(title, username, pickup, rec_id, rec_phone,rec_name, destination, weight, cash, phone))
 		connection.commit()
 		return jsonify({"message": 'Successfuly Created an Order'})
 		
