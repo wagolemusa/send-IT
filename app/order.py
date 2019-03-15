@@ -122,7 +122,9 @@ class ParcelCallbackUrl(Resource):
 			else:
 				return "Badrequest"
 
-		status = pay()
+		payments = pay()
+		print(payments)
+
 		curr.execute("""UPDATE orders SET payments=%s WHERE payments = 'NotPaid' """,(payments,))
 		connection.commit()
 
