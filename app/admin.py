@@ -285,17 +285,20 @@ class PostPrice(Resource):
 		car_number = request.json['car_number']
 		from_location = request.json['from_location']
 		to_location = request.json['to_location']
+		period = request.json['period']
+		arrival = request.json['arrival']
 		price  = request.json['price']
 		day_time = request.json['day_time']
 
-		if from_location.strip() == '' or to_location.strip() == '' or car_number.strip() == '' or price.strip() == '' or day_time.strip() == '':
+		if from_location.strip() == '' or to_location.strip() == '' or car_number.strip() == '' or price.strip() == '' or day_time.strip() == ''\
+		or period.strip() == '' or arrival.strip() == '':
 			return {"message": "Fields cannot be empty"}, 403
 		# elif type(price) != int:
 		# 	return {"message": "Price should be only Numbers"}, 403
 		loc = Usermodel()
 		data = loc.data_price()
 		try:
-			curr.execute(data, (car_number, from_location, to_location, price, day_time,))
+			curr.execute(data, (car_number, from_location, to_location, period, arrival, price, day_time,))
 			connection.commit()
 			return  {"message": "Location and Price are Successfully submited"}, 201
 		except:

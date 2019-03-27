@@ -176,7 +176,7 @@ class ModifyOrder(Resource):
 		curr.execute("""UPDATE orders SET title= %s, pickup=%s, rec_id=%s, rec_phone=%s, rec_name=%s, destination=%s, weight=%s
 																														WHERE parcel_id=%s """,(title, pickup, rec_id, rec_phone, rec_name, destination, weight, parcel_id))
 		connection.commit()
-		return jsonify({"message": "Successfuly Updated"})
+		return {"message": "Successfuly Updated"}
 
 	@jwt_required
 	def delete(self, parcel_id):
@@ -188,7 +188,7 @@ class ModifyOrder(Resource):
 			return {"message":"There is no order ID {} found".format(parcel_id)}, 403	
 		curr.execute("""DELETE FROM orders WHERE parcel_id = %s AND username = %s""",(parcel_id, username))
 		connection.commit()
-		return jsonify({"message":"Post Deleted"})
+		return {"message":"Post Deleted"}
 
 class AnOrder(Resource):
 	@jwt_required
@@ -207,8 +207,8 @@ class AnOrder(Resource):
 			parcel_id = row[0]
 			destination = row[8]
 			data_list.append({"parcel_id":parcel_id, "destination":destination})
-			return jsonify({"data": data_list})	
-		return jsonify({"message": "Successfuly Updated"})
+			return {"data": data_list}
+		return {"message": "Successfuly Updated"}
 		
 
 class Booking(Resource):
@@ -244,7 +244,7 @@ class Booking(Resource):
 		curr.execute(" SELECT * FROM booking WHERE username =%s", [username])
 		book = curr.fetchall()
 		if not book:
-			return jsonify({"message":"There is no bookings yet"})
+			return {"message":"There is no bookings yet"}
 		book_list = []
 		for row in book:
 			book_id = row[0]
@@ -297,19 +297,21 @@ class SearchBooking(Resource):
 		curr.execute("SELECT * FROM prices WHERE from_location = %s AND to_location =%s",[from_location,to_location])
 		data = curr.fetchall()
 		if not data:
-			return jsonify({"message":"There is no root yet"})
+			return {"message":"There is no Route yet"}
 		books = []
 		for row in data:
 			price_id = row[0]
 			car_number = row[1]
 			from_location = row[2]
 			to_location = row[3]
-			price = row[4]
-			day_time = row[5]
+			period = row[5]
+			arrival = row[5]
+			price = row[6]
+			day_time = row[7]
 
-			books.append({"price_id":price_id, "car_number":car_number, "from_location": from_location, "to_location":to_location, "price":price, "day_time":day_time})
-		return jsonify({"data": books})
-		return jsonify({"message":"You can book now"})
+			books.append({"price_id":price_id, "car_number":car_number, "from_location": from_location, "to_location":to_location, "period":period, "arrival":arrival, "price":price, "day_time":day_time})
+		return {"data": books}
+		return {"message":"You can book now"}
 
 
 class Users(Resource):
@@ -321,7 +323,7 @@ class Users(Resource):
 		curr.execute(" SELECT * FROM users WHERE username =%s", [username,])
 		data = curr.fetchall()
 		if not data:
-			return jsonify({"message":"There is no user yet"})
+			return {"message":"There is no user yet"}
 		user = []
 		for row in data:
 			user_id = row[0]
@@ -373,55 +375,55 @@ class Mpesa(Resource):
 																				(bookingref, username, car_number, from_location, to_location,price, quality, dates,  amount, phone))
 		connection.commit()
 		
-		# # Lipa na mpesa Functionality 
-		# consumer_key = "TDWYCw9ChsdHr7QdfcXUS1ddp8gchOC6"
-		# consumer_secret = "BdYN5qcwGQvJnMGF"
+		# Lipa na mpesa Functionality 
+		consumer_key = "TDWYCw9ChsdHr7QdfcXUS1ddp8gchOC6"
+		consumer_secret = "BdYN5qcwGQvJnMGF"
 
-		# # api_URL = "https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials" #AUTH URL
-		# api_URL = "https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials"
+		# api_URL = "https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials" #AUTH URL
+		api_URL = "https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials"
 
-		# r = requests.get(api_URL, auth=HTTPBasicAuth(consumer_key, consumer_secret))
+		r = requests.get(api_URL, auth=HTTPBasicAuth(consumer_key, consumer_secret))
 
-		# data = r.json()
-		# access_token = "Bearer" + ' ' + data['access_token']
+		data = r.json()
+		access_token = "Bearer" + ' ' + data['access_token']
 
-		# #GETTING THE PASSWORD
-		# timestamp = datetime.datetime.today().strftime('%Y%m%d%H%M%S')
-		# passkey = 'bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919'
-		# business_short_code = "174379"
-		# data = business_short_code + passkey + timestamp
-		# encoded = base64.b64encode(data.encode())
-		# password = encoded.decode('utf-8')
-
-
-		# # BODY OR PAYLOAD
-		# payload = {
-		#     "BusinessShortCode": business_short_code,
-		#     "Password": password,
-		#     "Timestamp": timestamp,
-		#     "TransactionType": "CustomerPayBillOnline",
-		#     "Amount": amount,
-		#     "PartyA": phone,
-		#     "PartyB": business_short_code,
-		#     "PhoneNumber": phone,
-		#     "CallBackURL": "https://senditparcel.herokuapp.com/api/v2/callback",
-		#     "AccountReference": "account",
-		#     "TransactionDesc": "account"
-		# }
-
-		# #POPULAING THE HTTP HEADER
-		# headers = {
-		#     "Authorization": access_token,
-		#     "Content-Type": "application/json"
-		# }
+		#GETTING THE PASSWORD
+		timestamp = datetime.datetime.today().strftime('%Y%m%d%H%M%S')
+		passkey = 'bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919'
+		business_short_code = "174379"
+		data = business_short_code + passkey + timestamp
+		encoded = base64.b64encode(data.encode())
+		password = encoded.decode('utf-8')
 
 
-		# url = "https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest" #C2B URL
+		# BODY OR PAYLOAD
+		payload = {
+		    "BusinessShortCode": business_short_code,
+		    "Password": password,
+		    "Timestamp": timestamp,
+		    "TransactionType": "CustomerPayBillOnline",
+		    "Amount": amount,
+		    "PartyA": phone,
+		    "PartyB": business_short_code,
+		    "PhoneNumber": phone,
+		    "CallBackURL": "https://senditparcel.herokuapp.com/api/v2/callback",
+		    "AccountReference": "account",
+		    "TransactionDesc": "account"
+		}
 
-		# response = requests.post(url, json=payload, headers=headers)
+		#POPULAING THE HTTP HEADER
+		headers = {
+		    "Authorization": access_token,
+		    "Content-Type": "application/json"
+		}
 
-		# print (response.text)
-		return jsonify({"message": 'Thanks for paying'})
+
+		url = "https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest" #C2B URL
+
+		response = requests.post(url, json=payload, headers=headers)
+
+		print (response.text)
+		return {"message": 'Thanks for paying'}
 
 
 	@jwt_required
@@ -447,7 +449,7 @@ class Mpesa(Resource):
 			status = row[12]
 			created_on = row[13]
 			book_list.append({"payment_id":payment_id, "bookingref":bookingref, "car_number":car_number, "from_location":from_location, "to_location":to_location, "price":price, "quality":quality, "dates":dates, "amount":amount, "phone":phone, "status":status, "created_on":created_on})
-		return jsonify({"book": book_list})	
+		return {"book": book_list}
 
 class PaymentId(Resource):
 	""" Methods Queries all Payments """
@@ -458,7 +460,7 @@ class PaymentId(Resource):
 
 		data = curr.fetchall()
 		if not data:
-			return jsonify({"message":"There is no Payments yet"})
+			return {"message":"There is no Payments yet"}
 		booker = []
 		for row in data:
 			payment_id = row[0]
@@ -475,27 +477,27 @@ class PaymentId(Resource):
 			status = row[12]
 			created_on = row[13]
 			booker.append({"payment_id":payment_id, "bookingref":bookingref, "username":username, "car_number":car_number, "from_location":from_location, "to_location":to_location, "price":price, "quality":quality, "dates":dates, "amount":amount, "phone":phone, "status":status, "created_on":created_on})
-		return jsonify({"data": booker})	
+		return {"data": booker}
 
 
 class Callback(Resource):
 	def post(self):
 		return ''
-	# 	requests = request.get_json()
-	# 	data = json.dumps(requests)
+		requests = request.get_json()
+		data = json.dumps(requests)
 
-	# 	json_da = requests.get('Body')
+		json_da = requests.get('Body')
 
-	# 	resultcode = json_da['stkCallback']['ResultCode']
+		resultcode = json_da['stkCallback']['ResultCode']
 
-	# 	def pay():
-	# 		if resultcode == 0:
-	# 			return "Paid"
-	# 		elif resultcode == 1:
-	# 			return "Faild"
-	# 		else:
-	# 			return "Badrequest"
+		def pay():
+			if resultcode == 0:
+				return "Paid"
+			elif resultcode == 1:
+				return "Faild"
+			else:
+				return "Badrequest"
 
-	# 	status = pay()
-	# 	curr.execute("""UPDATE payments SET status=%s WHERE status = 'no' """,(status,))
-	# 	connection.commit()
+		status = pay()
+		curr.execute("""UPDATE payments SET status=%s WHERE status = 'no' """,(status,))
+		connection.commit()

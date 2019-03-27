@@ -24,7 +24,9 @@ def create_table():
 			car_number INT,
 			from_location VARCHAR(50) NOT NULL,
 			to_location  VARCHAR(50) NOT NULL,
-			price INT,
+			period  VARCHAR(50) NOT NULL,
+			arrival VARCHAR(50) NOT NULL,
+ 			price INT,
 			day_time VARCHAR(50));"""
 
 				"""CREATE TABLE IF NOT EXISTS orders(
