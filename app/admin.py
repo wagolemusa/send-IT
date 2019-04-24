@@ -293,13 +293,17 @@ class PostPrice(Resource):
 		# if from_location.strip() == '' or to_location.strip() == '' or car_number.strip() == '' \
 		# or period.strip() == '' or arrival.strip() == '' or day_time.strip() == '':
 		# 	return {"message": "Fields cannot be empty"}, 403
-	
-		curr.execute(""" INSERT INTO prices(car_number, from_location, to_location, period, arrival, price, day_time)
+		try:
+
+			curr.execute(""" INSERT INTO prices(car_number, from_location, to_location, period, arrival, price, day_time)
 														VALUES(%s, %s, %s, %s, %s, %s, %s)""",\
 															(car_number, from_location, to_location, period, arrival, price, day_time))
-		connection.commit()
-		return  {"message": "Location and Price are Successfully submited"}, 201
-
+			connection.commit()
+			return  {"message": "Location and Price are Successfully submited"}, 201
+		except:
+			connection.rollback()
+			return {"message": "Failed to post location"}
+			
 	@jwt_required
 	def get(self):
 		current_user = get_jwt_identity()
