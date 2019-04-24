@@ -291,9 +291,9 @@ class PostPrice(Resource):
 		price  = data['price']
 		day_time = data['day_time']
 
-		# if from_location.strip() == '' or to_location.strip() == '' or car_number.strip() == '' \
-		# or period.strip() == '' or arrival.strip() == '' or day_time.strip() == '':
-		# 	return {"message": "Fields cannot be empty"}, 403
+		if from_location.strip() == '' or to_location.strip() == '' or car_number.strip() == '' \
+		or period.strip() == '' or arrival.strip() == '' or day_time.strip() == '':
+			return {"message": "Fields cannot be empty"}, 403
 		try:
 
 			curr.execute(""" INSERT INTO prices(car_number,from_location, to_location, period, arrival, price, day_time)
