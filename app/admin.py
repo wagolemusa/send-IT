@@ -295,7 +295,7 @@ class PostPrice(Resource):
 		# 	return {"message": "Fields cannot be empty"}, 403
 	
 		curr.execute(""" INSTER INTO prices (car_number, from_location, to_location, period, arrival, price, day_time)
-														VALUES(%s, %s, %s, %s, %s, %s)""",\
+														VALUES(%s, %s, %s, %s, %s, %s, %s)""",\
 															(car_number, from_location, to_location, period, arrival, price, day_time))
 		connection.commit()
 		return  {"message": "Location and Price are Successfully submited"}, 201
