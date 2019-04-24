@@ -23,8 +23,8 @@ class Usermodel:
 		return sql
 
 	def data_price(self):
-		data = """ INSERT INTO prices(car_number, from_location, to_location, price, day_time)
-					VALUES(%s, %s, %s, %s, %s)"""
+		data = """ INSERT INTO prices(car_number, from_location, to_location,period, arrival, price, day_time)
+					VALUES(%s, %s, %s, %s, %s, %s, %s)"""
 		return data
 
 	def check_username(self):

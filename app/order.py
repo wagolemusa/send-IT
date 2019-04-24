@@ -28,7 +28,6 @@ class CreateParcel(Resource):
 	""" Class for create parcel methods """
 	@jwt_required
 	def post(self):
-		connection.commit()
 		data = request.get_json(force=True)
 		title = data['title']
 		pickup = data['pickup']
@@ -110,9 +109,7 @@ class ParcelCallbackUrl(Resource):
 	def post(self):
 		requests = request.get_json()
 		data = json.dumps(requests)
-
 		json_da = requests.get('Body')
-
 		resultcode = json_da['stkCallback']['ResultCode']
 
 		def pay():
@@ -190,6 +187,7 @@ class ModifyOrder(Resource):
 		connection.commit()
 		return {"message":"Post Deleted"}
 
+
 class AnOrder(Resource):
 	@jwt_required
 	def put(self, parcel_id):
@@ -209,14 +207,17 @@ class AnOrder(Resource):
 			data_list.append({"parcel_id":parcel_id, "destination":destination})
 			return {"data": data_list}
 		return {"message": "Successfuly Updated"}
-		
+	
+
 
 class Booking(Resource):
 	@jwt_required
 	def post(self):
-		"""This methods helps a user to book the transport service"""
+		"""
+		This methods helps a user to book the transport service
+		"""
 		data = request.get_json(force=True)
-		bookingref = random.randint(1, 1000)
+		bookingref = random.randint(1, 100000)
 		bookingref = str(bookingref)
 		car_number = data['car_number']
 		from_location = data['from_location']
@@ -239,7 +240,9 @@ class Booking(Resource):
 
 	@jwt_required
 	def get(self):
-		""" Method for get all bookings """
+		""" 
+		Method for get all bookings 
+		"""
 		username = get_jwt_identity()
 		curr.execute(" SELECT * FROM booking WHERE username =%s", [username])
 		book = curr.fetchall()
@@ -264,7 +267,9 @@ class Booking(Resource):
 
 
 class BookPostpond(Resource):
-	""" Class for postpond bookings """
+	""" 
+	Class for postpond bookings 
+	"""
 	@jwt_required
 	def put(self, book_id):
 		data = request.get_json(force=True)
@@ -288,7 +293,10 @@ class BookPostpond(Resource):
 
 
 class SearchBooking(Resource):
-	""" Methods for searching towns """
+	""" 
+	Methods for searching towns
+
+	"""
 	@jwt_required
 	def post(self):
 		from_location = request.json['from_location']
@@ -315,10 +323,15 @@ class SearchBooking(Resource):
 
 
 class Users(Resource):
-	""" Get a user account """
+	""" 
+	Get a user account 
+	"""
 	@jwt_required
 	def get(self):
-		""" Method for get all Parcel Orders """
+		""" 
+		Method for get all Parcel Orders 
+
+		"""
 		username = get_jwt_identity()
 		curr.execute(" SELECT * FROM users WHERE username =%s", [username,])
 		data = curr.fetchall()
@@ -337,7 +350,9 @@ class Users(Resource):
 
 
 class UpdateUser(Resource):
-	""" Class updates user """
+	""" 
+	Class updates user 
+	"""
 	@jwt_required
 	def put(self, user_id):
 		data = request.get_json(force=True)
@@ -356,6 +371,9 @@ class UpdateUser(Resource):
 class Mpesa(Resource):
 	@jwt_required
 	def post(self):
+		""" 
+			Bookings methods holds lipa na Mpesa
+		"""
 		data = request.get_json(force=True)
 		bookingref = data['bookingref']
 		car_number = data['car_number']
@@ -428,7 +446,10 @@ class Mpesa(Resource):
 
 	@jwt_required
 	def get(self):
-		""" Method for query all payments"""
+		""" 
+		Method for query all payments
+
+		"""
 		username = get_jwt_identity()
 		curr.execute(" SELECT * FROM payments WHERE username =%s", [username])
 		book = curr.fetchall()
@@ -452,7 +473,10 @@ class Mpesa(Resource):
 		return {"book": book_list}
 
 class PaymentId(Resource):
-	""" Methods Queries all Payments """
+	""" 
+	Methods Queries all Payments 
+
+	"""
 	@jwt_required
 	def get(self, payment_id):
 		curr.execute("SELECT * FROM payments WHERE payment_id = %s",[payment_id])
@@ -482,7 +506,9 @@ class PaymentId(Resource):
 
 class Callback(Resource):
 	def post(self):
-		return ''
+		"""
+		It recieves the response from safaricam
+		"""
 		requests = request.get_json()
 		data = json.dumps(requests)
 

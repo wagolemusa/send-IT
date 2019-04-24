@@ -290,15 +290,13 @@ class PostPrice(Resource):
 		price  = request.json['price']
 		day_time = request.json['day_time']
 
-		if from_location.strip() == '' or to_location.strip() == '' or car_number.strip() == '' or price.strip() == '' or day_time.strip() == ''\
-		or period.strip() == '' or arrival.strip() == '':
+		if from_location.strip() == '' or to_location.strip() == '' or car_number.strip() == '' \
+		or period.strip() == '' or arrival.strip() == '' or day_time.strip() == '':
 			return {"message": "Fields cannot be empty"}, 403
-		# elif type(price) != int:
-		# 	return {"message": "Price should be only Numbers"}, 403
-		loc = Usermodel()
-		data = loc.data_price()
 		try:
-			curr.execute(data, (car_number, from_location, to_location, period, arrival, price, day_time,))
+			curr.execute(""" INSTER INTO prices (car_number, from_location, to_location, period, arrival, price, day_time)
+														VALUES(%s, %s, %s, %s, %s, %s)""",\
+															(car_number, from_location, to_location, period, arrival, price, day_time))
 			connection.commit()
 			return  {"message": "Location and Price are Successfully submited"}, 201
 		except:
@@ -326,10 +324,12 @@ class PostPrice(Resource):
 			car_number = row[1]
 			from_location = row[2]
 			to_location =row[3]
-			price = row[4]
-			day_time = row[5]
+			period = row[4]
+			arrival = row[5]
+			price = row[6]
+			day_time = row[7]
 
-			location.append({"price_id":price_id, "car_number":car_number, "from_location": from_location, "to_location":to_location, "price":price, "day_time":day_time})
+			location.append({"price_id":price_id, "car_number":car_number, "from_location": from_location, "to_location":to_location,  "period": period, "arrival": arrival, "price":price, "day_time":day_time})
 		return jsonify({"collection": location})
 
 class EditPrices(Resource):
@@ -347,10 +347,12 @@ class EditPrices(Resource):
 		car_number = data['car_number']
 		from_location = data['from_location']
 		to_location = data['to_location']
+		period = data['period']
+		arrival = ['arrival']
 		price = data['price']
 		day_time = data['day_time']
-		curr.execute("""UPDATE prices SET car_number =%s, from_location =%s, to_location =%s, price =%s, day_time =%s
-															WHERE price_id =%s """, (car_number, from_location, to_location, price, day_time, price_id))
+		curr.execute("""UPDATE prices SET car_number =%s, from_location =%s, to_location =%s, period=%s, arrival=%s, price =%s, day_time =%s
+															WHERE price_id =%s """, (car_number, from_location, to_location, period, arrival, price, day_time, price_id))
 		connection.commit()
 		return {"message": "Successfuly updated"}, 403
 
@@ -546,7 +548,6 @@ class PaymentAdmin(Resource):
 
 
 class PrintPayment(Resource):
-
 	@jwt_required
 	def get(self, payment_id):
 		current_user = get_jwt_identity()
