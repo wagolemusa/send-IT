@@ -282,27 +282,28 @@ class PostPrice(Resource):
 		if current_user != U:
 			return {"message": "Access allowed only to admin"}, 403
 
-		car_number = request.json['car_number']
-		from_location = request.json['from_location']
-		to_location = request.json['to_location']
-		period = request.json['period']
-		arrival = request.json['arrival']
-		price  = request.json['price']
-		day_time = request.json['day_time']
+		data = request.get_json(force=True)
+		car_number = data['car_number']
+		from_location = data['from_location']
+		to_location = data['to_location']
+		period = data['period']
+		arrival = data['arrival']
+		price  = data['price']
+		day_time = data['day_time']
 
 		# if from_location.strip() == '' or to_location.strip() == '' or car_number.strip() == '' \
 		# or period.strip() == '' or arrival.strip() == '' or day_time.strip() == '':
 		# 	return {"message": "Fields cannot be empty"}, 403
-		try:
+		# try:
 
-			curr.execute(""" INSERT INTO prices(car_number, from_location, to_location, period, arrival, price, day_time)
-																	VALUES(%s, %s, %s, %s, %s, %s, %s)""",\
-																		(car_number, from_location, to_location, period, arrival, price, day_time))
-			connection.commit()
-			return  {"message": "Location and Price are Successfully submited"}, 201
-		except:
-			connection.rollback()
-			return {"message": "Failed to post location"}
+		curr.execute(""" INSERT INTO prices(car_number,from_location, to_location, period, arrival, price, day_time)
+																				VALUES(%s, %s, %s, %s, %s, %s, %s)""",\
+																				(car_number, from_location, to_location, period, arrival, price, day_time))
+		connection.commit()
+		return  {"message": "Location and Price are Successfully submited"}, 201
+		# except:
+			# connection.rollback()
+			# return {"message": "Failed to post location"}
 
 	@jwt_required
 	def get(self):
