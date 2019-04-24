@@ -294,7 +294,7 @@ class PostPrice(Resource):
 		# or period.strip() == '' or arrival.strip() == '' or day_time.strip() == '':
 		# 	return {"message": "Fields cannot be empty"}, 403
 	
-		curr.execute(""" INSTER INTO prices (car_number, from_location, to_location, period, arrival, price, day_time)
+		curr.execute(""" INSERT INTO prices(car_number, from_location, to_location, period, arrival, price, day_time)
 														VALUES(%s, %s, %s, %s, %s, %s, %s)""",\
 															(car_number, from_location, to_location, period, arrival, price, day_time))
 		connection.commit()
