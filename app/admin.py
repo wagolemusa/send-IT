@@ -290,9 +290,7 @@ class PostPrice(Resource):
 		arrival = data['arrival']
 		price  = data['price']
 		day_time = data['day_time']
-
-		if car_number.strip() == '':
-			return {"message": "Fields cannot be empty"}, 403
+		
 		if from_location.strip() == '':
 			return {"message": "Fields cannot be empty"}, 403
 		if to_location.strip() == '':
