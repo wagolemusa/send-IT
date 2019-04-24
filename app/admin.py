@@ -299,13 +299,6 @@ class PostPrice(Resource):
 			return {"message": "Fields cannot be empty"}, 403
 		if period.strip() == '':
 			return {"message": "Fields cannot be empty"}, 403
-
-		if arrival.strip() == '':
-			return {"message": "Fields cannot be empty"}, 403
-		if price.strip() == '':
-			return {"message": "Fields cannot be empty"}, 403
-		if day_time.strip() == '':
-			return {"message": "Fields cannot be empty"}, 403
 		try:
 
 			curr.execute(""" INSERT INTO prices(car_number,from_location, to_location, period, arrival, price, day_time)
