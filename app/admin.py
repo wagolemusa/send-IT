@@ -292,8 +292,8 @@ class PostPrice(Resource):
 		day_time = data['day_time']
 
 		curr.execute(""" INSERT INTO prices(car_number, from_location, to_location, period, arrival, price, day_time)
-																				VALUES(%s, %s, %s, %s, %s, %s, %s)""",\
-																				(car_number, from_location, to_location, period, arrival, price, day_time))
+																	VALUES(%s, %s, %s, %s, %s, %s, %s)""",\
+																			(car_number, from_location, to_location, period, arrival, price, day_time))
 		connection.commit()
 		return  {"message": "Location and Price are Successfully submited"}, 201
 
