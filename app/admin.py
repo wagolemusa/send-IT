@@ -291,8 +291,8 @@ class PostPrice(Resource):
 		price  = data['price']
 		day_time = data['day_time']
 
-		if car_number.strip() == '' or from_location.strip() == '' or to_location.strip() == ''\
-		or period.strip() == '' or arrival.strip() == '' or price.strip() == '' or day_time.strip() == '':
+		if from_location.strip() == '' or to_location.strip() == ''\
+		or period.strip() == '' or arrival.strip() == '' or day_time.strip() == '':
 			return {"message": "Fields cannot be empty"}, 403
 				
 		try:
@@ -582,15 +582,34 @@ class PrintPayment(Resource):
 			booker.append({"payment_id":payment_id, "bookingref":bookingref, "username":username, "car_number":car_number, "from_location":from_location, "to_location":to_location, "price":price, "quality":quality, "dates":dates, "amount":amount, "phone":phone, "status":status, "created_on":created_on})
 		return jsonify({"data": booker})	
 
-# class Desk(Resource):
-# 	@jwt_required
-# 	def get(self, payment_id):
-# 		current_user = get_jwt_identity()
-# 		U = Users().get_user_role()
-# 		if current_user != U:
-# 			return {"message": "Access allowed only to admin"}, 403
-# 		data = request.get_json(force=True)
-# 		bookingref = random.randint(1, 100000)
-# 		bookingref = str(bookingref)
+class Desk(Resource):
+	@jwt_required
+	def post(self):
+		current_user = get_jwt_identity()
+		U = Users().get_user_role()
+		if current_user != U:
+			return {"message": "Access allowed only to admin"}, 403
 
-		
+		data = request.get_json(force=True)
+		bookingref = random.randint(1, 100000)
+		bookingref = str(bookingref)
+		customer_name = data['customer_name']
+		customer_number = data['customer_number']
+		from_location = data['from_location']
+		to_location  = data['to_location']
+		quantiy = data['quantiy']
+		price = data['price']
+		phone = data['phone']
+		date_when = data['date_when']
+		time_at  = data['time_at']
+		username = current_user
+
+		curr.execute(""" INSERT INTO desk(bookingref, username, customer_name, customer_number,\
+																			from_location, to_location, quantiy, price, phone, date_when, time_at)
+																			VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",\
+																			(bookingref, username, customer_name, customer_number, from_location, to_location, quantiy, price, phone, date_when, time_at))
+		connection.commit()
+		return {"message": "Succussfully Created"}
+
+
+

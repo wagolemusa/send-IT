@@ -32,6 +32,7 @@ def create_table():
 				""" CREATE TABLE IF NOT EXISTS desk(
 			desk_id SERIAL PRIMARY KEY UNIQUE NOT NULL,
 			user_id  INT,
+			bookingref INT,
 			username VARCHAR(50) NOT NULL,
 			customer_name VARCHAR(50) NOT NULL,
 			customer_number VARCHAR(50) NOT NULL,
@@ -42,8 +43,9 @@ def create_table():
 			phone INT,
 			amount INT,
 			date_when VARCHAR(50) NOT NULL,
-			time_when VARCHAR(50) NOT NULL,
+			time_at VARCHAR(50) NOT NULL,
 			created_on TIMESTAMP DEFAULT NOW(),
+			payments VARCHAR DEFAULT 'cash',
 			FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
 			);"""
 
