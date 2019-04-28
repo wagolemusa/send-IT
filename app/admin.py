@@ -291,12 +291,10 @@ class PostPrice(Resource):
 		price  = data['price']
 		day_time = data['day_time']
 
-		if from_location.strip() == '':
+		if car_number.strip() == '' or from_location.strip() == '' or to_location.strip() == ''\
+		or period.strip() == '' or arrival.strip() == '' or price.strip() == '' or day_time.strip() == '':
 			return {"message": "Fields cannot be empty"}, 403
-		if to_location.strip() == '':
-			return {"message": "Fields cannot be empty"}, 403
-		if period.strip() == '':
-			return {"message": "Fields cannot be empty"}, 403
+				
 		try:
 
 			curr.execute(""" INSERT INTO prices(car_number, from_location, to_location, period, arrival, price, day_time)
@@ -583,3 +581,16 @@ class PrintPayment(Resource):
 			created_on = row[13]
 			booker.append({"payment_id":payment_id, "bookingref":bookingref, "username":username, "car_number":car_number, "from_location":from_location, "to_location":to_location, "price":price, "quality":quality, "dates":dates, "amount":amount, "phone":phone, "status":status, "created_on":created_on})
 		return jsonify({"data": booker})	
+
+# class Desk(Resource):
+# 	@jwt_required
+# 	def get(self, payment_id):
+# 		current_user = get_jwt_identity()
+# 		U = Users().get_user_role()
+# 		if current_user != U:
+# 			return {"message": "Access allowed only to admin"}, 403
+# 		data = request.get_json(force=True)
+# 		bookingref = random.randint(1, 100000)
+# 		bookingref = str(bookingref)
+
+		
