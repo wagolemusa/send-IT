@@ -29,6 +29,24 @@ def create_table():
  			price INT,
 			day_time VARCHAR(50));"""
 
+				""" CREATE TABLE IF NOT EXISTS desk(
+			desk_id SERIAL PRIMARY KEY UNIQUE NOT NULL,
+			user_id  INT,
+			username VARCHAR(50) NOT NULL,
+			customer_name VARCHAR(50) NOT NULL,
+			customer_number VARCHAR(50) NOT NULL,
+			from_location VARCHAR(50) NOT NULL,
+			to_location VARCHAR(50) NOT NULL,
+			quantiy INT,
+			price INT,
+			phone INT,
+			amount INT,
+			date_when VARCHAR(50) NOT NULL,
+			time_when VARCHAR(50) NOT NULL,
+			created_on TIMESTAMP DEFAULT NOW(),
+			FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
+			);"""
+
 				"""CREATE TABLE IF NOT EXISTS orders(
 			parcel_id SERIAL PRIMARY KEY UNIQUE NOT NULL,
 			user_id  INT,
@@ -93,9 +111,9 @@ def drop_table():
 	curr = connection.cursor()
 
 	queries = (
-		"""DROP TABLE IF EXISTS orders CASCADE;""", """DROP TABLE IF EXISTS users CASCADE;""",\
-		"""DROP TABLE IF EXISTS prices CASCADE;""", """DROP TABLE IF EXISTS booking CASCADE;""",\
-		"""DROP TABLE IF EXISTS payments CASCADE;""")
+		"""DROP TABLE IF EXISTS orders CASCADE;""",  """DROP TABLE IF EXISTS users CASCADE;""",\
+		"""DROP TABLE IF EXISTS prices CASCADE;""",  """DROP TABLE IF EXISTS booking CASCADE;""",\
+		"""DROP TABLE IF EXISTS payments CASCADE;""", """DROP TABLE IF EXISTS desk CASCADE;""")
 	for query in queries:
 		curr.execute(query)
 		connection.commit()
