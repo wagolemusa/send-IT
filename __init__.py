@@ -41,6 +41,7 @@ from app.admin import PrintPayment
 from app.order import Callback
 from app.order import ParcelCallbackUrl
 from app.admin import Desk
+from app.admin import GetPrice_by_id
 
 
 def create_app(config_name):
@@ -75,6 +76,7 @@ def create_app(config_name):
 	api.add_resource(DeleteParcels, '/admin/v2/parcels/<int:parcel_id>')
 	api.add_resource(PostPrice, '/admin/v2/locations')
 	api.add_resource(EditPrices, '/admin/v2/locations/<int:price_id>')
+	api.add_resource(GetPrice_by_id, '/admin/v2/locations/<int:price_id>')
 	api.add_resource(GetNumbers, '/admin/v2/number')
 	api.add_resource(Booking, '/v2/book')
 	api.add_resource(BookPostpond, '/v2/book/<int:book_id>/postpond')

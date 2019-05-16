@@ -65,11 +65,14 @@ class Challenge(Resource):
 		return jsonify({"message": "Successfuly Updated"})
 
 class GetAllUser(Resource):
-	""" Class and Method endpoint it queries all users """
+	""" 
+	Class and Method endpoint it queries all users
+	"""
 	@jwt_required
 	def get(self):
-
-		# this code it identify the normal user and admin
+		"""
+		this code it identify the normal user and admin
+		"""
 		current_user = get_jwt_identity()
 		U = Users().get_user_role()
 		if current_user != U:
@@ -110,13 +113,11 @@ class Status(Resource):
 	""" Class and Method endpoint it puts the status for a specific parcels """
 	@jwt_required
 	def put(self, parcel_id):
-
 		# this code it identify the normal user and admin
 		current_user = get_jwt_identity()
 		U = Users().get_user_role()
 		if current_user != U:
 			return {"message": "Access allowed only to admin"}, 403
-
 		data = request.get_json(force=True)
 		status = data['status']
 
@@ -338,7 +339,6 @@ class PostPrice(Resource):
 
 class EditPrices(Resource):
 	""" Class and Method updates the locations and price """
-
 	@jwt_required
 	def put(self, price_id):
 
@@ -358,7 +358,38 @@ class EditPrices(Resource):
 		curr.execute("""UPDATE prices SET car_number =%s, from_location =%s, to_location =%s, period=%s, arrival=%s, price =%s, day_time =%s
 															WHERE price_id =%s """, (car_number, from_location, to_location, period, arrival, price, day_time, price_id))
 		connection.commit()
-		return {"message": "Successfuly updated"}, 403
+		return {"message": "Successfuly updated"}, 201
+
+
+class GetPrice_by_id(Resource):
+	"""
+	Class method get all locations by ID
+	"""
+	@jwt_required
+	def get(self, price_id):	
+		current_user = get_jwt_identity()
+		U = Users().get_user_role()
+		if current_user != U:
+			return {"message": "Access allowed only to admin"}, 403
+
+		curr.execute("SELECT * FROM prices WHERE price_id = %s", [price_id])
+		connection.commit()
+		data = curr.fetchall()
+		if not data:
+			return {"message":"There is No Locations yet"}
+		places = []
+		for row in data:
+			price_id = row[0]
+			car_number = row[1]
+			from_location = row[2]
+			to_location =row[3]
+			period = row[4]
+			arrival = row[5]
+			price = row[6]
+			day_time = row[7]
+			places.append({"price_id":price_id, "car_number":car_number, "from_location": from_location, "to_location":to_location,  "period": period, "arrival": arrival, "price":price, "day_time":day_time})
+			return jsonify({"collection": places})
+
 
 class SearchSerial(Resource):
 	""" Methods for searching serial number """
@@ -380,7 +411,7 @@ class SearchSerial(Resource):
 		connection.commit()
 
 		if not data:
-			return jsonify({"message":"There is no root yet"})
+			return {"message":"There is no root yet"}
 		books = []
 		for row in data:
 			book_id = row[0]
