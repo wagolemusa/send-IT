@@ -388,7 +388,7 @@ class GetPrice_by_id(Resource):
 			price = row[6]
 			day_time = row[7]
 			places.append({"price_id":price_id, "car_number":car_number, "from_location": from_location, "to_location":to_location,  "period": period, "arrival": arrival, "price":price, "day_time":day_time})
-			return jsonify({"collection": places})
+			return jsonify({"data": places})
 
 
 class SearchSerial(Resource):
