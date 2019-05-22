@@ -66,6 +66,10 @@ class Usermodel:
 		connection.commit()
 
 
+	def senddata(self):
+		sql = "SELECT phone FROM users"
+		return sql
+
 class Users():
 	def get_user_role(self):
 		"""Fetch user role"""
