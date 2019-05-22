@@ -11,6 +11,7 @@ from flask_jwt_extended import (
     get_jwt_identity 
 )
 from models.user_model import Usermodel, Users
+import africastalking
 
 types_status = ["delivered", "cancled"]
 
@@ -644,4 +645,33 @@ class Desk(Resource):
 		return {"message": "Succussfully Created"}
 
 
+class Sendsms(Resource):
+	def post(self):
+		data = request.get_json(force=True)
+		message = data['message']
+		curr.execute("SELECT phone FROM users")
+		connection.commit()
+
+		data = curr.fetchall()
+		print (data)
+		num = data
+		list1 = []
+		for nums in num:
+			list1.append(nums[0])
+		print (list1)
+
+		call = list1
+
+		for m in call:
+			sendsms = str(m)
+			print ('+254' + sendsms)
+			username = "refuge"    # use 'sandbox' for development in the test environment
+			api_key = "73d787253bd6446b12686b20f063042cbfc7d687301f4ab8a89233b6dd523883"      # use your sandbox app API key for development in the test environment
+			africastalking.initialize(username, api_key)
+
+			# Initialize a service e.g. SMS
+			sms = africastalking.SMS
+			# Use the service synchronously
+			response = sms.send(message, ['+254' + sendsms ])
+		print(response)
 
