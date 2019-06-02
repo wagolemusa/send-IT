@@ -43,6 +43,7 @@ from app.order import ParcelCallbackUrl
 from app.admin import Desk
 from app.admin import GetPrice_by_id
 from app.admin import Sendsms
+from app.admin import Emailsms
 
 
 def create_app(config_name):
@@ -98,6 +99,7 @@ def create_app(config_name):
 	api.add_resource(ParcelCallbackUrl, '/v2/parcel/callbackurl')
 	api.add_resource(Desk, '/admin/v2/create/passenger')
 	api.add_resource(Sendsms, '/admin/v2/sendmessage')
+	api.add_resource(Emailsms, '/admin/v2/send/email/notification')
 	# @app.errorhandler(404)
 	# def not_found(error):
 	# 	return {"message": "Page Not Found"},404

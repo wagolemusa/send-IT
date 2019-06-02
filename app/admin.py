@@ -646,6 +646,10 @@ class Desk(Resource):
 
 
 class Sendsms(Resource):
+	"""
+	Class methods sends messages to all numbers which is registerd
+
+	"""
 	def post(self):
 		data = request.get_json(force=True)
 		message = data['message']
@@ -674,4 +678,37 @@ class Sendsms(Resource):
 			# Use the service synchronously
 			response = sms.send(message, ['+254' + sendsms ])
 		print(response)
+
+class Emailsms(Resource):
+	def post(self):
+		"""
+		This Method it emails message to all users who have registered
+		""" 
+		data = request.get_json(force=True)
+		message = data['message']
+		curr.execute("SELECT email FROM users")
+		connection.commit()
+		data = curr.fetchall()
+		print (data)
+		sms = data
+		email = []
+		for send in sms:
+			email.append(send[0])
+
+		for notication in email:
+			emailx = notication
+		
+			FROM = "homiemusa@gmail.com"
+			TO = emailx
+			SUBJECT = "Noticatications"
+			MESSAGE = message
+		
+			mail = smtplib.SMTP('smtp.gmail.com', 587)
+			mail.starttls()
+			mail.login("homiemusa@gmail.com", "djrefuge@12")
+			msg = """From: %s\nTo: %s\nSubject: %s\n\n%s
+			""" % (FROM, ", ".join(TO), SUBJECT, MESSAGE)
+			mail.sendmail(FROM, TO, msg)
+			mail.quit()
+		return {"message":"Successful sent"}
 
