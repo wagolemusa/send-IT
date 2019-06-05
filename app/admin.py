@@ -59,11 +59,12 @@ class Challenge(Resource):
 		U = Users().get_user_role()
 		if current_user != U:
 			return {"message": "Access allowed only to admin"}, 403
-		
 		pickup = request.json['pickup']
+		
 		curr.execute("""UPDATE orders SET pickup=%s WHERE parcel_id=%s """,(pickup, parcel_id))
 		connection.commit()
 		return jsonify({"message": "Successfuly Updated"})
+
 
 class GetAllUser(Resource):
 	""" 
@@ -101,7 +102,6 @@ class GetAllUser(Resource):
 
 class Status(Resource):
 
-
 	def odrer_fetch(self):
 		sql = "SELECT * FROM orders WHERE parcel_id=%s;"
 		return sql
@@ -121,34 +121,49 @@ class Status(Resource):
 			return {"message": "Access allowed only to admin"}, 403
 		data = request.get_json(force=True)
 		status = data['status']
-
-		if status.strip() == '':
-			return {"message": "Status cannot be empty"}, 403
- 
 		curr.execute("""SELECT * FROM orders WHERE parcel_id=%s """,(parcel_id,))
 		state = curr.fetchone()
 		# parcel_id = state[0]
-		record = state[10]
+		record = state[13]
 
 		if record in types_status:
 			return {"message":"You can not change this status is already in " + record}, 403
 
+		# Check the username in Orders
 		sql = self.odrer_fetch()
 		curr.execute(sql,(parcel_id,))
-
 		parcel_data = curr.fetchone()
 		creator = parcel_data[3]
 
 		owner_data = self.check_user(creator)
+		phone_owner = owner_data[4]
 		email_owner = owner_data[5]
-		print (email_owner)
 
+		#  it extract from int
+		phone = str(phone_owner)
+		print (phone)
+		print (email_owner)
+		
+		# It updates in database
 		curr.execute("""UPDATE orders SET status=%s WHERE parcel_id=%s """,(status, parcel_id))
 		connection.commit()
+
+		# Sends sms to mobile phone
+		message = "Your Parcel is now {}".format(status)
+		username = "refuge"    # use 'sandbox' for development in the test environment
+		api_key = "73d787253bd6446b12686b20f063042cbfc7d687301f4ab8a89233b6dd523883"      # use your sandbox app API key for development in the test environment
+		africastalking.initialize(username, api_key)
+
+		# Initialize a service e.g. SMS
+		sms = africastalking.SMS
+		# Use the service synchronously
+		response = sms.send(message, ['+254' + phone ])
+
+		# Sent to email Address
 		FROM = "homiemusa@gmail.com"
 		TO = email_owner
 		SUBJECT = "Parcel Status Changed"
-		MESSAGE = "You Parcel is now {}".format(status)
+		MESSAGE = "Your Parcel is now {}".format(status)
 		
 		mail = smtplib.SMTP('smtp.gmail.com', 587)
 		mail.starttls()
@@ -157,7 +172,7 @@ class Status(Resource):
 		""" % (FROM, ", ".join(TO), SUBJECT, MESSAGE)
 		mail.sendmail(FROM, TO, msg)
 		mail.quit()
-		return {"message":"status set to {} could not send email".format(status)}
+		return {"message":"status {} sent a notification on mobile number".format(status)}
 		# return jsonify({"message": "Successfuly Status Changed"})	
 
 

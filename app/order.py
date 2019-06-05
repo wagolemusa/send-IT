@@ -13,6 +13,7 @@ from flask_jwt_extended import (
   	jwt_required, create_access_token, get_current_user, 
     get_jwt_identity 
 )
+import africastalking
 from models.user_model import Usermodel
 
 post_pond = ["postpond"]
@@ -189,14 +190,37 @@ class ModifyOrder(Resource):
 
 
 class AnOrder(Resource):
+	"""
+	This class it enables the user to change the destination
+	"""
+	def check_user(self):
+		curr.execute("SELECT phone FROM users WHERE is_admin = 'True'")
+		connection.commit()
+		user = curr.fetchone()
+		return user
+
 	@jwt_required
 	def put(self, parcel_id):
 		data = request.get_json(force=True)
 		
 		destination = data['destination']
-
 		curr.execute("""UPDATE orders SET destination=%s WHERE parcel_id=%s """,(destination,	parcel_id))
 		connection.commit()
+
+		owner_data = self.check_user()
+		for number in owner_data:
+			phone = str(number)
+
+			# Sends sms to mobile phone
+			message = "The destination is changed by user to {}".format(destination)
+			username = "refuge"    # use 'sandbox' for development in the test environment
+			api_key = "73d787253bd6446b12686b20f063042cbfc7d687301f4ab8a89233b6dd523883"      # use your sandbox app API key for development in the test environment
+			africastalking.initialize(username, api_key)
+
+			# Initialize a service e.g. SMS
+			sms = africastalking.SMS
+			# Use the service synchronously
+			response = sms.send(message, ['+254' + phone ])
 
 		curr.execute(" SELECT * FROM orders WHERE parcel_id =%s", [parcel_id])
 		data = curr.fetchall()
