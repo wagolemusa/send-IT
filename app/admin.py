@@ -718,7 +718,7 @@ class Emailsms(Resource):
 			SUBJECT = "Noticatications"
 			MESSAGE = message
 		
-			mail = smtplib.SMTP(host='https://git.heroku.com/senditparcel.git', port=5432)
+			mail = smtplib.SMTP(host='https://senditparcel.herokuapp.com/', port=5432)
 			mail.starttls()
 			mail.login("homiemusa@gmail.com", "djrefuge@12")
 			msg = """From: %s\nTo: %s\nSubject: %s\n\n%s
