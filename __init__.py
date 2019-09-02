@@ -9,7 +9,7 @@ from database import create_table, admin, drop_table
 from app.order import Home
 from app.user  import Register
 from app.user  import Login
-from app.order import CreateParcel
+from app.parcel import CreateParcel
 from app.order import ModifyOrder
 from app.order import AnOrder
 from app.admin import Admin
@@ -39,7 +39,7 @@ from app.order import PaymentId
 from app.admin import PaymentAdmin
 from app.admin import PrintPayment
 from app.order import Callback
-from app.order import ParcelCallbackUrl
+from app.parcel import ParcelCallbackUrl
 from app.admin import Desk
 from app.admin import GetPrice_by_id
 from app.admin import Sendsms

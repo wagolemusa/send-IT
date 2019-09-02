@@ -86,6 +86,8 @@ def create_table():
 					"""CREATE TABLE IF NOT EXISTS payments(
 			payment_id SERIAL PRIMARY KEY UNIQUE NOT NULL,
 			user_id INT,
+			book_id INT,
+			desk_id INT,
 			bookingref INT,
 			username VARCHAR(50) NOT NULL,
 			car_number INT,
@@ -94,11 +96,16 @@ def create_table():
 			price INT,
 			quality INT,
 			dates VARCHAR(50) NOT NULL,
-			amount INT,
-			phone  VARCHAR(50) NOT NULL,
+			phone BIGINT NOT NULL CHECK(phone >= 0),
+			amount VARCHAR DEFAULT 'amount',
+			mpesa_reciept VARCHAR DEFAULT 'mpesa',
+			resultdesc  VARCHAR DEFAULT 'resultdesc',
 			status VARCHAR DEFAULT 'no',
 			created_on TIMESTAMP DEFAULT NOW(),
-			FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
+			FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
+			FOREIGN KEY (book_id) REFERENCES booking(book_id) ON DELETE CASCADE,
+			FOREIGN KEY (desk_id) REFERENCES desk(desk_id) ON DELETE CASCADE
+
 			);""")
 	connection = init_db()
 	curr = connection.cursor()
