@@ -448,5 +448,5 @@ class Callback(Resource):
 				return "Badrequest"
 
 		status = pay()
-		curr.execute("""UPDATE payments SET status=%s, resultdesc=%s WHERE status = 'no', resultdesc'resultdesc' """,(status,resultdesc,))
+		curr.execute("""UPDATE payments SET  resultdesc=%s, status=%s WHERE resultdesc = 'resultdesc', status = 'no' """,(resultdesc, status,))
 		connection.commit()
