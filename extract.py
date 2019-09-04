@@ -2,48 +2,48 @@
 
 
 import json
-json_data = '{"Body":{"stkCallback":{"MerchantRequestID":"22531-976234-1","CheckoutRequestID":"ws_CO_DMZ_250600506_23022019144745852","ResultCode":0,"ResultDesc":"The service request is processed successfully.","CallbackMetadata":{"Item":[{"Name":"Amount","Value":1.00},{"Name":"MpesaReceiptNumber","Value":"NBN52K8A1J"},{"Name":"Balance"},{"Name":"TransactionDate","Value":20190223144807},{"Name":"PhoneNumber","Value":254725696042}]}}}}'
-data = json.loads(json_data)
+# json_data = '{"Body":{"stkCallback":{"MerchantRequestID":"22531-976234-1","CheckoutRequestID":"ws_CO_DMZ_250600506_23022019144745852","ResultCode":0,"ResultDesc":"The service request is processed successfully.","CallbackMetadata":{"Item":[{"Name":"Amount","Value":1.00},{"Name":"MpesaReceiptNumber","Value":"NBN52K8A1J"},{"Name":"Balance"},{"Name":"TransactionDate","Value":20190223144807},{"Name":"PhoneNumber","Value":254725696042}]}}}}'
+# data = json.loads(json_data)
 
-# paid = ""
-# faild = ""
+# # paid = ""
+# # faild = ""
 
-json_da = data['Body']
+# json_da = data['Body']
 
-# list_data = data['CallbackMetadata']
-
-
-print (json_da)
-
-# print (list_data)
-
-merchant = json_da['stkCallback']['MerchantRequestID']
-resultcode = json_da['stkCallback']['ResultCode']
-checkout = json_da['stkCallback']['CheckoutRequestID']
-resultdesc = json_da['stkCallback']['ResultDesc']
-
-def status():
-	if resultcode == 0:
-		return "paid"
-	elif resultcode == 1:
-		return "failed"
-	else:
-		return "badrequest"
+# # list_data = data['CallbackMetadata']
 
 
+# print (json_da)
+
+# # print (list_data)
+
+# merchant = json_da['stkCallback']['MerchantRequestID']
+# resultcode = json_da['stkCallback']['ResultCode']
+# checkout = json_da['stkCallback']['CheckoutRequestID']
+# resultdesc = json_da['stkCallback']['ResultDesc']
+
+# def status():
+# 	if resultcode == 0:
+# 		return "paid"
+# 	elif resultcode == 1:
+# 		return "failed"
+# 	else:
+# 		return "badrequest"
 
 
-print()
-print('mat' " " + merchant)
-print(resultcode)
-print(checkout)
-print(resultdesc)
-print()
-print()
-print()
 
-p =  status()
-print (p)
+
+# print()
+# print('mat' " " + merchant)
+# print(resultcode)
+# print(checkout)
+# print(resultdesc)
+# print()
+# print()
+# print()
+
+# p =  status()
+# print (p)
 
 
 
@@ -99,3 +99,8 @@ print (p)
 # print(p)
 
 # print(resultdesc)
+
+json_data = '{"Body":{"stkCallback":{"MerchantRequestID":"22531-976234-1","CheckoutRequestID":"ws_CO_DMZ_250600506_23022019144745852","ResultCode":0,"ResultDesc":"The service request is processed successfully.","CallbackMetadata":{"Item":[{"Name":"Amount","Value":1.00},{"Name":"MpesaReceiptNumber","Value":"NBN52K8A1J"},{"Name":"Balance"},{"Name":"TransactionDate","Value":20190223144807},{"Name":"PhoneNumber","Value":254725696042}]}}}}'
+a = json.loads(json_data)
+
+print(a["Body"]["stkCallback"]["CallbackMetadata"]["Item"][1]["Value"])
