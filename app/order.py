@@ -295,6 +295,7 @@ class Mpesa(Resource):
 			Bookings methods holds lipa na Mpesa
 		"""
 		data = request.get_json(force=True)
+		book_id = data['book_id']
 		bookingref = data['bookingref']
 		car_number = data['car_number']
 		from_location = data['from_location']
@@ -308,9 +309,9 @@ class Mpesa(Resource):
 
 		current_user = get_jwt_identity()
 		username = current_user
-		curr.execute(""" INSERT INTO payments(bookingref, username, car_number,from_location, to_location, price, quality, dates,  amount, phone)
-																				VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",\
-																				(bookingref, username, car_number, from_location, to_location,price, quality, dates,  amount, phone))
+		curr.execute(""" INSERT INTO payments(book_id, bookingref, username, car_number,from_location, to_location, price, quality, dates,  amount, phone)
+																				VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",\
+																				(book_id, bookingref, username, car_number, from_location, to_location,price, quality, dates,  amount, phone))
 		connection.commit()
 		
 		# Lipa na mpesa Functionality 
