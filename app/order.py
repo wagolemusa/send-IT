@@ -434,7 +434,6 @@ class Callback(Resource):
 		requests = request.get_json()
 		data = json.dumps(requests)
 
-		mpesa = (data["Body"]["stkCallback"]["CallbackMetadata"]["Item"][1]["Value"])
 
 		json_da = requests.get('Body')
 
@@ -442,6 +441,7 @@ class Callback(Resource):
 
 		resultcode = json_da['stkCallback']['ResultCode']
 		resultdesc = json_da['stkCallback']['ResultDesc']
+		mpesa = json_da['stkCallback']["CallbackMetadata"]["Item"][1]["Value"]
 
 		def pay():
 			if resultcode == 0:
