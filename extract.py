@@ -103,4 +103,6 @@ import json
 json_data = '{"Body":{"stkCallback":{"MerchantRequestID":"22531-976234-1","CheckoutRequestID":"ws_CO_DMZ_250600506_23022019144745852","ResultCode":0,"ResultDesc":"The service request is processed successfully.","CallbackMetadata":{"Item":[{"Name":"Amount","Value":1.00},{"Name":"MpesaReceiptNumber","Value":"NBN52K8A1J"},{"Name":"Balance"},{"Name":"TransactionDate","Value":20190223144807},{"Name":"PhoneNumber","Value":254725696042}]}}}}'
 a = json.loads(json_data)
 
-print(a["Body"]["stkCallback"]["CallbackMetadata"]["Item"][1]["Value"])
+g = (a["Body"]["stkCallback"]["CallbackMetadata"]["Item"][1]["Value"])
+
+print(g)
