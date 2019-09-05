@@ -441,7 +441,7 @@ class Callback(Resource):
 
 		resultcode = json_da['stkCallback']['ResultCode']
 		resultdesc = json_da['stkCallback']['ResultDesc']
-		mpesa = 		 json_da['stkCallback']["CallbackMetadata"]["Item"][1]["Value"]
+		mpesa_reciept = 		 json_da['stkCallback']["CallbackMetadata"]["Item"][1]["Value"]
 
 		print(mpesa)
 		def pay():
@@ -453,5 +453,5 @@ class Callback(Resource):
 				return "Badrequest"
 
 		status = pay()
-		curr.execute("""UPDATE payments SET  mpesa=%s, resultdesc=%s, status=%s WHERE mpesa='mpesa' AND resultdesc='resultdesc' AND status='no' """,(mpesa, resultdesc, status,))
+		curr.execute("""UPDATE payments SET  mpesa_reciept=%s, resultdesc=%s, status=%s WHERE mpesa_reciept='mpesa' AND resultdesc='resultdesc' AND status='no' """,(mpesa_reciept, resultdesc, status,))
 		connection.commit()
