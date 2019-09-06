@@ -23,7 +23,7 @@ merchant = json_da['stkCallback']['MerchantRequestID']
 resultcode = json_da['stkCallback']['ResultCode']
 checkout = json_da['stkCallback']['CheckoutRequestID']
 resultdesc = json_da['stkCallback']['ResultDesc']
-mpesa = json_da['stkCallback']['CallbackMetadata']["Item"][1]["Value"]
+mpesa = json_da["stkCallback"]["CallbackMetadata"]["Item"][1]["Value"]
 
 def status():
 	if resultcode == 0:
