@@ -14,6 +14,11 @@ json_da = data['Body']
 
 # list_data = data['CallbackMetadata']
 
+for item in json_da["stkCallback"]["CallbackMetadata"]["Item"]:
+	if item["Name"] == "MpesaReceiptNumber":
+		mx = (item["Value"])
+
+print (mx)
 
 print (json_da)
 
@@ -47,6 +52,7 @@ print()
 
 p =  status()
 print (p)
+
 
 
 

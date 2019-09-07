@@ -439,10 +439,13 @@ class Callback(Resource):
 
 		# mpesa_reciept = (int["Body"]["stkCallback"]["CallbackMetadata"]["Item"][1]["Value"])
 
+		for item in json_da["stkCallback"]["CallbackMetadata"]["Item"]:
+			if item["Name"] == "MpesaReceiptNumber":
+				mpesa_reciept = (item["Value"])
+
 		resultcode    = json_da['stkCallback']['ResultCode']
 		resultdesc    = json_da['stkCallback']['ResultDesc']
-		mpesa_reciept = json_da["Body"]["stkCallback"]["CallbackMetadata"]["Item"][1]["Value"]
-
+		
 		print(mpesa_reciept)
 		def pay():
 			if resultcode == 0:
