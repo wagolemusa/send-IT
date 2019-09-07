@@ -439,7 +439,7 @@ class Callback(Resource):
 
 		# mpesa_reciept = (int["Body"]["stkCallback"]["CallbackMetadata"]["Item"][1]["Value"])
 
-		for item in json_da["stkCallback"]["CallbackMetadata"]["Item"]:
+		for item in data["stkCallback"]["CallbackMetadata"]["Item"]:
 			if item["Name"] == "MpesaReceiptNumber":
 				mpesa_reciept = (item["Value"])
 
