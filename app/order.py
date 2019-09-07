@@ -432,10 +432,10 @@ class Callback(Resource):
 		It recieves the response from safaricam
 		"""
 		requests = request.get_json()
-		data = json.dumps(requests)
+		data = json.loads(requests)
 
 
-		json_da = requests.get('Body')
+		# json_da = requests.get('Body')
 
 		# mpesa_reciept = (int["Body"]["stkCallback"]["CallbackMetadata"]["Item"][1]["Value"])
 
