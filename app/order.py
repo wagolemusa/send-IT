@@ -437,7 +437,7 @@ class Callback(Resource):
 
 		json_da = requests.get('Body')
 
-		mpesa_reciept = str(data["Body"]["stkCallback"]["CallbackMetadata"]["Item"][1]["Value"])
+		mpesa_reciept = (str(data["Body"]["stkCallback"]["CallbackMetadata"]["Item"][1]["Value"]))
 
 		resultcode    = json_da['stkCallback']['ResultCode']
 		resultdesc    = json_da['stkCallback']['ResultDesc']
