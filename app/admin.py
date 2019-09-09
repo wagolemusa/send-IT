@@ -536,37 +536,6 @@ class ParcelNumber(Resource):
 		return {"num": x}
 
 
-class Get_All_Bookings(Resource):
-	@jwt_required
-	def get(self):
-		""" Method for get all bookings """
-		# current_user = get_jwt_identity()
-		# U = Users().get_user_role()
-		# if current_user != U:
-		# 	return {"message": "Access allowed only to admin"}, 403
-
-		curr.execute(" SELECT * FROM booking ")
-		book = curr.fetchall()
-		if not book:
-			return jsonify({"message":"There is no bookings yet"})
-		book_list = []
-		for row in book:
-			book_id = row[0]
-			bookingref = row[2]
-			username = row[3]
-			car_number = row[4]
-			from_location = row[5]
-			to_location = row[6]
-			price = row[7]
-			quality = row[8]
-			dates = row[9]
-			total = row[10]
-			status = row[11]
-			created_on = row[12]
-			book_list.append({"book_id":book_id, "bookingref":bookingref, "car_number":car_number, "username":username, "from_location":from_location, "to_location":to_location, "price":price, "quality":quality, "dates":dates, "total":total, "status":status, "created_on":created_on})
-		return jsonify({"book": book_list})	
-
-
 class PaymentAdmin(Resource):
 	""" Method Query all payments """
 	@jwt_required

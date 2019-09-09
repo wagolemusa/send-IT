@@ -33,7 +33,7 @@ from app.order import UpdateUser
 from app.admin import BookingNumber
 from app.admin import ParcelNumber
 from app.admin import Booking_By_Id
-from app.admin import Get_All_Bookings
+from app.order import Get_All_Bookings
 from app.order import Mpesa
 from app.order import PaymentId
 from app.admin import PaymentAdmin
