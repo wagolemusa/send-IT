@@ -434,19 +434,18 @@ class Callback(Resource):
 		requests = request.get_json()
 		data = json.loads(requests)
 
-
-		# json_da = requests.get('Body')
+		json_da = requests.get('Body')
 
 		# mpesa_reciept = (int["Body"]["stkCallback"]["CallbackMetadata"]["Item"][1]["Value"])
 
-		for item in data["Body"]["stkCallback"]["CallbackMetadata"]["Item"]:
-			if item["Name"] == "MpesaReceiptNumber":
-				mpesa_reciept = (item["Value"])
+		# for item in data["Body"]["stkCallback"]["CallbackMetadata"]["Item"]:
+		# 	if item["Name"] == "MpesaReceiptNumber":
+		# 		mpesa_reciept = (item["Value"])
 
 		resultcode    = json_da['stkCallback']['ResultCode']
 		resultdesc    = json_da['stkCallback']['ResultDesc']
 		
-		print(mpesa_reciept)
+		# print(mpesa_reciept)
 		def pay():
 			if resultcode == 0:
 				return "Paid"
@@ -456,5 +455,5 @@ class Callback(Resource):
 				return "Badrequest"
 
 		status = pay()
-		curr.execute("""UPDATE payments SET  mpesa_reciept=%s, resultdesc=%s, status=%s WHERE mpesa_reciept='mpesa' AND resultdesc='resultdesc' AND status='no' """,(mpesa_reciept, resultdesc, status,))
+		curr.execute("""UPDATE payments SET resultdesc=%s, status=%s WHERE mpesa_reciept='mpesa' AND resultdesc='resultdesc' AND status='no' """,(mpesa_reciept, resultdesc, status,))
 		connection.commit()
