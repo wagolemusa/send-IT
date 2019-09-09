@@ -372,7 +372,8 @@ class Mpesa(Resource):
 
 		"""
 		username = get_jwt_identity()
-		curr.execute(" SELECT * FROM payments WHERE username =%s", [username])
+		# curr.execute(" SELECT * FROM payments WHERE username =%s", [username])
+		curr.execute("SELECT * FROM payments ORDER BY payment_id DESC LIMIT 1 WHERE username =%s", [username])
 		book = curr.fetchall()
 		if not book:
 			return jsonify({"message":"There is no Payments yet"})
@@ -401,8 +402,8 @@ class PaymentId(Resource):
 	"""
 	@jwt_required
 	def get(self, payment_id):
-		# curr.execute("SELECT * FROM payments WHERE payment_id = %s",[payment_id])
-		curr.execute("SELECT * FROM payments ORDER BY payment_id DESC LIMIT 1")
+		curr.execute("SELECT * FROM payments WHERE payment_id = %s",[payment_id])
+
 		connection.commit()
 
 		data = curr.fetchall()
