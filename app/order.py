@@ -432,7 +432,7 @@ class Callback(Resource):
 		It recieves the response from safaricam
 		"""
 		requests = request.get_json()
-		data = json.loads(requests)
+		data = json.dumps(requests)
 
 		json_da = requests.get('Body')
 
