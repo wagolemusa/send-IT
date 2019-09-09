@@ -188,7 +188,8 @@ class Booking(Resource):
 class Get_All_Bookings(Resource):
 	@jwt_required
 	def get(self):
-
+		
+		username = get_jwt_identity()
 		curr.execute(" SELECT * FROM booking WHERE username =%s", [username])
 		book = curr.fetchall()
 		if not book:
