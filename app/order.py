@@ -430,8 +430,8 @@ class PaymentId(Resource):
 	"""
 	@jwt_required
 	def get(self, payment_id):
-		# curr.execute("SELECT * FROM payments WHERE payment_id = %s",[payment_id])
-		curr.execute("SELECT * FROM payments ORDER BY payment_id = %s, DESC LIMIT 1 WHERE username =%s", [payment_id, username])
+		curr.execute("SELECT * FROM payments WHERE payment_id = %s",[payment_id])
+		# curr.execute("SELECT * FROM payments ORDER BY payment_id = %s, DESC LIMIT 1 WHERE username =%s", [payment_id, username])
 
 		connection.commit()
 
