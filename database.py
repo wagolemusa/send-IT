@@ -34,18 +34,17 @@ def create_table():
 			user_id  INT,
 			bookingref INT,
 			username VARCHAR(50) NOT NULL,
-			customer_name VARCHAR(50) NOT NULL,
+			customer_name BIGINT NOT NULL CHECK(phone >= 0),
 			customer_number VARCHAR(50) NOT NULL,
 			from_location VARCHAR(50) NOT NULL,
 			to_location VARCHAR(50) NOT NULL,
 			quantiy INT,
 			price INT,
-			phone INT,
 			amount INT,
 			date_when VARCHAR(50) NOT NULL,
 			time_at VARCHAR(50) NOT NULL,
 			created_on TIMESTAMP DEFAULT NOW(),
-			payments VARCHAR DEFAULT 'cash',
+			payments VARCHAR DEFAULT 'mpesa',
 			FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
 			);"""
 
