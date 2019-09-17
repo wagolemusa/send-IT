@@ -616,15 +616,14 @@ class Desk(Resource):
 		to_location  = data['to_location']
 		quantiy = data['quantiy']
 		price = data['price']
-		phone = data['phone']
 		date_when = data['date_when']
 		time_at  = data['time_at']
 		username = current_user
 
 		curr.execute(""" INSERT INTO desk(bookingref, username, customer_name, customer_number,\
-																			from_location, to_location, quantiy, price, phone, date_when, time_at)
+																			from_location, to_location, quantiy, price, date_when, time_at)
 																			VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",\
-																			(bookingref, username, customer_name, customer_number, from_location, to_location, quantiy, price, phone, date_when, time_at))
+																			(bookingref, username, customer_name, customer_number, from_location, to_location, quantiy, price, date_when, time_at))
 		connection.commit()
 		return {"message": "Succussfully Created"}
 

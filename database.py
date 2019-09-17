@@ -34,7 +34,7 @@ def create_table():
 			user_id  INT,
 			bookingref INT,
 			username VARCHAR(50) NOT NULL,
-			customer_name BIGINT NOT NULL CHECK(phone >= 0),
+			customer_name BIGINT NOT NULL CHECK(customer_name >= 0),
 			customer_number VARCHAR(50) NOT NULL,
 			from_location VARCHAR(50) NOT NULL,
 			to_location VARCHAR(50) NOT NULL,

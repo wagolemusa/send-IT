@@ -229,7 +229,6 @@ class BookPostpond(Resource):
 		booker = curr.fetchone()
 		# parcel_id = state[0]
 		record = booker[11]
-
 		if record in post_pond:
 			return {"message":"You can not change this status is already in " + record}, 403
 
@@ -508,6 +507,8 @@ class Callback(Resource):
 
 		resultcode    = json_da['stkCallback']['ResultCode']
 		resultdesc    = json_da['stkCallback']['ResultDesc']
+
+		mpesa_reciept = "MPESA"
 		
 		# print(mpesa_reciept)
 		def pay():
@@ -518,6 +519,24 @@ class Callback(Resource):
 			else:
 				return "Badrequest"
 
+
 		status = pay()
-		curr.execute("""UPDATE payments SET resultdesc=%s, status=%s WHERE resultdesc='resultdesc' AND status='no' """,(resultdesc, status,))
+		curr.execute("""UPDATE payments SET mpesa_reciept=%s, resultdesc=%s, status=%s WHERE mpesa_reciept='mpesa' resultdesc='resultdesc' AND status='no' """,(mpesa_reciept, resultdesc, status,))
 		connection.commit()
+
+
+class Cash(Resource):
+	# it updates the colomn in payment table to
+	# indecate paided cash
+	@jwt_required
+	def put(self, payment_id):
+		mpesa_reciept = "Cash"
+		username = get_jwt_identity()
+
+		# curr.execute(" SELECT * FROM booking WHERE username =%s", [username])
+		curr.execute(" SELECT * FROM payments WHERE username =%s ORDER BY payment_id DESC LIMIT 1 ", [username])
+		pay = curr.fetchall()
+
+		curr.execute("""UPDATE payments SET mpesa_reciept=%s WHERE mpesa_reciept='mpesa'"""(mpesa_reciept, payment_id))
+		connection.commit()
+		return {"message": "Thanks for Travel with us."}
