@@ -521,7 +521,7 @@ class Callback(Resource):
 
 
 		status = pay()
-		curr.execute("""UPDATE payments SET mpesa_reciept=%s, resultdesc=%s, status=%s WHERE mpesa_reciept='mpesa', resultdesc='resultdesc', status='no' """,(mpesa_reciept, resultdesc, status,))
+		curr.execute("""UPDATE payments SET mpesa_reciept=%s, resultdesc=%s, status=%s WHERE mpesa_reciept='mpesa' resultdesc='resultdesc' status='no' """,(mpesa_reciept, resultdesc, status,))
 		connection.commit()
 
 
