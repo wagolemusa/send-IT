@@ -78,6 +78,7 @@ def create_table():
 			quality INT,
 			dates VARCHAR(50) NOT NULL,
 			total INT,
+			payments VARCHAR DEFAULT 'mpesa',
 			status VARCHAR DEFAULT 'True',
 			created_on TIMESTAMP DEFAULT NOW(),
 			FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE

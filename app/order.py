@@ -530,13 +530,13 @@ class Cash(Resource):
 	# indecate paided cash
 	@jwt_required
 	def put(self, payment_id):
-		mpesa_reciept = "Cash"
+		payments = "Cash"
 		username = get_jwt_identity()
 
 		# curr.execute(" SELECT * FROM booking WHERE username =%s", [username])
-		curr.execute(" SELECT * FROM payments WHERE username =%s ORDER BY payment_id DESC LIMIT 1 ", [username])
+		curr.execute(" SELECT * FROM booking WHERE username =%s ORDER BY book_id DESC LIMIT 1 ", [username])
 		pay = curr.fetchall()
 
-		curr.execute("""UPDATE payments SET mpesa_reciept=%s WHERE mpesa_reciept='mpesa'"""(mpesa_reciept, payment_id))
+		curr.execute("""UPDATE booking SET payments=%s WHERE payments='mpesa' """(payments, book_id))
 		connection.commit()
 		return {"message": "Thanks for Travel with us."}
