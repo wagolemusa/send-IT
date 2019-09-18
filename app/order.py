@@ -529,7 +529,7 @@ class Cash(Resource):
 	# it updates the colomn in payment table to
 	# indecate paided cash
 	@jwt_required
-	def put(self, payment_id):
+	def put(self, book_id):
 		payments = "Cash"
 		username = get_jwt_identity()
 
