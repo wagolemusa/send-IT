@@ -540,6 +540,6 @@ class Cash(Resource):
 		pay = curr.fetchall()
 		
 		print(payments)
-		curr.execute("""UPDATE booking SET payments =%s WHERE payments='mpesa', book_id=%s """,(payments, book_id,))
+		curr.execute("""UPDATE booking SET payments =%s WHERE payments='mpesa' AND book_id=%s """,(payments, book_id,))
 		connection.commit()
 	
