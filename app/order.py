@@ -529,7 +529,7 @@ class Cash(Resource):
 	# it updates the colomn in payment table to
 	# indecate paided cash
 	@jwt_required
-	def put(self, book_id):
+	def put(self):
 
 		payment = "Cash"
 		payments = payment
@@ -540,6 +540,6 @@ class Cash(Resource):
 		pay = curr.fetchall()
 		
 		print(payments)
-		curr.execute("""UPDATE booking SET payments =%s WHERE payments='mpesa' AND book_id=%s """,(payments, book_id,))
+		curr.execute("""UPDATE booking SET payments =%s WHERE payments='mpesa' """,(payments,))
 		connection.commit()
 	
