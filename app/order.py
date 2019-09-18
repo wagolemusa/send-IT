@@ -529,17 +529,19 @@ class Cash(Resource):
 	# it updates the colomn in payment table to
 	# indecate paided cash
 	@jwt_required
-	def put(self):
+	def put(self, book_id):
 
 		payment = "Cash"
 		payments = payment
 		username = get_jwt_identity()
 
-		# curr.execute(" SELECT * FROM booking WHERE username =%s", [username])
+		# # curr.execute(" SELECT * FROM booking WHERE username =%s", [username])
 		# curr.execute("SELECT * FROM booking WHERE username =%s ORDER BY book_id DESC LIMIT 1 ", [username])
-		# pay = curr.fetchall()
-		
+		# pay = curr.fetchone()
+		# # cash = pay[11]
+		# # print(cash)
+
 		print(payments)
-		curr.execute("""UPDATE booking SET payments =%s WHERE ORDER BY book_id DESC LIMIT 1, payments='mpesa' """,(payments,))
+		curr.execute("""UPDATE booking SET payments =%s WHERE  payments='mpesa' AND book_id=%s""",(payments, book_id,))
 		connection.commit()
 	
