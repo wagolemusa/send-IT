@@ -538,6 +538,6 @@ class Cash(Resource):
 		curr.execute(" SELECT * FROM booking WHERE username =%s ORDER BY book_id DESC LIMIT 1 ", [username])
 		pay = curr.fetchall()
 		
-		curr.execute("""UPDATE booking SET payments=%s WHERE payments='mpesa'""", (payments, book_id))
+		curr.execute("""UPDATE booking SET payments=%s WHERE payments='mpesa' """, (payments, book_id,))
 		connection.commit()
 	
