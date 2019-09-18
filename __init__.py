@@ -103,7 +103,7 @@ def create_app(config_name):
 	api.add_resource(Sendsms, '/admin/v2/sendmessage')
 	api.add_resource(Emailsms, '/admin/v2/send/email/notification')
 	api.add_resource(PrintData, '/v2/print/data')
-	api.add_resource(Cash, '/v2/cash/payment<int:book_id>')
+	api.add_resource(Cash, '/v2/cash/payment/<int:book_id>')
 	# @app.errorhandler(404)
 	# def not_found(error):
 	# 	return {"message": "Page Not Found"},404

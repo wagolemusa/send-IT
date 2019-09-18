@@ -539,4 +539,4 @@ class Cash(Resource):
 		
 		curr.execute("""UPDATE booking SET payments=%s WHERE payments='mpesa' """(payments, book_id))
 		connection.commit()
-		return {"message": "Thanks for Travel with us."}
+	
