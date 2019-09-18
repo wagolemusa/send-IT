@@ -531,7 +531,8 @@ class Cash(Resource):
 	@jwt_required
 	def put(self, book_id):
 
-		payments = "Cash"
+		payment = "Cash"
+		payments = payment
 		username = get_jwt_identity()
 
 		# curr.execute(" SELECT * FROM booking WHERE username =%s", [username])
@@ -539,6 +540,6 @@ class Cash(Resource):
 		pay = curr.fetchall()
 		
 		print(payments)
-		curr.execute("""UPDATE booking SET payments=%s WHERE payments='mpesa' """,(payments, book_id,))
+		curr.execute("""UPDATE booking SET payments =%s WHERE payments='mpesa' """,(payments, book_id,))
 		connection.commit()
 	
