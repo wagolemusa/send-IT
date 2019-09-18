@@ -536,10 +536,10 @@ class Cash(Resource):
 		username = get_jwt_identity()
 
 		# curr.execute(" SELECT * FROM booking WHERE username =%s", [username])
-		curr.execute("SELECT * FROM booking WHERE username =%s ORDER BY book_id DESC LIMIT 1 ", [username])
-		pay = curr.fetchall()
+		# curr.execute("SELECT * FROM booking WHERE username =%s ORDER BY book_id DESC LIMIT 1 ", [username])
+		# pay = curr.fetchall()
 		
 		print(payments)
-		curr.execute("""UPDATE booking SET payments =%s WHERE payments='mpesa' """,(payments,))
+		curr.execute("""UPDATE booking SET payments =%s WHERE payments='mpesa' ORDER BY book_id DESC LIMIT 1""",(payments,))
 		connection.commit()
 	
