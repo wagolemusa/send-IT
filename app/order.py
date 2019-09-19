@@ -452,8 +452,8 @@ class PrintData(Resource):
 			mpesa_reciept = row[14]
 			resultdesc = row[15]
 			status = row[16]
-			created_on = row[17]
-			book_list.append({"payment_id":payment_id, "bookingref":bookingref, "car_number":car_number, "from_location":from_location, "to_location":to_location, "price":price, "quality":quality, "dates":dates, "amount":amount, "phone":phone, "mpesa_reciept":mpesa_reciept, "resultdesc":resultdesc, "status":status, "created_on":created_on})
+			created_on = row[17].strftime("%Y-%m-%d %H:%M:%S")
+			book_list.append({"payment_id":payment_id, "bookingref":bookingref, "car_number":car_number, "from_location":from_location, "to_location":to_location, "price":price, "quality":quality, "dates":dates, "phone":phone, "amount":amount, "mpesa_reciept":mpesa_reciept, "resultdesc":resultdesc, "status":status, "created_on":created_on})
 		return {"book": book_list}
 
 
