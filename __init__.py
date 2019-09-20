@@ -46,6 +46,7 @@ from app.admin import Sendsms
 from app.admin import Emailsms
 from app.order import PrintData
 from app.order import Cash
+from app.order import BookingtId
 
 
 def create_app(config_name):
@@ -104,6 +105,7 @@ def create_app(config_name):
 	api.add_resource(Emailsms, '/admin/v2/send/email/notification')
 	api.add_resource(PrintData, '/v2/print/data')
 	api.add_resource(Cash, '/v2/cash/payment/<int:book_id>')
+	api.add_resource(BookingtId, '/v2/print/cash/<int:book_id>')
 	# @app.errorhandler(404)
 	# def not_found(error):
 	# 	return {"message": "Page Not Found"},404

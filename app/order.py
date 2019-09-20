@@ -217,7 +217,7 @@ class Get_All_Bookings(Resource):
 class BookingtId(Resource):
 
 	""" 
-	Methods Queries all Payments 
+	Methods Queries all  bookings by ID
 	
 	"""
 	@jwt_required
@@ -232,17 +232,17 @@ class BookingtId(Resource):
 		booker = []
 		for row in data:
 			book_id = row[0]
-			bookingref = row[1]
-			username = row[2]
-			car_number = row[3]
-			from_location = row[4]
-			to_location = row[5]
-			price = row[6]
-			quality = row[7]
-			dates = row[8]
-			total = row[9]
-			payments = row[10]
-			created_on = row[11].strftime("%Y-%m-%d %H:%M:%S")
+			bookingref = row[2]
+			username = row[3]
+			car_number = row[4]
+			from_location = row[5]
+			to_location = row[6]
+			price = row[7]
+			quality = row[8]
+			dates = row[9]
+			total = row[10]
+			payments = row[11]
+			created_on = row[13].strftime("%Y-%m-%d %H:%M:%S")
 			booker.append({"book_id":book_id, "bookingref":bookingref, "username":username, "car_number":car_number, "from_location":from_location, "to_location":to_location, "price":price, "quality":quality, "dates":dates,  "total":total, "payments":payments, "created_on":created_on})
 		return {"data": booker}
 
