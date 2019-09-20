@@ -214,6 +214,39 @@ class Get_All_Bookings(Resource):
 		return jsonify({"book": book_list})	
 
 
+class BookingtId(Resource):
+
+	""" 
+	Methods Queries all Payments 
+	
+	"""
+	@jwt_required
+	def get(self, book_id):
+		curr.execute("SELECT * FROM booking WHERE book_id = %s",[book_id])
+
+		connection.commit()
+
+		data = curr.fetchall()
+		if not data:
+			return {"message":"There is no bookings yet"}
+		booker = []
+		for row in data:
+			book_id = row[0]
+			bookingref = row[1]
+			username = row[2]
+			car_number = row[3]
+			from_location = row[4]
+			to_location = row[5]
+			price = row[6]
+			quality = row[7]
+			dates = row[8]
+			total = row[9]
+			payments = row[10]
+			created_on = row[11].strftime("%Y-%m-%d %H:%M:%S")
+			booker.append({"book_id":book_id, "bookingref":bookingref, "username":username, "car_number":car_number, "from_location":from_location, "to_location":to_location, "price":price, "quality":quality, "dates":dates,  "total":total, "payments":payments, "created_on":created_on})
+		return {"data": booker}
+
+
 
 class BookPostpond(Resource):
 	""" 
