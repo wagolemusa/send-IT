@@ -568,7 +568,7 @@ class Callback(Resource):
 		owner = curr.fetchall()
 		for row in owner:
 
-			phone = row[12]
+			phone = str(row[12])
 			resultdesc = row[15]
 			from_location = row[7]
 			to_location = row[8]
