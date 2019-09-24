@@ -29,6 +29,7 @@ resultcode = json_da['stkCallback']['ResultCode']
 checkout = json_da['stkCallback']['CheckoutRequestID']
 resultdesc = json_da['stkCallback']['ResultDesc']
 mpesa = json_da["stkCallback"]["CallbackMetadata"]["Item"][1]["Value"]
+phone = json_da["stkCallback"]["CallbackMetadata"]["Item"][4]["Value"]
 
 def status():
 	if resultcode == 0:
@@ -53,6 +54,7 @@ print()
 p =  status()
 print (p)
 
+print(phone)
 
 
 

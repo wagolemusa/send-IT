@@ -528,8 +528,6 @@ class PaymentId(Resource):
 
 
 class Callback(Resource):
-	
-	@jwt_required
 	def post(self):
 		"""
 		It recieves the response from safaricam
@@ -549,7 +547,9 @@ class Callback(Resource):
 
 		resultcode    = json_da['stkCallback']['ResultCode']
 		resultdesc    = json_da['stkCallback']['ResultDesc']
+		phone = json_da["stkCallback"]["CallbackMetadata"]["Item"][4]["Value"]
 
+		print (phone)
 		mpesa_reciept = "MPESA"
 		
 		# print(mpesa_reciept)
@@ -566,7 +566,7 @@ class Callback(Resource):
 		curr.execute("""UPDATE payments SET mpesa_reciept=%s, resultdesc=%s, status=%s WHERE mpesa_reciept='mpesa' AND resultdesc='resultdesc' AND status='no' """,(mpesa_reciept, resultdesc, status,))
 		connection.commit()
 
-		curr.execute("SELECT phone, resultdesc FROM payments WHERE  username = 'current_user'")
+		curr.execute("SELECT phone, resultdesc FROM payments")
 		connection.commit()
 		owner = curr.fetchone()
 		print(owner)	
