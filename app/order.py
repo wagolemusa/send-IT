@@ -565,7 +565,7 @@ class Callback(Resource):
 		connection.commit()
 
 		curr.execute("SELECT phone FROM payments WHERE  username = 'current_user'")
-		onnection.commit()
+		connection.commit()
 		user = curr.fetchone()
 		print(user)
 
