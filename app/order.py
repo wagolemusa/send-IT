@@ -565,10 +565,11 @@ class Callback(Resource):
 		connection.commit()
 
 		curr.execute("SELECT phone, resultdesc FROM payments WHERE  username = 'current_user'")
+		connection.commit()
 		owner = curr.fetchone()
 		for number in owner:
 			phone = str(number)
-		print(phone)
+			print(phone)
 
 class Cash(Resource):
 	# it updates the colomn in payment table to
