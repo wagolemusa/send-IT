@@ -537,6 +537,8 @@ class Callback(Resource):
 
 		json_da = requests.get('Body')
 
+		current_user = get_jwt_identity()
+
 		# mpesa_reciept = (int["Body"]["stkCallback"]["CallbackMetadata"]["Item"][1]["Value"])
 
 		# for item in data["Body"]["stkCallback"]["CallbackMetadata"]["Item"]:
@@ -561,6 +563,11 @@ class Callback(Resource):
 		status = pay()
 		curr.execute("""UPDATE payments SET mpesa_reciept=%s, resultdesc=%s, status=%s WHERE mpesa_reciept='mpesa' AND resultdesc='resultdesc' AND status='no' """,(mpesa_reciept, resultdesc, status,))
 		connection.commit()
+
+		curr.execute("SELECT phone FROM payments WHERE  username = 'current_user'")
+		onnection.commit()
+		user = curr.fetchone()
+		print(user)
 
 
 class Cash(Resource):
