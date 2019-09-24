@@ -548,7 +548,7 @@ class Callback(Resource):
 		resultcode    = json_da['stkCallback']['ResultCode']
 		resultdesc    = json_da['stkCallback']['ResultDesc']
 		# phone = json_da["stkCallback"]["CallbackMetadata"]["Item"][4]["Value"]
-		# print (phone)
+		print (username)
 
 		mpesa_reciept = "MPESA"
 		
@@ -565,7 +565,7 @@ class Callback(Resource):
 		curr.execute("""UPDATE payments SET mpesa_reciept=%s, resultdesc=%s, status=%s WHERE mpesa_reciept='mpesa' AND resultdesc='resultdesc' AND status='no' """,(mpesa_reciept, resultdesc, status,))
 		connection.commit()
 
-		curr.execute("SELECT * FROM payments DESC LIMIT 1 ")
+		curr.execute("SELECT * FROM payments WHERE username =%s ORDER BY payment_id DESC LIMIT 1 ", [username])
 		connection.commit()
 		owner = curr.fetchall()
 		print(owner)	
