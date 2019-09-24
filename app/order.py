@@ -574,10 +574,10 @@ class Callback(Resource):
 			to_location = row[8]
 			status = row[16]
 
-			desc = resultdesc[11:]
+			desc = resultdesc[12:]
 
 			# Sends sms to mobile phone
-			message = "%s From %s To %s, Payment Status %s" %(desc, from_location, to_location, status)
+			message = "%s From:.. %s To:.. %s, Payment Status:.. %s" %(desc, from_location, to_location, status)
 			username = "refuge"    # use 'sandbox' for development in the test environment
 			api_key = "73d787253bd6446b12686b20f063042cbfc7d687301f4ab8a89233b6dd523883"      # use your sandbox app API key for development in the test environment
 			africastalking.initialize(username, api_key)
