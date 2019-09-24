@@ -566,7 +566,7 @@ class Callback(Resource):
 		curr.execute("SELECT * FROM payments ORDER BY payment_id DESC LIMIT 1")
 		connection.commit()
 		owner = curr.fetchall()
-		for data in owner:
+		for row in owner:
 			phone = row[12]
 			resultdesc = row[15]
 
