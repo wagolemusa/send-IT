@@ -567,11 +567,26 @@ class Callback(Resource):
 		connection.commit()
 		owner = curr.fetchall()
 		for row in owner:
+
 			phone = row[12]
 			resultdesc = row[15]
+			from_location = row[7]
+			to_location = row[8]
+			status = row[16]
 
-			print(phone)
-			print(resultdesc)
+			# Sends sms to mobile phone
+			message = "%s From %s To %s, Payment Status %s" %(resultdesc, from_location, to_location, status)
+			username = "refuge"    # use 'sandbox' for development in the test environment
+			api_key = "73d787253bd6446b12686b20f063042cbfc7d687301f4ab8a89233b6dd523883"      # use your sandbox app API key for development in the test environment
+			africastalking.initialize(username, api_key)
+
+			# Initialize a service e.g. SMS
+			sms = africastalking.SMS
+			# Use the service synchronously
+			response = sms.send(message, ['+' + phone ])
+
+
+			
 
 
 class Cash(Resource):
