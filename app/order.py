@@ -547,9 +547,9 @@ class Callback(Resource):
 
 		resultcode    = json_da['stkCallback']['ResultCode']
 		resultdesc    = json_da['stkCallback']['ResultDesc']
-		phone = json_da["stkCallback"]["CallbackMetadata"]["Item"][4]["Value"]
-
-		print (phone)
+		# phone = json_da["stkCallback"]["CallbackMetadata"]["Item"][4]["Value"]
+		# print (phone)
+		
 		mpesa_reciept = "MPESA"
 		
 		# print(mpesa_reciept)
