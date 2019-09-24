@@ -564,8 +564,7 @@ class Callback(Resource):
 		curr.execute("""UPDATE payments SET mpesa_reciept=%s, resultdesc=%s, status=%s WHERE mpesa_reciept='mpesa' AND resultdesc='resultdesc' AND status='no' """,(mpesa_reciept, resultdesc, status,))
 		connection.commit()
 
-		curr.execute("SELECT phone FROM payments WHERE  username = 'current_user'")
-		connection.commit()
+		curr.execute("SELECT phone, resultdesc FROM payments WHERE  username = 'current_user'")
 		user = curr.fetchone()
 		print(user)
 
