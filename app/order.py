@@ -565,7 +565,7 @@ class Callback(Resource):
 		curr.execute("""UPDATE payments SET mpesa_reciept=%s, resultdesc=%s, status=%s WHERE mpesa_reciept='mpesa' AND resultdesc='resultdesc' AND status='no' """,(mpesa_reciept, resultdesc, status,))
 		connection.commit()
 
-		curr.execute("SELECT phone ,resultdesc FROM payments")
+		curr.execute("SELECT phone  FROM payments DESC LIMIT 1")
 		connection.commit()
 		owner = curr.fetchone()
 		print(owner)	
