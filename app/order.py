@@ -566,7 +566,13 @@ class Callback(Resource):
 		curr.execute("SELECT * FROM payments ORDER BY payment_id DESC LIMIT 1")
 		connection.commit()
 		owner = curr.fetchall()
-		print(owner)	
+		for data in owner:
+			phone = row[12]
+			resultdesc = row[15]
+
+			print(phone)
+			print(resultdesc)
+
 
 class Cash(Resource):
 	# it updates the colomn in payment table to
