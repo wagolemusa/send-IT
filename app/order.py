@@ -537,7 +537,6 @@ class Callback(Resource):
 
 		json_da = requests.get('Body')
 
-		username = get_jwt_identity()
 
 		# mpesa_reciept = (int["Body"]["stkCallback"]["CallbackMetadata"]["Item"][1]["Value"])
 
@@ -548,7 +547,6 @@ class Callback(Resource):
 		resultcode    = json_da['stkCallback']['ResultCode']
 		resultdesc    = json_da['stkCallback']['ResultDesc']
 		# phone = json_da["stkCallback"]["CallbackMetadata"]["Item"][4]["Value"]
-		print (username)
 
 		mpesa_reciept = "MPESA"
 		
@@ -565,7 +563,7 @@ class Callback(Resource):
 		curr.execute("""UPDATE payments SET mpesa_reciept=%s, resultdesc=%s, status=%s WHERE mpesa_reciept='mpesa' AND resultdesc='resultdesc' AND status='no' """,(mpesa_reciept, resultdesc, status,))
 		connection.commit()
 
-		curr.execute("SELECT * FROM payments WHERE username =%s ORDER BY payment_id DESC LIMIT 1 ", [username])
+		curr.execute("SELECT * FROM payments ORDER BY payment_id DESC LIMIT 1")
 		connection.commit()
 		owner = curr.fetchall()
 		print(owner)	
