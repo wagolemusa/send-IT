@@ -528,6 +528,8 @@ class PaymentId(Resource):
 
 
 class Callback(Resource):
+	
+	@jwt_required
 	def post(self):
 		"""
 		It recieves the response from safaricam
