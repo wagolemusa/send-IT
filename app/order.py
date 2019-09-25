@@ -450,7 +450,7 @@ class Mpesa(Resource):
 			phone = row[12]
 			amount = row[13]
 			status = row[16]
-			created_on = row[17]
+			created_on = row[17].strftime("%Y-%m-%d %H:%M:%S")
 			book_list.append({"payment_id":payment_id, "bookingref":bookingref, "car_number":car_number, "from_location":from_location, "to_location":to_location, "price":price, "quality":quality, "dates":dates, "amount":amount, "phone":phone, "status":status, "created_on":created_on})
 		return {"book": book_list}
 
