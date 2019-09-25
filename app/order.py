@@ -441,16 +441,16 @@ class Mpesa(Resource):
 		for row in book:
 			payment_id = row[0]
 			bookingref = row[4]
-			car_number = row[5]
-			from_location = row[6]
-			to_location = row[7]
-			price = row[8]
-			quality = row[9]
-			dates = row[10]
-			amount = row[11]
+			car_number = row[6]
+			from_location = row[7]
+			to_location = row[8]
+			price = row[9]
+			quality = row[10]
+			dates = row[11]
+			amount = row[13]
 			phone = row[12]
-			status = row[13]
-			created_on = row[14]
+			status = row[16]
+			created_on = row[17]
 			book_list.append({"payment_id":payment_id, "bookingref":bookingref, "car_number":car_number, "from_location":from_location, "to_location":to_location, "price":price, "quality":quality, "dates":dates, "amount":amount, "phone":phone, "status":status, "created_on":created_on})
 		return {"book": book_list}
 
