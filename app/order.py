@@ -447,8 +447,8 @@ class Mpesa(Resource):
 			price = row[9]
 			quality = row[10]
 			dates = row[11]
-			amount = row[13]
 			phone = row[12]
+			amount = row[13]
 			status = row[16]
 			created_on = row[17]
 			book_list.append({"payment_id":payment_id, "bookingref":bookingref, "car_number":car_number, "from_location":from_location, "to_location":to_location, "price":price, "quality":quality, "dates":dates, "amount":amount, "phone":phone, "status":status, "created_on":created_on})
