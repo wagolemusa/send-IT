@@ -165,6 +165,8 @@ class Booking(Resource):
 		"""
 		username = get_jwt_identity()
 		curr.execute(" SELECT * FROM booking WHERE payements = 'Cash' ORDER BY book_id DESC ")
+		connection.commit()
+
 		book = curr.fetchall()
 		if not book:
 			return {"message":"There is no bookings yet"}
