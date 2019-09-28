@@ -164,7 +164,7 @@ class Booking(Resource):
 		Method for get all bookings 
 		"""
 		username = get_jwt_identity()
-		curr.execute(" SELECT * FROM booking WHERE username = %s ORDER BY book_id DESC ",[username])
+		curr.execute(" SELECT * FROM booking WHERE payements = 'Cash' ORDER BY book_id DESC ")
 		book = curr.fetchall()
 		if not book:
 			return {"message":"There is no bookings yet"}
