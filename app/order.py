@@ -179,9 +179,9 @@ class Booking(Resource):
 			quality = row[8]
 			dates = row[9]
 			total = row[10]
-			status = row[11]
-			created_on = row[12]
-			book_list.append({"book_id":book_id, "bookingref":bookingref, "car_number":car_number, "from_location":from_location, "to_location":to_location, "price":price, "quality":quality, "dates":dates, "total":total, "status":status, "created_on":created_on})
+			payments = row[11]
+			created_on = row[13].strftime("%Y-%m-%d %H:%M:%S")
+			book_list.append({"book_id":book_id, "bookingref":bookingref, "car_number":car_number, "from_location":from_location, "to_location":to_location, "price":price, "quality":quality, "dates":dates, "total":total, "payments":payments, "created_on":created_on})
 		return jsonify({"book": book_list})	
 
 
