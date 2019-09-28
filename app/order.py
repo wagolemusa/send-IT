@@ -158,31 +158,31 @@ class Booking(Resource):
 		return jsonify({"message": 'Thanks for booking make sure that you came with number'})
 	
 
-	# @jwt_required
-	# def get(self):
-	# 	""" 
-	# 	Method for get all bookings 
-	# 	"""
-	# 	username = get_jwt_identity()
-	# 	curr.execute(" SELECT * FROM booking WHERE username =%s", [username])
-	# 	book = curr.fetchall()
-	# 	if not book:
-	# 		return {"message":"There is no bookings yet"}
-	# 	book_list = []
-	# 	for row in book:
-	# 		book_id = row[0]
-	# 		bookingref = row[2]
-	# 		car_number = row[4]
-	# 		from_location = row[5]
-	# 		to_location = row[6]
-	# 		price = row[7]
-	# 		quality = row[8]
-	# 		dates = row[9]
-	# 		total = row[10]
-	# 		status = row[11]
-	# 		created_on = row[12]
-	# 		book_list.append({"book_id":book_id, "bookingref":bookingref, "car_number":car_number, "from_location":from_location, "to_location":to_location, "price":price, "quality":quality, "dates":dates, "total":total, "status":status, "created_on":created_on})
-	# 	return jsonify({"book": book_list})	
+	@jwt_required
+	def get(self):
+		""" 
+		Method for get all bookings 
+		"""
+		username = get_jwt_identity()
+		curr.execute(" SELECT * FROM booking ")
+		book = curr.fetchall()
+		if not book:
+			return {"message":"There is no bookings yet"}
+		book_list = []
+		for row in book:
+			book_id = row[0]
+			bookingref = row[2]
+			car_number = row[4]
+			from_location = row[5]
+			to_location = row[6]
+			price = row[7]
+			quality = row[8]
+			dates = row[9]
+			total = row[10]
+			status = row[11]
+			created_on = row[12]
+			book_list.append({"book_id":book_id, "bookingref":bookingref, "car_number":car_number, "from_location":from_location, "to_location":to_location, "price":price, "quality":quality, "dates":dates, "total":total, "status":status, "created_on":created_on})
+		return jsonify({"book": book_list})	
 
 
 class Get_All_Bookings(Resource):
@@ -433,7 +433,7 @@ class Mpesa(Resource):
 
 		"""
 		username = get_jwt_identity()
-		curr.execute(" SELECT * FROM payments WHERE username =%s", [username])
+		curr.execute(" SELECT * FROM payments WHERE username =%s ORDER BY payment_id DESC ", [username])
 		book = curr.fetchall()
 		if not book:
 			return jsonify({"message":"There is no Payments yet"})
