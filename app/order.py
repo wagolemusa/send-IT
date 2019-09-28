@@ -164,7 +164,7 @@ class Booking(Resource):
 		Method for get all bookings 
 		"""
 		username = get_jwt_identity()
-		curr.execute(" SELECT * FROM booking WHERE payements = 'Cash' ORDER BY book_id DESC ")
+		curr.execute("SELECT * FROM booking WHERE payments = 'Cash' ORDER BY book_id DESC")
 		connection.commit()
 
 		book = curr.fetchall()
