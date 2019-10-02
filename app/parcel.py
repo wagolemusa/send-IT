@@ -102,6 +102,32 @@ class CreateParcel(Resource):
 		# return jsonify({"message": 'Thanks for paying'})
 
 
+	@jwt_required
+	def get(self):
+		""" Method for get all Parcel Orders """
+		username = get_jwt_identity()
+		curr.execute(" SELECT * FROM orders WHERE username =%s", [username])
+		data = curr.fetchall()
+		if not data:
+			return jsonify({"message":"There is no orders yet"})
+		data_list = []
+		for row in data:
+			parcel_id = row[0]
+			title = row[2]
+			pickup = row[4]
+			rec_id = row[5]
+			rec_phone = row[6]
+			rec_name = row[7]
+			destination = row[8]
+			weight = row[9]
+			status = row[10]
+			created_on = row[11].strftime("%Y-%m-%d %H:%M:%S")
+			data_list.append({"parcel_id":parcel_id, "title":title, "pickup":pickup, "rec_id":rec_id, "rec_phone":rec_phone, "rec_name":rec_name, "destination":destination, "weight":weight, "status":status, "created_on":created_on})
+		return jsonify({"data": data_list})	
+
+
+
+
 # class ParcelCallbackUrl(Resource):
 # 	""" Class And Methods creates Callback url for sending parcel"""
 # 	def post(self):
