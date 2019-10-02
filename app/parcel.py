@@ -107,6 +107,7 @@ class CreateParcel(Resource):
 		""" Method for get all Parcel Orders """
 		username = get_jwt_identity()
 		curr.execute(" SELECT * FROM orders WHERE username =%s", [username])
+		connection.commit()
 		data = curr.fetchall()
 		if not data:
 			return jsonify({"message":"There is no orders yet"})
