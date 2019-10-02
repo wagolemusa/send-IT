@@ -159,7 +159,7 @@ class CanceledParcel(Resource):
 
 		# this code it identify the normal user and admin
 
-		curr.execute("SELECT * FROM orders WHERE status = 'cancled'")
+		curr.execute("SELECT * FROM orders WHERE status = 'cancled' ORDER BY parcel_id DESC")
 		connection.commit()
 
 		data = curr.fetchall()
@@ -187,7 +187,7 @@ class DeliveredParcel(Resource):
 	@jwt_required
 	def get(self):
 
-		curr.execute("SELECT * FROM orders WHERE status = 'delivered'")
+		curr.execute("SELECT * FROM orders WHERE status = 'delivered' ORDER BY parcel_id DESC")
 		data = curr.fetchall()
 		connection.commit()
 
@@ -214,7 +214,7 @@ class InTransitParcel(Resource):
 	@jwt_required
 	def get(self):
 
-		curr.execute("SELECT * FROM orders WHERE status = 'In Transit'")
+		curr.execute("SELECT * FROM orders WHERE status = 'In Transit' ORDER BY parcel_id DESC")
 		connection.commit()
 
 		data = curr.fetchall()

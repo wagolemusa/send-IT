@@ -188,7 +188,7 @@ class Canceled(Resource):
 		if current_user != U:
 			return {"message": "Access allowed only to admin"}, 403
 
-		curr.execute("SELECT * FROM orders WHERE status = 'cancled'")
+		curr.execute("SELECT * FROM orders WHERE status = 'cancled' ORDER BY parcel_id DESC ")
 		connection.commit()
 
 		data = curr.fetchall()
@@ -222,7 +222,7 @@ class Delivered(Resource):
 		if current_user != U:
 			return {"message": "Access allowed only to admin"}, 403
 
-		curr.execute("SELECT * FROM orders WHERE status = 'delivered'")
+		curr.execute("SELECT * FROM orders WHERE status = 'delivered' ORDER BY parcel_id DESC ")
 		data = curr.fetchall()
 		connection.commit()
 
@@ -255,7 +255,7 @@ class InTransit(Resource):
 		if current_user != U:
 			return {"message": "Access allowed only to admin"}, 403
 
-		curr.execute("SELECT * FROM orders WHERE status = 'In Transit'")
+		curr.execute("SELECT * FROM orders WHERE status = 'In Transit' ORDER BY parcel_id DESC")
 		connection.commit()
 
 		data = curr.fetchall()
