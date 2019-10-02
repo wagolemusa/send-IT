@@ -150,3 +150,88 @@ class CreateParcel(Resource):
 
 # 		curr.execute("""UPDATE orders SET payments=%s WHERE payments = 'NotPaid' """,(payments,))
 # 		connection.commit()
+
+
+class Canceled(Resource):
+	""" Class and Method endpoint it queries parcels in Canceled """
+	@jwt_required
+	def get(self):
+
+		# this code it identify the normal user and admin
+
+		curr.execute("SELECT * FROM orders WHERE status = 'cancled'")
+		connection.commit()
+
+		data = curr.fetchall()
+		if not data:
+			return jsonify({"message":"No Cancled Order"})
+		par = []
+		for row in data:
+			parcel_id = row[0]
+			title = row[2]
+			username = row[3]
+			pickup = row[4]
+			rec_id = row[5]
+			rec_phone = row[6]
+			rec_name = row[7]
+			destination = row[8]
+			weight = row[9]
+			status = row[10]
+			created_on = row[11]
+
+			par.append({"parcel_id":parcel_id, "title":title, "username":username, "pickup":pickup, "rec_id":rec_id, "rec_phone":rec_phone, "rec_name":rec_name, "destination":destination, "weight":weight, "status":status, "created_on":created_on})
+		return jsonify({"data": par})	
+
+class Delivered(Resource):
+	""" Class and Method endpoint it queries parcels in Delivered """
+	@jwt_required
+	def get(self):
+
+		curr.execute("SELECT * FROM orders WHERE status = 'delivered'")
+		data = curr.fetchall()
+		connection.commit()
+
+		if not data:
+			return jsonify({"message":"No Deliverd Order"})
+		par = []
+		for row in data:
+			parcel_id = row[0]
+			title = row[2]
+			username = row[3]
+			pickup = row[4]
+			rec_id = row[5]
+			rec_phone = row[6]
+			rec_name = row[7]
+			destination = row[8]
+			weight = row[9]
+			status = row[10]
+			created_on = row[11]
+			par.append({"parcel_id":parcel_id, "title":title, "username":username, "pickup":pickup, "rec_id":rec_id, "rec_phone":rec_phone, "rec_name":rec_name, "destination":destination, "weight":weight, "status":status, "created_on":created_on})
+		return jsonify({"data": par})	
+
+class InTransit(Resource):
+	""" Class and Method endpoint it queries parcels in InTransit """
+	@jwt_required
+	def get(self):
+
+		curr.execute("SELECT * FROM orders WHERE status = 'In Transit'")
+		connection.commit()
+
+		data = curr.fetchall()
+		if not data:
+			return jsonify({"message":"No In Transit Order"})		
+		par = []
+		for row in data:
+			parcel_id = row[0]
+			title = row[2]
+			username = row[3]
+			pickup = row[4]
+			rec_id = row[5]
+			rec_phone = row[6]
+			rec_name = row[7]
+			destination = row[8]
+			weight = row[9]
+			status = row[10]
+			created_on = row[11]
+			par.append({"parcel_id":parcel_id, "title":title, "username":username, "pickup":pickup, "rec_id":rec_id, "rec_phone":rec_phone, "rec_name":rec_name, "destination":destination, "weight":weight, "status":status, "created_on":created_on})
+		return jsonify({"data": par})	
