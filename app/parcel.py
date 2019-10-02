@@ -152,7 +152,7 @@ class CreateParcel(Resource):
 # 		connection.commit()
 
 
-class Canceled(Resource):
+class CanceledParcel(Resource):
 	""" Class and Method endpoint it queries parcels in Canceled """
 	@jwt_required
 	def get(self):
@@ -182,7 +182,7 @@ class Canceled(Resource):
 			par.append({"parcel_id":parcel_id, "title":title, "username":username, "pickup":pickup, "rec_id":rec_id, "rec_phone":rec_phone, "rec_name":rec_name, "destination":destination, "weight":weight, "status":status, "created_on":created_on})
 		return jsonify({"data": par})	
 
-class Delivered(Resource):
+class DeliveredParcel(Resource):
 	""" Class and Method endpoint it queries parcels in Delivered """
 	@jwt_required
 	def get(self):
@@ -209,7 +209,7 @@ class Delivered(Resource):
 			par.append({"parcel_id":parcel_id, "title":title, "username":username, "pickup":pickup, "rec_id":rec_id, "rec_phone":rec_phone, "rec_name":rec_name, "destination":destination, "weight":weight, "status":status, "created_on":created_on})
 		return jsonify({"data": par})	
 
-class InTransit(Resource):
+class InTransitParcel(Resource):
 	""" Class and Method endpoint it queries parcels in InTransit """
 	@jwt_required
 	def get(self):

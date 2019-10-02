@@ -10,9 +10,9 @@ from app.order import Home
 from app.user  import Register
 from app.user  import Login
 from app.parcel import CreateParcel
-from app.parcel import Canceled
-from app.parcel import Delivered
-from app.parcel import InTransit
+from app.parcel import CanceledParcel
+from app.parcel import DeliveredParcel
+from app.parcel import InTransitParcel
 from app.order import ModifyOrder
 from app.order import AnOrder
 from app.admin import Admin
@@ -81,9 +81,9 @@ def create_app(config_name):
 	api.add_resource(Canceled,  '/admin/v2/canceled')
 	api.add_resource(Delivered, '/admin/v2/delivered')
 	api.add_resource(InTransit, '/admin/v2/intransit')
-	api.add_resource(Canceled,  '/parcel/v2/canceled')
-	api.add_resource(Delivered, '/parcel/v2/delivered')
-	api.add_resource(InTransit, '/parcel/v2/intransit')
+	api.add_resource(CanceledParcel,  '/parcel/v2/canceled')
+	api.add_resource(DeliveredParcel, '/parcel/v2/delivered')
+	api.add_resource(InTransitParcel, '/parcel/v2/intransit')
 	api.add_resource(DeleteParcels, '/admin/v2/parcels/<int:parcel_id>')
 	api.add_resource(PostPrice, '/admin/v2/locations')
 	api.add_resource(EditPrices, '/admin/v2/locations/<int:price_id>')
