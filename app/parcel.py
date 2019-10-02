@@ -43,16 +43,16 @@ class CreateParcel(Resource):
 
 		current_user = get_jwt_identity()
 		username = current_user
-		# try:
-		curr.execute(""" INSERT INTO orders(title, username, pickup,rec_id, rec_phone, rec_name, destination, weight)
-																	VALUES(%s, %s, %s, %s, %s, %s, %s, %s)""",\
-																		(title, username, pickup, rec_id, rec_phone,rec_name, destination, weight))
-		connection.commit()
-		return jsonify({"message": 'Successfuly Created an Order'})
+		try:
+			curr.execute(""" INSERT INTO orders(title, username, pickup,rec_id, rec_phone, rec_name, destination, weight)
+																		VALUES(%s, %s, %s, %s, %s, %s, %s, %s)""",\
+																			(title, username, pickup, rec_id, rec_phone,rec_name, destination, weight))
+			connection.commit()
+			return jsonify({"message": 'Successfuly Created an Order'})
 
-		# # except:
-		# # 	connection.rollback()
-		# # 	return {"message": "Failed to post location"}
+		except:
+			connection.rollback()
+			return {"message": "Failed to post location"}
 		
 		# # Lipa na mpesa Functionality 
 		# consumer_key = "TDWYCw9ChsdHr7QdfcXUS1ddp8gchOC6"
