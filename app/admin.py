@@ -124,7 +124,7 @@ class Status(Resource):
 		curr.execute("""SELECT * FROM orders WHERE parcel_id=%s """,(parcel_id,))
 		state = curr.fetchone()
 		# parcel_id = state[0]
-		record = state[13]
+		record = state[10]
 
 		if record in types_status:
 			return {"message":"You can not change this status is already in " + record}, 403
@@ -160,18 +160,18 @@ class Status(Resource):
 		response = sms.send(message, ['+254' + phone ])
 
 		# Sent to email Address
-		FROM = "homiemusa@gmail.com"
-		TO = email_owner
-		SUBJECT = "Parcel Status Changed"
-		MESSAGE = "Your Parcel is now {}".format(status)
+		# FROM = "homiemusa@gmail.com"
+		# TO = email_owner
+		# SUBJECT = "Parcel Status Changed"
+		# MESSAGE = "Your Parcel is now {}".format(status)
 		
-		mail = smtplib.SMTP('smtp.gmail.com', 587)
-		mail.starttls()
-		mail.login("homiemusa@gmail.com", "djrefuge@12")
-		msg = """From: %s\nTo: %s\nSubject: %s\n\n%s
-		""" % (FROM, ", ".join(TO), SUBJECT, MESSAGE)
-		mail.sendmail(FROM, TO, msg)
-		mail.quit()
+		# mail = smtplib.SMTP('smtp.gmail.com', 587)
+		# mail.starttls()
+		# mail.login("homiemusa@gmail.com", "djrefuge@12")
+		# msg = """From: %s\nTo: %s\nSubject: %s\n\n%s
+		# """ % (FROM, ", ".join(TO), SUBJECT, MESSAGE)
+		# mail.sendmail(FROM, TO, msg)
+		# mail.quit()
 		return {"message":"status {} sent a notification on mobile number".format(status)}
 		# return jsonify({"message": "Successfuly Status Changed"})	
 

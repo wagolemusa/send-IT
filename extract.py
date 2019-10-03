@@ -14,11 +14,11 @@ json_da = data['Body']
 
 # list_data = data['CallbackMetadata']
 
-for item in json_da["stkCallback"]["CallbackMetadata"]["Item"]:
-	if item["Name"] == "MpesaReceiptNumber":
-		mx = (item["Value"])
+# for item in json_da["stkCallback"]["CallbackMetadata"]["Item"]:
+# 	if item["Name"] == "MpesaReceiptNumber":
+# 		mx = (item["Value"])
 
-print (mx)
+# print (mx)
 
 print (json_da)
 
@@ -28,7 +28,7 @@ merchant = json_da['stkCallback']['MerchantRequestID']
 resultcode = json_da['stkCallback']['ResultCode']
 checkout = json_da['stkCallback']['CheckoutRequestID']
 resultdesc = json_da['stkCallback']['ResultDesc']
-mpesa = json_da["stkCallback"]["CallbackMetadata"]["Item"][1]["Value"]
+mpesa = json_da["stkCallback"]["Item"][1]["Value"]
 phone = json_da["stkCallback"]["CallbackMetadata"]["Item"][4]["Value"]
 
 def status():
