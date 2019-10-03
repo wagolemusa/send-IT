@@ -206,7 +206,7 @@ class Canceled(Resource):
 			destination = row[8]
 			weight = row[9]
 			status = row[10]
-			created_on = row[11]
+			created_on = row[11].strftime("%Y-%m-%d %H:%M:%S")
 
 			par.append({"parcel_id":parcel_id, "title":title, "username":username, "pickup":pickup, "rec_id":rec_id, "rec_phone":rec_phone, "rec_name":rec_name, "destination":destination, "weight":weight, "status":status, "created_on":created_on})
 		return jsonify({"data": par})	
@@ -240,7 +240,7 @@ class Delivered(Resource):
 			destination = row[8]
 			weight = row[9]
 			status = row[10]
-			created_on = row[11]
+			created_on = row[11].strftime("%Y-%m-%d %H:%M:%S")
 			par.append({"parcel_id":parcel_id, "title":title, "username":username, "pickup":pickup, "rec_id":rec_id, "rec_phone":rec_phone, "rec_name":rec_name, "destination":destination, "weight":weight, "status":status, "created_on":created_on})
 		return jsonify({"data": par})	
 
@@ -273,7 +273,7 @@ class InTransit(Resource):
 			destination = row[8]
 			weight = row[9]
 			status = row[10]
-			created_on = row[11]
+			created_on = row[11].strftime("%Y-%m-%d %H:%M:%S")
 			par.append({"parcel_id":parcel_id, "title":title, "username":username, "pickup":pickup, "rec_id":rec_id, "rec_phone":rec_phone, "rec_name":rec_name, "destination":destination, "weight":weight, "status":status, "created_on":created_on})
 		return jsonify({"data": par})	
 
@@ -441,7 +441,7 @@ class SearchSerial(Resource):
 			dates = row[9]
 			total = row[10]
 			status = row[11]
-			created_on = row[12]
+			created_on = row[12].strftime("%Y-%m-%d %H:%M:%S")
 			books.append({"book_id":book_id, "bookingref":bookingref, "username":username, "car_number":car_number, "from_location":from_location, "to_location":to_location, "price":price, "quality":quality, "dates":dates, "total":total, "status":status, "created_on":created_on})
 		return jsonify({"data": books})	
 
@@ -476,7 +476,7 @@ class Booking_By_Id(Resource):
 			dates = row[9]
 			total = row[10]
 			status = row[11]
-			created_on = row[12]
+			created_on = row[12].strftime("%Y-%m-%d %H:%M:%S")
 			booker.append({"book_id":book_id, "bookingref":bookingref, "username":username, "car_number":car_number, "from_location":from_location, "to_location":to_location, "price":price, "quality":quality, "dates":dates, "total":total, "status":status, "created_on":created_on})
 		return jsonify({"data": booker})	
 
@@ -507,7 +507,7 @@ class SearchDates(Resource):
 			dates = row[9]
 			total = row[10]
 			status = row[11]
-			created_on = row[12]
+			created_on = row[12].strftime("%Y-%m-%d %H:%M:%S")
 			books.append({"book_id":book_id, "bookingref":bookingref, "car_number":car_number, "from_location":from_location, "to_location":to_location, "price":price, "quality":quality, "dates":dates, "total":total, "status":status, "created_on":created_on})
 		return jsonify({"data": books})	
 
@@ -562,7 +562,7 @@ class PaymentAdmin(Resource):
 			amount = row[10]
 			phone = row[11]
 			status = row[12]
-			created_on = row[13]
+			created_on = row[13].strftime("%Y-%m-%d %H:%M:%S")
 			book_list.append({"payment_id":payment_id, "bookingref":bookingref, "car_number":car_number, "from_location":from_location, "to_location":to_location, "price":price, "quality":quality, "dates":dates, "amount":amount, "phone":phone, "status":status, "created_on":created_on})
 		return jsonify({"book": book_list})			
 
@@ -595,7 +595,7 @@ class PrintPayment(Resource):
 			amount = row[10]
 			phone = row[11]
 			status = row[12]
-			created_on = row[13]
+			created_on = row[13].strftime("%Y-%m-%d %H:%M:%S")
 			booker.append({"payment_id":payment_id, "bookingref":bookingref, "username":username, "car_number":car_number, "from_location":from_location, "to_location":to_location, "price":price, "quality":quality, "dates":dates, "amount":amount, "phone":phone, "status":status, "created_on":created_on})
 		return jsonify({"data": booker})	
 
