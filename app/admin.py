@@ -27,7 +27,7 @@ class Admin(Resource):
 		if current_user != U:
 			return {"message": "Access allowed only to admin"}, 403
 		
-		curr.execute(" SELECT * FROM orders")
+		curr.execute("SELECT * FROM orders WHERE status = 'In Transit' ORDER BY parcel_id DESC")
 		connection.commit()
 
 		data = curr.fetchall()
@@ -45,7 +45,7 @@ class Admin(Resource):
 			destination = row[8]
 			weight = row[9]
 			status = row[10]
-			created_on = row[11]
+			created_on = row[11].strftime("%Y-%m-%d %H:%M:%S")
 
 			parcel.append({"parcel_id":parcel_id, "title":title, "username":username, "pickup":pickup, "rec_id":rec_id, "rec_phone":rec_phone, "rec_name":rec_name, "destination":destination, "weight":weight, "status":status, "created_on":created_on})
 		return jsonify({"data": parcel})	
