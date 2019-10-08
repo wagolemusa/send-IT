@@ -43,7 +43,7 @@ from app.admin import PaymentAdmin
 from app.admin import PrintPayment
 from app.order import Callback
 # from app.parcel import ParcelCallbackUrl
-from app.admin import Desk
+from app.desk_admin import Deskbooking
 from app.admin import GetPrice_by_id
 from app.admin import Sendsms
 from app.admin import Emailsms
@@ -106,7 +106,7 @@ def create_app(config_name):
 	api.add_resource(PaymentAdmin, '/admin/v2/payments/query')
 	api.add_resource(PrintPayment, '/admin/v2/query/<int:payment_id>')
 	# api.add_resource(ParcelCallbackUrl, '/v2/parcel/callbackurl')
-	api.add_resource(Desk, '/admin/v2/create/passenger')
+	api.add_resource(Deskbooking, '/admin/v2/create/passenger')
 	api.add_resource(Sendsms, '/admin/v2/sendmessage')
 	api.add_resource(Emailsms, '/admin/v2/send/email/notification')
 	api.add_resource(PrintData, '/v2/print/data')
