@@ -38,7 +38,7 @@ class Deskbooking(Resource):
 		from_location = data['from_location']
 		to_location = data['to_location']
 		price = data['price']
-		customer_name = data['customer_numberomer_name']
+		customer_name = data['customer_name']
 		customer_number = data['customer_number']
 		quantiy = data['quantiy']
 		date_when = data['date_when']
