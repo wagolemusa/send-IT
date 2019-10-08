@@ -44,8 +44,10 @@ class Deskbooking(Resource):
 		date_when = data['date_when']
 		time_at = data['time_at']
 		amount = data['amount']
+
+		current_user = get_jwt_identity()
 		username = current_user
-		curr.execute(""" INSERT INTO desk(bookingref, username, car_number,from_location, to_location, price, customer_name, customer_number,\
+		curr.execute(""" INSERT INTO desk(bookingref, username, car_number, from_location, to_location, price, customer_name, customer_number,\
 																			 quantiy, date_when, time_at, amount)
 																			VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",\
 																			(bookingref, username, car_number, from_location, to_location, price, customer_name, customer_number, quantiy, date_when, time_at, amount))
