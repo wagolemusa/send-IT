@@ -41,7 +41,7 @@ def create_table():
 			price INT,
 			amount INT,
 			customer_name VARCHAR(50) NOT NULL,
-			customer_number BIGINT NOT NULL CHECK(customer_name >= 0),
+			customer_number BIGINT NOT NULL CHECK(customer_number >= 0),
 			date_when VARCHAR(50) NOT NULL,
 			created_on TIMESTAMP DEFAULT NOW(),
 			payments VARCHAR DEFAULT 'mpesa',
