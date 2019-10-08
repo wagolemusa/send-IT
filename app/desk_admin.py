@@ -42,15 +42,14 @@ class Deskbooking(Resource):
 		customer_number = data['customer_number']
 		quantiy = data['quantiy']
 		date_when = data['date_when']
-		time_at = data['time_at']
 		amount = data['amount']
 
 		current_user = get_jwt_identity()
 		username = current_user
 		curr.execute(""" INSERT INTO desk(bookingref, username, car_number, from_location, to_location, price, customer_name, customer_number,\
-																			 quantiy, date_when, time_at, amount)
-																			VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",\
-																			(bookingref, username, car_number, from_location, to_location, price, customer_name, customer_number, quantiy, date_when, time_at, amount))
+																			 quantiy, date_when, amount)
+																			VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",\
+																			(bookingref, username, car_number, from_location, to_location, price, customer_name, customer_number, quantiy, date_when, amount))
 		connection.commit()
 		return {"message": "Succussfully Created"}
 
