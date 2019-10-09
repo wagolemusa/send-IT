@@ -54,6 +54,79 @@ class Deskbooking(Resource):
 		return {"message": "Succussfully Created"}
 
 
+class Get_All_Desk(Resource):
+	@jwt_required
+	def get(self):
+		
+		username = get_jwt_identity()
+
+		current_user = get_jwt_identity()
+		U = Users().get_user_role()
+		if current_user != U:
+			return {"message": "Access allowed only to admin"}, 403
+		# curr.execute(" SELECT * FROM booking WHERE username =%s", [username])
+		curr.execute(" SELECT * FROM desk WHERE username =%s ORDER BY desk_id DESC LIMIT 1 ", [username])
+
+		book = curr.fetchall()
+		if not book:
+			return jsonify({"message":"There is no bookings yet"})
+		book_list = []
+		for row in book:
+			desk_id = row[0]
+			bookingref = row[2]
+			username = row[3]
+			car_number = row[4]
+			from_location = row[5]
+			to_location = row[6]
+			quantiy = row[7]
+			price = row[8]
+			amount = row[9]
+			date_when = row[12]
+			created_on = row[13].strftime("%Y-%m-%d %H:%M:%S")
+			book_list.append({"desk_id":desk_id, "bookingref":bookingref, "car_number":car_number, "username":username, "from_location":from_location, "to_location":to_location, "price":price, "quantiy":quantiy, "date_when":date_when, "amount":amount, "created_on":created_on})
+		return jsonify({"book": book_list})	
+
+
+class DeskId(Resource):
+
+	""" 
+	Methods Queries all  bookings by ID
+	
+	"""
+	@jwt_required
+	def get(self, desk_id):
+
+		current_user = get_jwt_identity()
+		U = Users().get_user_role()
+		if current_user != U:
+			return {"message": "Access allowed only to admin"}, 403
+
+		curr.execute("SELECT * FROM desk WHERE desk_id = %s",[desk_id])
+
+		connection.commit()
+
+		data = curr.fetchall()
+		if not data:
+			return {"message":"There is no bookings yet"}
+		booker = []
+		for row in data:
+			desk_id = row[0]
+			bookingref = row[2]
+			username = row[3]
+			car_number = row[4]
+			from_location = row[5]
+			to_location = row[6]
+			quantiy = row[7]
+			price = row[8]
+			amount = row[9]
+			date_when = row[12]
+			created_on = row[13].strftime("%Y-%m-%d %H:%M:%S")
+			payments = row[14]
+			booker.append({"desk_id":desk_id, "bookingref":bookingref, "car_number":car_number, "username":username, "from_location":from_location, "to_location":to_location, "price":price, "quantiy":quantiy, "date_when":date_when, "amount":amount, "created_on":created_on, "payments":payments})
+		return {"data": booker}
+
+
+
 
 
 
