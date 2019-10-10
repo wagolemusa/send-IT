@@ -337,7 +337,6 @@ class Mpesa(Resource):
 		"""
 		data = request.get_json(force=True)
 		book_id = data['book_id']
-		desk_id = data['desk_id']
 		bookingref = data['bookingref']
 		car_number = data['car_number']
 		from_location = data['from_location']
@@ -351,9 +350,9 @@ class Mpesa(Resource):
 
 		current_user = get_jwt_identity()
 		username = current_user
-		curr.execute(""" INSERT INTO payments(book_id, desk_id, bookingref, username, car_number,from_location, to_location, price, quality, dates,  amount, phone)
-																				VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",\
-																				(book_id, desk_id, bookingref, username, car_number, from_location, to_location,price, quality, dates,  amount, phone))
+		curr.execute(""" INSERT INTO payments(book_id,bookingref, username, car_number,from_location, to_location, price, quality, dates,  amount, phone)
+																				VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",\
+																				(book_id, bookingref, username, car_number, from_location, to_location,price, quality, dates,  amount, phone))
 		connection.commit()
 		
 		# Lipa na mpesa Functionality 
@@ -405,6 +404,85 @@ class Mpesa(Resource):
 
 		print (response.text)
 		return {"message": 'Wait Response on Your phone'}
+
+
+class Mpesadesk(Resource):
+	@jwt_required
+	def post(self):
+		""" 
+			Bookings methods holds lipa na Mpesa
+		"""
+		data = request.get_json(force=True)
+		desk_id = data['desk_id']
+		bookingref = data['bookingref']
+		car_number = data['car_number']
+		from_location = data['from_location']
+		to_location = data['to_location']
+		price = data['price']
+		quality = data['quality']
+		dates  = data['dates']
+		# total = data['total']
+		amount = data['amount']
+		phone  = data['phone']
+
+		current_user = get_jwt_identity()
+		username = current_user
+		curr.execute(""" INSERT INTO payments(desk_id, bookingref, username, car_number,from_location, to_location, price, quality, dates,  amount, phone)
+																				VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",\
+																				(desk_id, bookingref, username, car_number, from_location, to_location,price, quality, dates,  amount, phone))
+		connection.commit()
+		
+		# Lipa na mpesa Functionality 
+		consumer_key = "TDWYCw9ChsdHr7QdfcXUS1ddp8gchOC6"
+		consumer_secret = "BdYN5qcwGQvJnMGF"
+
+		# api_URL = "https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials" #AUTH URL
+		api_URL = "https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials"
+
+		r = requests.get(api_URL, auth=HTTPBasicAuth(consumer_key, consumer_secret))
+
+		data = r.json()
+		access_token = "Bearer" + ' ' + data['access_token']
+
+		#GETTING THE PASSWORD
+		timestamp = datetime.datetime.today().strftime('%Y%m%d%H%M%S')
+		passkey = 'bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919'
+		business_short_code = "174379"
+		data = business_short_code + passkey + timestamp
+		encoded = base64.b64encode(data.encode())
+		password = encoded.decode('utf-8')
+
+
+		# BODY OR PAYLOAD
+		payload = {
+		    "BusinessShortCode": business_short_code,
+		    "Password": password,
+		    "Timestamp": timestamp,
+		    "TransactionType": "CustomerPayBillOnline",
+		    "Amount": amount,
+		    "PartyA": phone,
+		    "PartyB": business_short_code,
+		    "PhoneNumber": phone,
+		    "CallBackURL": "https://senditparcel.herokuapp.com/api/v2/callback",
+		    "AccountReference": "account",
+		    "TransactionDesc": "account"
+		}
+
+		#POPULAING THE HTTP HEADER
+		headers = {
+		    "Authorization": access_token,
+		    "Content-Type": "application/json"
+		}
+
+
+		url = "https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest" #C2B URL
+
+		response = requests.post(url, json=payload, headers=headers)
+
+		print (response.text)
+		return {"message": 'Wait Response on Your phone'}
+
+
 
 
 	@jwt_required

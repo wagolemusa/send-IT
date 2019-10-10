@@ -38,6 +38,7 @@ from app.admin import ParcelNumber
 from app.admin import Booking_By_Id
 from app.order import Get_All_Bookings
 from app.order import Mpesa
+from app.order import Mpesadesk
 from app.order import PaymentId
 from app.admin import PaymentAdmin
 from app.admin import PrintPayment
@@ -102,6 +103,7 @@ def create_app(config_name):
 	api.add_resource(Booking_By_Id, '/admin/v2/booking/<int:book_id>')
 	api.add_resource(Get_All_Bookings, '/admin/v2/bookings')
 	api.add_resource(Mpesa, '/v2/lipa')
+	api.add_resource(Mpesadesk, '/v2/desk/lipa')
 	api.add_resource(PaymentId, '/v2/payments/<int:payment_id>')
 	api.add_resource(Callback, '/v2/callback')
 	api.add_resource(PaymentAdmin, '/admin/v2/payments/query')
