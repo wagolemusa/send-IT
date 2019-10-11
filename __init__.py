@@ -53,6 +53,7 @@ from app.order import Cash
 from app.order import BookingtId
 from app.desk_admin import Get_All_Desk
 from app.desk_admin import DeskId
+from app.desk_admin import CashDesk
 
 def create_app(config_name):
 	app = Flask(__name__, instance_relative_config=True)
@@ -117,6 +118,7 @@ def create_app(config_name):
 	api.add_resource(BookingtId, '/v2/print/cash/<int:book_id>')
 	api.add_resource(Get_All_Desk, '/v2/admin/desk/data')
 	api.add_resource(DeskId, '/v2/admin/desk/<int:desk_id>')
+	api.add_resource(CashDesk, '/v2/admin/desk/cash/<int:desk_id>')
 	# @app.errorhandler(404)
 	# def not_found(error):
 	# 	return {"message": "Page Not Found"},404

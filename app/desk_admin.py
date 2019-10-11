@@ -15,8 +15,8 @@ import africastalking
 
 types_status = ["delivered", "cancled"]
 
-connection = psycopg2.connect(dbname='d92a0rb0j8rphh', user='gaijmyignhvtkw', password='7e0acadc7013645d81437d922b7030782cdee4006cadf7f54501aa291b29d3e6', host='ec2-23-21-65-173.compute-1.amazonaws.com')
-curr = connection.cursor()
+# connection = psycopg2.connect(dbname='d92a0rb0j8rphh', user='gaijmyignhvtkw', password='7e0acadc7013645d81437d922b7030782cdee4006cadf7f54501aa291b29d3e6', host='ec2-23-21-65-173.compute-1.amazonaws.com')
+# curr = connection.cursor()
 
 class Deskbooking(Resource):
 	@jwt_required
@@ -81,6 +81,8 @@ class Get_All_Desk(Resource):
 			quantiy = row[7]
 			price = row[8]
 			amount = row[9]
+			customer_name = row[10]
+			customer_number = row[11]
 			date_when = row[12]
 			created_on = row[13].strftime("%Y-%m-%d %H:%M:%S")
 			book_list.append({"desk_id":desk_id, "bookingref":bookingref, "car_number":car_number, "username":username, "from_location":from_location, "to_location":to_location, "price":price, "quantiy":quantiy, "date_when":date_when, "amount":amount, "created_on":created_on})
@@ -128,7 +130,17 @@ class DeskId(Resource):
 
 
 
+class CashDesk(Resource):
+	# it updates the colomn in payment table to
+	# indecate paided cash
+	@jwt_required
+	def put(self, desk_id):
 
+		payment = "Cash"
+		payments = payment
+		username = get_jwt_identity()
 
-
-
+		print(payments)
+		curr.execute("""UPDATE desk SET payments =%s WHERE  payments='mpesa' AND desk_id=%s""",(payments, desk_id,))
+		connection.commit()
+		return {"message": "Thanks for booking with us"}
