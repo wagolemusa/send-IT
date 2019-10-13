@@ -144,3 +144,36 @@ class CashDesk(Resource):
 		curr.execute("""UPDATE desk SET payments =%s WHERE  payments='mpesa' AND desk_id=%s""",(payments, desk_id,))
 		connection.commit()
 		return {"message": "Thanks for booking with us"}
+
+
+class PrintCash(Resource):
+	"""
+	This methods prints the recipts from desk booking clients
+
+	"""
+	@jwt_required
+	def get(self):
+		curr.execute("SELECT * FROM desk WHERE payments = 'Cash' ORDER BY desk_id DESC")
+		connection.commit()
+
+		book = curr.fetchall()
+		if not book:
+			return jsonify({"message":"There is no bookings yet"})
+		book_list = []
+		for row in book:
+			desk_id = row[0]
+			bookingref = row[2]
+			username = row[3]
+			car_number = row[4]
+			from_location = row[5]
+			to_location = row[6]
+			quantiy = row[7]
+			price = row[8]
+			amount = row[9]
+			customer_name = row[10]
+			customer_number = row[11]
+			date_when = row[12]
+			created_on = row[13].strftime("%Y-%m-%d %H:%M:%S")
+			payments = row[14]
+			book_list.append({"desk_id":desk_id, "bookingref":bookingref, "car_number":car_number, "username":username, "from_location":from_location, "to_location":to_location, "price":price, "quantiy":quantiy, "date_when":date_when, "amount":amount, "created_on":created_on, "payments":payments})
+		return jsonify({"book": book_list})	
