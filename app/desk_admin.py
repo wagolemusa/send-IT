@@ -121,10 +121,12 @@ class DeskId(Resource):
 			quantiy = row[7]
 			price = row[8]
 			amount = row[9]
+			customer_name = row[10]
+			customer_number = row[11]
 			date_when = row[12]
 			created_on = row[13].strftime("%Y-%m-%d %H:%M:%S")
 			payments = row[14]
-			booker.append({"desk_id":desk_id, "bookingref":bookingref, "car_number":car_number, "username":username, "from_location":from_location, "to_location":to_location, "price":price, "quantiy":quantiy, "date_when":date_when, "amount":amount, "created_on":created_on, "payments":payments})
+			booker.append({"desk_id":desk_id, "bookingref":bookingref, "car_number":car_number, "username":username, "from_location":from_location, "to_location":to_location, "price":price, "quantiy":quantiy, "date_when":date_when, "amount":amount, "customer_name":customer_name, "customer_number":customer_number, "created_on":created_on, "payments":payments})
 		return {"data": booker}
 
 
