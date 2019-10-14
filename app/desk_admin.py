@@ -155,7 +155,7 @@ class PrintCash(Resource):
 	"""
 	@jwt_required
 	def get(self):
-		curr.execute("SELECT * FROM desk WHERE payments = 'Cash' ORDER BY desk_id DESC")
+		curr.execute("SELECT * FROM desk WHERE payments = 'Cash' ORDER BY desk_id DESC LIMIT 1")
 		connection.commit()
 
 		book = curr.fetchall()
