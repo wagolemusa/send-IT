@@ -91,7 +91,7 @@ class DesktopSuccessPayment(Resource):
 		if current_user != U:
 			return {"message": "Access allowed only to admin"}, 403
 
-		curr.execute(" SELECT * FROM payments WHERE desk_id = desk_id AND statu = 'Paid' ORDER BY payment_id DESC ")
+		curr.execute(" SELECT * FROM payments WHERE desk_id = desk_id AND status = 'Paid' ORDER BY payment_id DESC ")
 		connection.commit()
 		book = curr.fetchall()
 		if not book:
