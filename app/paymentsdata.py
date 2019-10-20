@@ -29,6 +29,7 @@ class SuccessClientPayments(Resource):
 			return {"message": "Access allowed only to admin"}, 403
 
 		curr.execute(" SELECT * FROM payments WHERE book_id = book_id AND status ='Paid' ORDER BY payment_id DESC ")
+		connection.commit()
 		book = curr.fetchall()
 		if not book:
 			return jsonify({"message":"There is no Payments yet"})
@@ -59,6 +60,7 @@ class FaildClientPayments(Resource):
 			return {"message": "Access allowed only to admin"}, 403
 
 		curr.execute(" SELECT * FROM payments WHERE book_id = book_id AND status = 'Faild' ORDER BY payment_id DESC ")
+		connection.commit()
 		book = curr.fetchall()
 		if not book:
 			return jsonify({"message":"There is no Payments yet"})
@@ -90,6 +92,7 @@ class DesktopSuccessPayment(Resource):
 			return {"message": "Access allowed only to admin"}, 403
 
 		curr.execute(" SELECT * FROM payments WHERE desk_id = desk_id AND statu = 'Paid' ORDER BY payment_id DESC ")
+		connection.commit()
 		book = curr.fetchall()
 		if not book:
 			return jsonify({"message":"There is no Payments yet"})
@@ -121,6 +124,7 @@ class DesktopFaildPayment(Resource):
 			return {"message": "Access allowed only to admin"}, 403
 
 		curr.execute(" SELECT * FROM payments WHERE desk_id = desk_id AND status = 'Faild' ORDER BY payment_id DESC ")
+		connection.commit()
 		book = curr.fetchall()
 		if not book:
 			return jsonify({"message":"There is no Payments yet"})
