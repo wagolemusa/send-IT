@@ -648,6 +648,11 @@ class Callback(Resource):
 
 class Cash(Resource):
 
+
+
+	# it updates the colomn in payment table to
+	# indecate paided cash
+	@jwt_required
 	def get_user_phone(self):
 		current_user = get_jwt_identity()
 		name_user = current_user
@@ -656,10 +661,6 @@ class Cash(Resource):
 		connection.commit()
 		user = curr.fetchone()
 		return user
-
-	# it updates the colomn in payment table to
-	# indecate paided cash
-	@jwt_required
 	def put(self, book_id):
 
 		payment = "Cash"
@@ -677,6 +678,7 @@ class Cash(Resource):
 			from_location = row[5]
 			to_location = row[6]
 			dates = row[9]
+
 			number = self.get_user_phone()
 			phone = str(number)
 			print(phone)
