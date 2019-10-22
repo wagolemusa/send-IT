@@ -647,9 +647,6 @@ class Callback(Resource):
 			response = sms.send(message, ['+' + phone ])
 
 class Cash(Resource):
-
-
-
 	# it updates the colomn in payment table to
 	# indecate paided cash
 	@jwt_required
@@ -661,6 +658,7 @@ class Cash(Resource):
 		connection.commit()
 		user = curr.fetchone()
 		return user
+
 	def put(self, book_id):
 
 		payment = "Cash"
@@ -683,7 +681,7 @@ class Cash(Resource):
 			phone = str(number)
 			print(phone)
 			# Sends sms to mobile phone
-			message = "%s Receipt number:.. %s From:.. %s To:.. %s On:... %s" %(bookingref, from_location, to_location, dates)
+			message = "Receipt number:..{} From:..{} To:.. {} On:...{}" .format(bookingref, from_location, to_location, dates)
 			username = "refuge"    # use 'sandbox' for development in the test environment
 			api_key = "73d787253bd6446b12686b20f063042cbfc7d687301f4ab8a89233b6dd523883"      # use your sandbox app API key for development in the test environment
 			africastalking.initialize(username, api_key)
