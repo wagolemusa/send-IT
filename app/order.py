@@ -646,11 +646,17 @@ class Callback(Resource):
 			# Use the service synchronously
 			response = sms.send(message, ['+' + phone ])
 
-
-			
-
-
 class Cash(Resource):
+
+	def get_user_phone(self):
+		current_user = get_jwt_identity()
+		name_user = current_user
+
+		curr.execute("SELECT phone FROM users WHERE username = 'name_user'")
+		connection.commit()
+		user = curr.fetchone()
+		return user
+
 	# it updates the colomn in payment table to
 	# indecate paided cash
 	@jwt_required
@@ -658,12 +664,33 @@ class Cash(Resource):
 
 		payment = "Cash"
 		payments = payment
-		username = get_jwt_identity()
 
 		print(payments)
 		curr.execute("""UPDATE booking SET payments =%s WHERE  payments='mpesa' AND book_id=%s""",(payments, book_id,))
 		connection.commit()
-		return {"message": "Thanks for booking with us"}
+
+		curr.execute("SELECT * FROM booking ORDER BY book_id DESC LIMIT 1")
+		connection.commit()
+		owner = curr.fetchall()
+		for row in owner:
+			bookingref = row[2]
+			from_location = row[5]
+			to_location = row[6]
+			dates = row[9]
+			number = self.get_user_phone()
+			phone = str(number)
+			print(phone)
+			# Sends sms to mobile phone
+			message = "%s Receipt number:.. %s From:.. %s, To:.. %s, On:... %s" %(bookingref, from_location, to_location, date)
+			username = "refuge"    # use 'sandbox' for development in the test environment
+			api_key = "73d787253bd6446b12686b20f063042cbfc7d687301f4ab8a89233b6dd523883"      # use your sandbox app API key for development in the test environment
+			africastalking.initialize(username, api_key)
+
+			# Initialize a service e.g. SMS
+			sms = africastalking.SMS
+			# Use the service synchronously
+			response = sms.send(message, ['+' + phone ])
+		return {"message": "Thanks for booking with us, Wait Message on your Phone"}
 	
 
 	
