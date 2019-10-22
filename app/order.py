@@ -681,7 +681,7 @@ class Cash(Resource):
 			phone = str(number)
 			print(phone)
 			# Sends sms to mobile phone
-			message = "%s Receipt number:.. %s From:.. %s, To:.. %s, On:... %s" %(bookingref, from_location, to_location, date)
+			message = "%s Receipt number:.. %s From:.. %s, To:.. %s, On:... %s" %(bookingref, from_location, to_location, dates)
 			username = "refuge"    # use 'sandbox' for development in the test environment
 			api_key = "73d787253bd6446b12686b20f063042cbfc7d687301f4ab8a89233b6dd523883"      # use your sandbox app API key for development in the test environment
 			africastalking.initialize(username, api_key)
