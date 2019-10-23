@@ -650,9 +650,7 @@ class Cash(Resource):
 	# it updates the colomn in payment table to
 	# indecate paided cash
 	@jwt_required
-	# def get_user_phone(self):
 	def put(self, book_id):
-
 		payment = "Cash"
 		payments = payment
 
@@ -677,8 +675,6 @@ class Cash(Resource):
 			to_location = row[6]
 			dates = row[9]
 
-			number = self.get_user_phone()
-			phone = str(number)
 			# Sends sms to mobile phone
 			message = "Receipt number:..{} From:..{} To:.. {} On:...{}" .format(bookingref, from_location, to_location, dates)
 			username = "refuge"    # use 'sandbox' for development in the test environment
