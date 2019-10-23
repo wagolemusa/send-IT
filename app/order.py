@@ -660,7 +660,9 @@ class Cash(Resource):
 		user = curr.fetchone()
 		return user
 
-		print(get_user_phone())
+		me = get_user_phone()
+		print(me)
+
 	def put(self, book_id):
 
 		payment = "Cash"
@@ -681,8 +683,6 @@ class Cash(Resource):
 
 			number = self.get_user_phone()
 			phone = str(number)
-			print(phone)
-			
 			# Sends sms to mobile phone
 			message = "Receipt number:..{} From:..{} To:.. {} On:...{}" .format(bookingref, from_location, to_location, dates)
 			username = "refuge"    # use 'sandbox' for development in the test environment
