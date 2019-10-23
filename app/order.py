@@ -660,8 +660,7 @@ class Cash(Resource):
 		user = curr.fetchone()
 		return user
 
-		me = get_user_phone()
-		print(me)
+		print(user)
 
 	def put(self, book_id):
 
