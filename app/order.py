@@ -654,6 +654,7 @@ class Cash(Resource):
 		current_user = get_jwt_identity()
 		name_user = current_user
 
+		print(name_user)
 		curr.execute("SELECT phone FROM users WHERE username = 'name_user'")
 		connection.commit()
 		user = curr.fetchone()
@@ -680,6 +681,7 @@ class Cash(Resource):
 			number = self.get_user_phone()
 			phone = str(number)
 			print(phone)
+			
 			# Sends sms to mobile phone
 			message = "Receipt number:..{} From:..{} To:.. {} On:...{}" .format(bookingref, from_location, to_location, dates)
 			username = "refuge"    # use 'sandbox' for development in the test environment
