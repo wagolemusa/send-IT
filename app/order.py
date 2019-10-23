@@ -650,7 +650,9 @@ class Cash(Resource):
 	# it updates the colomn in payment table to
 	# indecate paided cash
 	@jwt_required
+	# def get_user_phone(self):
 	def put(self, book_id):
+
 		payment = "Cash"
 		payments = payment
 
@@ -665,6 +667,8 @@ class Cash(Resource):
 		connection.commit()
 		user = curr.fetchone()
 		print(user)
+		phone = str(user)
+		print(phone)
 
 		curr.execute("SELECT * FROM booking ORDER BY book_id DESC LIMIT 1")
 		connection.commit()
