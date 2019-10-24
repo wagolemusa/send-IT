@@ -649,6 +649,16 @@ class Callback(Resource):
 class Cash(Resource):
 	# it updates the colomn in payment table to
 	# indecate paided cash
+
+	current_user = get_jwt_identity()
+	name_user = current_user
+	print(name_user)
+	def get_user_phone(self):
+		curr.execute("SELECT phone FROM users WHERE username = 'name_user'")
+		connection.commit()
+		user = curr.fetchone()
+	return user
+
 	@jwt_required
 	# def get_user_phone(self):
 	def put(self, book_id):
@@ -660,17 +670,9 @@ class Cash(Resource):
 		curr.execute("""UPDATE booking SET payments =%s WHERE  payments='mpesa' AND book_id=%s""",(payments, book_id,))
 		connection.commit()
 
-		current_user = get_jwt_identity()
-		name_user = current_user
-
-		print(name_user)
-		curr.execute("SELECT phone FROM users WHERE username = 'name_user'")
-		connection.commit()
-		user = curr.fetchone()
-		for number in user:
+		owner_data = self.get_user_phone()
+		for number in owner_data:
 			phone = str(number)
-		return phone
-		print(phone)
 
 		curr.execute("SELECT * FROM booking ORDER BY book_id DESC LIMIT 1")
 		connection.commit()
