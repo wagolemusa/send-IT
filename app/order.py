@@ -660,36 +660,37 @@ class Cash(Resource):
 		curr.execute("""UPDATE booking SET payments =%s WHERE  payments='mpesa' AND book_id=%s""",(payments, book_id,))
 		connection.commit()
 
-		current_user = get_jwt_identity()
-		name_user = current_user
-		print(name_user)
-		curr.execute("SELECT phone FROM users WHERE username = 'name_user'")
+		# current_user = get_jwt_identity()
+		# name_user = current_user
+
+		# print(name_user)
+		# curr.execute("SELECT phone FROM users WHERE username = 'name_user'")
+		# connection.commit()
+		# user = curr.fetchone()
+		# for number in user:
+		# 	phone = str(number)
+		# 	print(phone)
+
+		curr.execute("SELECT * FROM booking ORDER BY book_id DESC LIMIT 1")
 		connection.commit()
-		user = curr.fetchone()
-		for number in user:
-			phone = str(number)
-			print(phone)
+		owner = curr.fetchall()
+		for row in owner:
+			bookingref = row[2]
+			from_location = row[5]
+			to_location = row[6]
+			dates = row[9]
 
-			curr.execute("SELECT * FROM booking ORDER BY book_id DESC LIMIT 1")
-			connection.commit()
-			owner = curr.fetchall()
-			for row in owner:
-				bookingref = row[2]
-				from_location = row[5]
-				to_location = row[6]
-				dates = row[9]
+			# Sends sms to mobile phone
+			message = "Receipt number:..{} From:..{} To:.. {} On:...{}" .format(bookingref, from_location, to_location, dates)
+			username = "refuge"    # use 'sandbox' for development in the test environment
+			api_key = "73d787253bd6446b12686b20f063042cbfc7d687301f4ab8a89233b6dd523883"      # use your sandbox app API key for development in the test environment
+			africastalking.initialize(username, api_key)
 
-				# Sends sms to mobile phone
-				message = "Receipt number:..{} From:..{} To:.. {} On:...{}" .format(bookingref, from_location, to_location, dates)
-				username = "refuge"    # use 'sandbox' for development in the test environment
-				api_key = "73d787253bd6446b12686b20f063042cbfc7d687301f4ab8a89233b6dd523883"      # use your sandbox app API key for development in the test environment
-				africastalking.initialize(username, api_key)
-
-				# Initialize a service e.g. SMS
-				sms = africastalking.SMS
-				# Use the service synchronously
-				response = sms.send(message, ['+' + phone ])
-			return {"message": "Thanks for booking with us, Wait Message on your Phone"}
+			# Initialize a service e.g. SMS
+			sms = africastalking.SMS
+			# Use the service synchronously
+			response = sms.send(message, ['+' + phone ])
+		return {"message": "Thanks for booking with us, Wait Message on your Phone"}
 		
 
 	
