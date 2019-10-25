@@ -668,13 +668,11 @@ class Cash(Resource):
 			connection.commit()
 			user = curr.fetchone()
 			return user
-			owner_data = self.get_user_phone()
-			for number in owner_data:
-				num = str(number)
+		owner_data = self.get_user_phone()
+		for number in owner_data:
+			num = str(number)
 		phone = num
 		print(phone)
-
-
 
 		curr.execute("SELECT * FROM booking ORDER BY book_id DESC LIMIT 1")
 		connection.commit()
