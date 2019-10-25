@@ -663,14 +663,14 @@ class Cash(Resource):
 		name_user = current_user
 		print(name_user)
 	
-	def get_user_phone(self):
-		curr.execute("SELECT phone FROM users WHERE username = 'name_user'")
-		connection.commit()
-		user = curr.fetchone()
-		return user
-		owner_data = self.get_user_phone()
-		for number in owner_data:
-			phone = str(number)
+		def get_user_phone(self):
+			curr.execute("SELECT phone FROM users WHERE username = 'name_user'")
+			connection.commit()
+			user = curr.fetchone()
+			return user
+			owner_data = self.get_user_phone()
+			for number in owner_data:
+				phone = str(number)
 
 		curr.execute("SELECT * FROM booking ORDER BY book_id DESC LIMIT 1")
 		connection.commit()
