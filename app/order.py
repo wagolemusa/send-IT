@@ -659,11 +659,11 @@ class Cash(Resource):
 		curr.execute("""UPDATE booking SET payments =%s WHERE  payments='mpesa' AND book_id=%s""",(payments, book_id,))
 		connection.commit()
 
-		current_user = get_jwt_identity()
-		name_user = current_user
-		print(name_user)
+		# current_user = get_jwt_identity()
+		# name_user = current_user
+		# print(name_user)
 	
-		curr.execute("SELECT phone FROM users WHERE username = 'name_user'")
+		curr.execute("SELECT phone FROM users WHERE username = 'username'")
 		connection.commit()
 		numbers = curr.fetchone()
 		for number in numbers:
