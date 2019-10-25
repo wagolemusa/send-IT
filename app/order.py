@@ -663,13 +663,11 @@ class Cash(Resource):
 		name_user = current_user
 		print(name_user)
 	
-		def get_user_phone(self):
-			curr.execute("SELECT phone FROM users WHERE username = 'name_user'")
-			connection.commit()
-			user = curr.fetchone()
-			return user
-		owner_data = self.get_user_phone()
-		for number in owner_data:
+		
+		curr.execute("SELECT phone FROM users WHERE username = 'name_user'")
+		connection.commit()
+		owner = curr.fetchone()
+		for number in owner:
 			num = str(number)
 		phone = num
 		print(phone)
