@@ -666,10 +666,10 @@ class Cash(Resource):
 		curr.execute("SELECT phone FROM users WHERE username = 'name_user'")
 		connection.commit()
 		numbers = curr.fetchone()
-		# for number in numbers:
-		# 	num = str(number)
-		# phone = num
-		print(numbers)
+		for number in numbers:
+			num = str(number)
+		phone = num
+		print(phone)
 
 		curr.execute("SELECT * FROM booking ORDER BY book_id DESC LIMIT 1")
 		connection.commit()
