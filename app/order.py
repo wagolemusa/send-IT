@@ -690,6 +690,8 @@ class Cash(Resource):
 			sms = africastalking.SMS
 			# Use the service synchronously
 			response = sms.send(message, ['+' + phone ])
+
+			print(response)
 		return {"message": "Thanks for booking with us, Wait Message on your Phone"}
 		
 
