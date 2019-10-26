@@ -663,7 +663,7 @@ class Cash(Resource):
 		name_user = current_user
 		print(name_user)
 	
-		curr.execute("SELECT phone FROM users WHERE username = name_user ")
+		curr.execute("SELECT phone FROM users WHERE username = current_user")
 		connection.commit()
 		numbers = curr.fetchone()
 		for number in numbers:
