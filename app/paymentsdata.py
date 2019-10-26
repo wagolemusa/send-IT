@@ -15,8 +15,8 @@ import africastalking
 
 types_status = ["delivered", "cancled"]
 
-connection = psycopg2.connect(dbname='d92a0rb0j8rphh', user='gaijmyignhvtkw', password='7e0acadc7013645d81437d922b7030782cdee4006cadf7f54501aa291b29d3e6', host='ec2-23-21-65-173.compute-1.amazonaws.com')
-curr = connection.cursor()
+conn = psycopg2.connect(dbname='d92a0rb0j8rphh', user='gaijmyignhvtkw', password='7e0acadc7013645d81437d922b7030782cdee4006cadf7f54501aa291b29d3e6', host='ec2-23-21-65-173.compute-1.amazonaws.com')
+dbconnect = conn.cursor()
 
 class SuccessClientPayments(Resource): 
 	# This endpoints Queries all successfuly Payments for booking online Via M-pesa
@@ -28,9 +28,9 @@ class SuccessClientPayments(Resource):
 		if current_user != U:
 			return {"message": "Access allowed only to admin"}, 403
 
-		curr.execute(" SELECT * FROM payments WHERE book_id = book_id AND status ='Paid' ORDER BY payment_id DESC ")
+		dbconnect.execute(" SELECT * FROM payments WHERE book_id = book_id AND status ='Paid' ORDER BY payment_id DESC ")
 		connection.commit()
-		book = curr.fetchall()
+		book = dbconnect.fetchall()
 		if not book:
 			return jsonify({"message":"There is no Payments yet"})
 		book_list = []
@@ -59,9 +59,9 @@ class FaildClientPayments(Resource):
 		if current_user != U:
 			return {"message": "Access allowed only to admin"}, 403
 
-		curr.execute(" SELECT * FROM payments WHERE book_id = book_id AND status = 'Faild' ORDER BY payment_id DESC ")
+		dbconnect.execute(" SELECT * FROM payments WHERE book_id = book_id AND status = 'Faild' ORDER BY payment_id DESC ")
 		connection.commit()
-		book = curr.fetchall()
+		book = dbconnect.fetchall()
 		if not book:
 			return jsonify({"message":"There is no Payments yet"})
 		book_list = []
@@ -91,9 +91,9 @@ class DesktopSuccessPayment(Resource):
 		if current_user != U:
 			return {"message": "Access allowed only to admin"}, 403
 
-		curr.execute(" SELECT * FROM payments WHERE desk_id = desk_id AND status = 'Paid' ORDER BY payment_id DESC ")
+		dbconnect.execute(" SELECT * FROM payments WHERE desk_id = desk_id AND status = 'Paid' ORDER BY payment_id DESC ")
 		connection.commit()
-		book = curr.fetchall()
+		book = dbconnect.fetchall()
 		if not book:
 			return jsonify({"message":"There is no Payments yet"})
 		book_list = []
@@ -123,9 +123,9 @@ class DesktopFaildPayment(Resource):
 		if current_user != U:
 			return {"message": "Access allowed only to admin"}, 403
 
-		curr.execute(" SELECT * FROM payments WHERE desk_id = desk_id AND status = 'Faild' ORDER BY payment_id DESC ")
+		dbconnect.execute(" SELECT * FROM payments WHERE desk_id = desk_id AND status = 'Faild' ORDER BY payment_id DESC ")
 		connection.commit()
-		book = curr.fetchall()
+		book = dbconnect.fetchall()
 		if not book:
 			return jsonify({"message":"There is no Payments yet"})
 		book_list = []
@@ -154,10 +154,10 @@ class DesktopCashpayment(Resource):
 		if current_user != U:
 			return {"message": "Access allowed only to admin"}, 403
 
-		curr.execute("SELECT * FROM desk WHERE payments = 'Cash' ORDER BY desk_id DESC ")
+		dbconnect.execute("SELECT * FROM desk WHERE payments = 'Cash' ORDER BY desk_id DESC ")
 		connection.commit()
 
-		book = curr.fetchall()
+		book = dbconnect.fetchall()
 		if not book:
 			return jsonify({"message":"There is no bookings yet"})
 		book_list = []
@@ -188,10 +188,10 @@ class ClientCashPayment(Resource):
 		if current_user != U:
 			return {"message": "Access allowed only to admin"}, 403
 
-		curr.execute("SELECT * FROM booking WHERE payments = 'Cash' ORDER BY book_id DESC")
+		dbconnect.execute("SELECT * FROM booking WHERE payments = 'Cash' ORDER BY book_id DESC")
 		connection.commit()
 
-		book = curr.fetchall()
+		book = dbconnect.fetchall()
 		if not book:
 			return {"message":"There is no bookings yet"}
 		book_list = []
