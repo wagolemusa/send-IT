@@ -661,14 +661,14 @@ class Cash(Resource):
 
 		current_user = get_jwt_identity()
 		# name_user = current_user
-		# print(name_user)
+		print(current_user)
 	
 		curr.execute("SELECT phone FROM users WHERE username = 'current_user'")
 		connection.commit()
 		numbers = curr.fetchone()
-		for number in numbers:
-			num = str(number)
-		phone = num
+		# for number in numbers:
+		# 	num = str(number)
+		phone = numbers
 		print(phone)
 
 		curr.execute("SELECT * FROM booking ORDER BY book_id DESC LIMIT 1")
