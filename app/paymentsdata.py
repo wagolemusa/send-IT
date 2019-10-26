@@ -29,7 +29,7 @@ class SuccessClientPayments(Resource):
 			return {"message": "Access allowed only to admin"}, 403
 
 		dbconnect.execute(" SELECT * FROM payments WHERE book_id = book_id AND status ='Paid' ORDER BY payment_id DESC ")
-		connection.commit()
+		conn.commit()
 		book = dbconnect.fetchall()
 		if not book:
 			return jsonify({"message":"There is no Payments yet"})
@@ -60,7 +60,7 @@ class FaildClientPayments(Resource):
 			return {"message": "Access allowed only to admin"}, 403
 
 		dbconnect.execute(" SELECT * FROM payments WHERE book_id = book_id AND status = 'Faild' ORDER BY payment_id DESC ")
-		connection.commit()
+		conn.commit()
 		book = dbconnect.fetchall()
 		if not book:
 			return jsonify({"message":"There is no Payments yet"})
@@ -92,7 +92,7 @@ class DesktopSuccessPayment(Resource):
 			return {"message": "Access allowed only to admin"}, 403
 
 		dbconnect.execute(" SELECT * FROM payments WHERE desk_id = desk_id AND status = 'Paid' ORDER BY payment_id DESC ")
-		connection.commit()
+		conn.commit()
 		book = dbconnect.fetchall()
 		if not book:
 			return jsonify({"message":"There is no Payments yet"})
@@ -124,7 +124,7 @@ class DesktopFaildPayment(Resource):
 			return {"message": "Access allowed only to admin"}, 403
 
 		dbconnect.execute(" SELECT * FROM payments WHERE desk_id = desk_id AND status = 'Faild' ORDER BY payment_id DESC ")
-		connection.commit()
+		conn.commit()
 		book = dbconnect.fetchall()
 		if not book:
 			return jsonify({"message":"There is no Payments yet"})
@@ -155,7 +155,7 @@ class DesktopCashpayment(Resource):
 			return {"message": "Access allowed only to admin"}, 403
 
 		dbconnect.execute("SELECT * FROM desk WHERE payments = 'Cash' ORDER BY desk_id DESC ")
-		connection.commit()
+		conn.commit()
 
 		book = dbconnect.fetchall()
 		if not book:
@@ -189,7 +189,7 @@ class ClientCashPayment(Resource):
 			return {"message": "Access allowed only to admin"}, 403
 
 		dbconnect.execute("SELECT * FROM booking WHERE payments = 'Cash' ORDER BY book_id DESC")
-		connection.commit()
+		conn.commit()
 
 		book = dbconnect.fetchall()
 		if not book:
