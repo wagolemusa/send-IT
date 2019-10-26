@@ -660,10 +660,10 @@ class Cash(Resource):
 		connection.commit()
 
 		current_user = get_jwt_identity()
-		# name_user = current_user
-		print(current_user)
+		name_user = current_user
+		print(name_user)
 	
-		curr.execute("SELECT phone FROM users WHERE username='admin'")
+		curr.execute("SELECT phone FROM users WHERE username = name_user ")
 		connection.commit()
 		numbers = curr.fetchone()
 		for number in numbers:
@@ -690,8 +690,6 @@ class Cash(Resource):
 			sms = africastalking.SMS
 			# Use the service synchronously
 			response = sms.send(message, ['+254' + phone ])
-
-			print(response)
 		return {"message": "Thanks for booking with us, Wait Message on your Phone"}
 		
 
