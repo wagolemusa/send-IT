@@ -172,7 +172,7 @@ class Get_All_Bookings(Resource):
 		username = get_jwt_identity()
 		# curr.execute(" SELECT * FROM booking WHERE username =%s", [username])
 		curr.execute(" SELECT * FROM booking WHERE username =%s ORDER BY book_id DESC LIMIT 1 ", [username])
-
+		connection.commit()
 		book = curr.fetchall()
 		if not book:
 			return jsonify({"message":"There is no bookings yet"})
