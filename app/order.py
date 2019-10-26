@@ -681,7 +681,7 @@ class Cash(Resource):
 			dates = row[9]
 
 			# Sends sms to mobile phone
-			message = "Receipt number:..{} From:..{} To:.. {} On:...{}" .format(bookingref, from_location, to_location, dates)
+			message = "Receipt number:..%s From:..%s To:.. %s On:...%s" %(bookingref, from_location, to_location, dates)
 			username = "refuge"    # use 'sandbox' for development in the test environment
 			api_key = "c8eaa30fbcd30ba08b166411894c13b5b3c99fcc407991a6019ee918e52ce8f2"      # use your sandbox app API key for development in the test environment
 			africastalking.initialize(username, api_key)
@@ -689,7 +689,7 @@ class Cash(Resource):
 			# Initialize a service e.g. SMS
 			sms = africastalking.SMS
 			# Use the service synchronously
-			response = sms.send(message, ['+' + phone ])
+			response = sms.send(message, ['+254' + phone ])
 
 			print(response)
 		return {"message": "Thanks for booking with us, Wait Message on your Phone"}
