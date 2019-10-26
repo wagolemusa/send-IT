@@ -665,7 +665,7 @@ class Cash(Resource):
 	
 		curr.execute("SELECT phone FROM users WHERE username = 'current_user'")
 		connection.commit()
-		numbers = curr.fetchone()
+		numbers = curr.fetchall()
 		# for number in numbers:
 		# 	num = str(number)
 		phone = numbers
