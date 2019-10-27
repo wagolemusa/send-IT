@@ -423,9 +423,8 @@ class SearchSerial(Resource):
 			# return jsonify({"message": "Search Number must be only integer"})
 
 		curr.execute("SELECT * FROM booking WHERE bookingref = %s",[bookingref])
-		data = curr.fetchall()
 		connection.commit()
-
+		data = curr.fetchall()
 		if not data:
 			return {"message":"There is no root yet"}
 		books = []
@@ -490,8 +489,9 @@ class SearchDates(Resource):
 		if current_user != U:
 			return {"message": "Access allowed only to admin"}, 403
 		dates = request.json['dates']
-		connection.commit()
 		curr.execute("SELECT * FROM booking WHERE dates = %s",[dates])
+		connection.commit()
+
 		data = curr.fetchall()
 		if not data:
 			return jsonify({"message":"There is no root yet"})
