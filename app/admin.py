@@ -441,7 +441,7 @@ class SearchSerial(Resource):
 			dates = row[9]
 			total = row[10]
 			status = row[11]
-			created_on = row[12].strftime("%Y-%m-%d %H:%M:%S")
+			created_on = row[12]
 			books.append({"book_id":book_id, "bookingref":bookingref, "username":username, "car_number":car_number, "from_location":from_location, "to_location":to_location, "price":price, "quality":quality, "dates":dates, "total":total, "status":status, "created_on":created_on})
 		return jsonify({"data": books})	
 
