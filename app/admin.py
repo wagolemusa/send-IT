@@ -422,7 +422,7 @@ class SearchSerial(Resource):
 		# if type(bookingref) != int:
 			# return jsonify({"message": "Search Number must be only integer"})
 
-		curr.execute("SELECT * FROM booking WHERE bookingref = %s",[bookingref])
+		curr.execute("SELECT * FROM booking WHERE bookingref = %s AND payments = 'Cash' ",[bookingref])
 		connection.commit()
 		data = curr.fetchall()
 		if not data:
