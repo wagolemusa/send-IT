@@ -516,6 +516,8 @@ class GetNumbers(Resource):
 	""" Class Counts Numbers of users"""
 	def get(self):
 		curr.execute("SELECT COUNT(*) FROM users")
+		connection.commit()
+
 		data = curr.fetchall()
 		return {"number": data}
 
@@ -524,6 +526,8 @@ class BookingNumber(Resource):
 
 	def get(self):
 		curr.execute("SELECT COUNT(*) FROM booking")
+		connection.commit()
+
 		y = curr.fetchall()
 		return {"nums": y}
 
@@ -532,6 +536,8 @@ class ParcelNumber(Resource):
 	""" Class Counts Numbers of Orders"""
 	def get(self):
 		curr.execute("SELECT COUNT(*) FROM orders")
+		connection.commit()
+
 		x = curr.fetchall()
 		return {"num": x}
 
