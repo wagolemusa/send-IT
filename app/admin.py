@@ -626,19 +626,21 @@ class PrintPayment(Resource):
 		booker = []
 		for row in data:
 			payment_id = row[0]
-			bookingref = row[2]
-			username = row[3]
-			car_number = row[4]
-			from_location = row[5]
-			to_location = row[6]
-			price = row[7]
-			quality = row[8]
-			dates = row[9]
-			amount = row[10]
-			phone = row[11]
-			status = row[12]
-			created_on = row[13]
-			booker.append({"payment_id":payment_id, "bookingref":bookingref, "username":username, "car_number":car_number, "from_location":from_location, "to_location":to_location, "price":price, "quality":quality, "dates":dates, "amount":amount, "phone":phone, "status":status, "created_on":created_on})
+			bookingref = row[5]
+			username = row[5]
+			car_number = row[6]
+			from_location = row[7]
+			to_location = row[8]
+			price = row[9]
+			quality = row[10]
+			dates = row[11]
+			phone = row[12]
+			amount = row[13]
+			mpesa_reciept row[14]
+			resultdesc = row[15]
+			status = row[16]
+			created_on = row[17].strftime("%Y-%m-%d %H:%M:%S")
+			booker.append({"payment_id":payment_id, "bookingref":bookingref, "username":username, "car_number":car_number, "from_location":from_location, "to_location":to_location, "price":price, "quality":quality, "dates":dates, "amount":amount, "phone":phone, "mpesa_reciept":mpesa_reciept, "resultdesc":resultdesc, "status":status, "created_on":created_on})
 		return jsonify({"data": booker})	
 
 # class Desk(Resource):
