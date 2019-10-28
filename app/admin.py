@@ -441,8 +441,9 @@ class SearchPaymentsReciept(Resource):
 			total = row[10]
 			status = row[11]
 			created_on = row[12]
-			books.append({"book_id":book_id, "bookingref":bookingref, "username":username, "car_number":car_number, "from_location":from_location, "to_location":to_location, "price":price, "quality":quality, "dates":dates, "total":total, "status":status, "created_on":created_on})
-		return jsonify({"data": books})	
+			book_list.append({"book_id":book_id, "bookingref":bookingref, "username":username, "car_number":car_number, "from_location":from_location, "to_location":to_location, "price":price, "quality":quality, "dates":dates, "total":total, "status":status, "created_on":created_on})
+		return jsonify({"data": book_list})	
+		
 class SearchSerial(Resource):
 	""" Methods for searching serial number """
 	@jwt_required
