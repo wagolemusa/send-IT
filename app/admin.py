@@ -407,6 +407,45 @@ class GetPrice_by_id(Resource):
 			return jsonify({"data": places})
 
 
+class SearchPaymentsReciept(Resource):
+	""" Methods for searching serial number """
+	@jwt_required
+	def post(self):
+		connection.commit()
+		current_user = get_jwt_identity()
+		U = Users().get_user_role()
+		if current_user != U:
+			return {"message": "Access allowed only to admin"}, 403
+
+		bookingref = request.json['bookingref']
+
+		# if type(bookingref) != int:
+			# return jsonify({"message": "Search Number must be only integer"})
+
+		curr.execute("SELECT * FROM payments WHERE bookingref = %s AND booK_id = booK_id ",[bookingref])
+		connection.commit()
+		data = curr.fetchall()
+		if not data:
+			return {"message":"There is no Data"}
+		book_list = []
+		for row in book:
+			desk_id = row[0]
+			bookingref = row[2]
+			username = row[3]
+			car_number = row[4]
+			from_location = row[5]
+			to_location = row[6]
+			quantiy = row[7]
+			price = row[8]
+			amount = row[9]
+			customer_name = row[10]
+			customer_number = row[11]
+			date_when = row[12]
+			created_on = row[13].strftime("%Y-%m-%d %H:%M:%S")
+			payments = row[14]
+			book_list.append({"desk_id":desk_id, "bookingref":bookingref, "car_number":car_number, "username":username, "from_location":from_location, "to_location":to_location, "price":price, "quantiy":quantiy, "customer_name":customer_name, "customer_number":customer_number, "date_when":date_when, "amount":amount, "created_on":created_on, "payments":payments})
+		return jsonify({"book": book_list})	
+
 class SearchSerial(Resource):
 	""" Methods for searching serial number """
 	@jwt_required
@@ -443,7 +482,6 @@ class SearchSerial(Resource):
 			created_on = row[12]
 			books.append({"book_id":book_id, "bookingref":bookingref, "username":username, "car_number":car_number, "from_location":from_location, "to_location":to_location, "price":price, "quality":quality, "dates":dates, "total":total, "status":status, "created_on":created_on})
 		return jsonify({"data": books})	
-
 
 class Booking_By_Id(Resource):
 	""" 

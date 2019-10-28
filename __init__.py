@@ -61,6 +61,7 @@ from app.paymentsdata import DesktopSuccessPayment
 from app.paymentsdata import DesktopFaildPayment
 from app.paymentsdata import DesktopCashpayment
 from app.paymentsdata import ClientCashPayment
+from app.admin import SearchPaymentsReciept
 
 def create_app(config_name):
 	app = Flask(__name__, instance_relative_config=True)
@@ -133,6 +134,7 @@ def create_app(config_name):
 	api.add_resource(DesktopFaildPayment, '/v2/admin/faild/desk')
 	api.add_resource(DesktopCashpayment,  '/v2/admin/cash/desktop')
 	api.add_resource(ClientCashPayment, '/v2/admin/cash/client')
+	api.add_resource(SearchPaymentsReciept, '/v2/admin/search/pay')
 	# @app.errorhandler(404)
 	# def not_found(error):
 	# 	return {"message": "Page Not Found"},404
