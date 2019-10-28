@@ -626,7 +626,7 @@ class PrintPayment(Resource):
 		booker = []
 		for row in data:
 			payment_id = row[0]
-			bookingref = row[5]
+			bookingref = row[4]
 			username = row[5]
 			car_number = row[6]
 			from_location = row[7]
