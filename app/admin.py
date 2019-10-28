@@ -636,7 +636,7 @@ class PrintPayment(Resource):
 			dates = row[11]
 			phone = row[12]
 			amount = row[13]
-			mpesa_reciept row[14]
+			mpesa_reciept = row[14]
 			resultdesc = row[15]
 			status = row[16]
 			created_on = row[17].strftime("%Y-%m-%d %H:%M:%S")
