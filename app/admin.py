@@ -429,7 +429,6 @@ class SearchPaymentsReciept(Resource):
 			return {"message":"There is no Data"}
 		book_list = []
 		for row in data:
-			payment_id = row[0]
 			bookingref = row[4]
 			username = row[5]
 			car_number = row[6]
@@ -438,10 +437,10 @@ class SearchPaymentsReciept(Resource):
 			price = row[9]
 			quality = row[10]
 			dates = row[11]
-			phone = row[12]
 			amount = row[13]
 			status = row[16]
-			book_list.append({"book_id":book_id, "bookingref":bookingref, "username":username, "car_number":car_number, "from_location":from_location, "to_location":to_location, "price":price, "quality":quality, "dates":dates, "total":total, "status":status, "created_on":created_on})
+			created_on = row[17].strftime("%Y-%m-%d %H:%M:%S")
+			book_list.append({"bookingref":bookingref, "username":username, "car_number":car_number, "from_location":from_location, "to_location":to_location, "price":price, "quality":quality, "dates":dates, "total":total, "status":status, "created_on":created_on})
 		return jsonify({"data": book_list})	
 
 class SearchSerial(Resource):
