@@ -441,7 +441,7 @@ class SearchPaymentsReciept(Resource):
 			customer_name = row[10]
 			customer_number = row[11]
 			date_when = row[12]
-			created_on = row[13].strftime("%Y-%m-%d %H:%M:%S")
+			created_on = row[13]
 			payments = row[14]
 			book_list.append({"desk_id":desk_id, "bookingref":bookingref, "car_number":car_number, "username":username, "from_location":from_location, "to_location":to_location, "price":price, "quantiy":quantiy, "customer_name":customer_name, "customer_number":customer_number, "date_when":date_when, "amount":amount, "created_on":created_on, "payments":payments})
 		return jsonify({"book": book_list})	
