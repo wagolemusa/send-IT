@@ -14,8 +14,8 @@ from flask_jwt_extended import (create_access_token, jwt_required,
 
 from models.user_model import Usermodel
 
-connection = psycopg2.connect(dbname='d92a0rb0j8rphh', user='gaijmyignhvtkw', password='7e0acadc7013645d81437d922b7030782cdee4006cadf7f54501aa291b29d3e6', host='ec2-23-21-65-173.compute-1.amazonaws.com')
-curr = connection.cursor()
+user_conn = psycopg2.connect(dbname='d92a0rb0j8rphh', user='gaijmyignhvtkw', password='7e0acadc7013645d81437d922b7030782cdee4006cadf7f54501aa291b29d3e6', host='ec2-23-21-65-173.compute-1.amazonaws.com')
+save_curr = user_conn.cursor()
 
 class Register(Resource):
 
@@ -43,22 +43,22 @@ class Register(Resource):
 			return {"message":"Password is too short"}, 400
 		user = Usermodel()
 		u = user.check_username()
-		curr.execute(u, (username,))
-		x = curr.fetchone()
+		save_curr.execute(u, (username,))
+		x = save_curr.fetchone()
 		if x is not None:
 			return {"message": "Username is already taken"}, 400
 
 		user = Usermodel()
 		E = user.check_email()
-		curr.execute(E, (email,))
-		y = curr.fetchone()
+		save_curr.execute(E, (email,))
+		y = save_curr.fetchone()
 		if y is not None:
 			return jsonify({"message": "Email is already taken"})		
 		else:
 			new_user = Usermodel()
 			sql = new_user.register_user()
-			curr.execute(sql,(first_name, last_name, username, phone, email, password))
-			connection.commit()
+			save_curr.execute(sql,(first_name, last_name, username, phone, email, password))
+			user_conn.commit()
 		return {"message": "Successfully registered an account"}, 201
 
 class Login(Resource):
@@ -73,8 +73,8 @@ class Login(Resource):
 			return {"message": "Username or Password cannot be blank"}, 400
 		user = Usermodel()
 		u = user.check_username()
-		curr.execute(u, (username,))
-		data = curr.fetchone()
+		save_curr.execute(u, (username,))
+		data = save_curr.fetchone()
 		if not data:
 			return jsonify({"message":"User named {} not found".format(username)})
 		if password in data:
