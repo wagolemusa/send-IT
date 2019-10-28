@@ -429,21 +429,21 @@ class SearchPaymentsReciept(Resource):
 			return {"message":"There is no Data"}
 		book_list = []
 		for row in data:
-			book_id = row[0]
-			bookingref = row[2]
-			username = row[3]
-			car_number = row[4]
-			from_location = row[5]
-			to_location = row[6]
-			price = row[7]
-			quality = row[8]
-			dates = row[9]
-			total = row[10]
-			status = row[11]
-			created_on = row[12]
+			payment_id = row[0]
+			bookingref = row[4]
+			username = row[5]
+			car_number = row[6]
+			from_location = row[7]
+			to_location = row[8]
+			price = row[9]
+			quality = row[10]
+			dates = row[11]
+			phone = row[12]
+			amount = row[13]
+			status = row[16]
 			book_list.append({"book_id":book_id, "bookingref":bookingref, "username":username, "car_number":car_number, "from_location":from_location, "to_location":to_location, "price":price, "quality":quality, "dates":dates, "total":total, "status":status, "created_on":created_on})
 		return jsonify({"data": book_list})	
-		
+
 class SearchSerial(Resource):
 	""" Methods for searching serial number """
 	@jwt_required
