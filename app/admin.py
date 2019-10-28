@@ -428,7 +428,7 @@ class SearchPaymentsReciept(Resource):
 		if not data:
 			return {"message":"There is no Data"}
 		book_list = []
-		for row in book:
+		for row in data:
 			desk_id = row[0]
 			bookingref = row[2]
 			username = row[3]
