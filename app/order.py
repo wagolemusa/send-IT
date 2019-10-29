@@ -386,7 +386,7 @@ class Mpesa(Resource):
 		    "PartyA": phone,
 		    "PartyB": business_short_code,
 		    "PhoneNumber": phone,
-		    "CallBackURL": "https://senditparcel.herokuapp.com/api/v2/callback",
+		    "CallBackURL": "https://senditparcel.herokuapp.com/api/v2/callbacks",
 		    "AccountReference": "account",
 		    "TransactionDesc": "account"
 		}
