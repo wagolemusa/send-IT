@@ -452,7 +452,6 @@ class Mpesadesk(Resource):
 		encoded = base64.b64encode(data.encode())
 		password = encoded.decode('utf-8')
 
-
 		# BODY OR PAYLOAD
 		payload = {
 		    "BusinessShortCode": business_short_code,
@@ -482,6 +481,66 @@ class Mpesadesk(Resource):
 		print (response.text)
 		return {"message": 'Wait Response on Your phone'}
 
+
+class Callback(Resource):
+	def post(self):
+		"""
+		It recieves the response from safaricam
+		"""
+		requests = request.get_json()
+		data = json.dumps(requests)
+
+		json_da = requests.get('Body')
+
+
+		# mpesa_reciept = (int["Body"]["stkCallback"]["CallbackMetadata"]["Item"][1]["Value"])
+
+		# for item in data["Body"]["stkCallback"]["CallbackMetadata"]["Item"]:
+		# 	if item["Name"] == "MpesaReceiptNumber":
+		# 		mpesa_reciept = (item["Value"])
+
+		resultcode    = json_da['stkCallback']['ResultCode']
+		resultdesc    = json_da['stkCallback']['ResultDesc']
+		# phone = json_da["stkCallback"]["CallbackMetadata"]["Item"][4]["Value"]
+
+		mpesa_reciept = "MPESA"
+		
+		# print(mpesa_reciept)
+		def pay():
+			if resultcode == 0:
+				return "Paid"
+			elif resultcode == 1:
+				return "Faild"
+			else:
+				return "Badrequest"
+
+		status = pay()
+		curr.execute("""UPDATE payments SET mpesa_reciept=%s, resultdesc=%s, status=%s WHERE mpesa_reciept='mpesa' AND resultdesc='resultdesc' AND status='no' """,(mpesa_reciept, resultdesc, status,))
+		connection.commit()
+
+		curr.execute("SELECT * FROM payments ORDER BY payment_id DESC LIMIT 1")
+		connection.commit()
+		owner = curr.fetchall()
+		for row in owner:
+
+			phone = str(row[12])
+			resultdesc = row[15]
+			from_location = row[7]
+			to_location = row[8]
+			status = row[16]
+
+			desc = resultdesc[12:]
+
+			# Sends sms to mobile phone
+			message = "%s From:.. %s To:.. %s, Payment Status:.. %s" %(desc, from_location, to_location, status)
+			username = "refuge"    # use 'sandbox' for development in the test environment
+			api_key = "c8eaa30fbcd30ba08b166411894c13b5b3c99fcc407991a6019ee918e52ce8f2"      # use your sandbox app API key for development in the test environment
+			africastalking.initialize(username, api_key)
+
+			# Initialize a service e.g. SMS
+			sms = africastalking.SMS
+			# Use the service synchronously
+			response = sms.send(message, ['+' + phone ])
 
 
 
@@ -584,67 +643,6 @@ class PaymentId(Resource):
 			created_on = row[17].strftime("%Y-%m-%d %H:%M:%S")
 			booker.append({"payment_id":payment_id, "bookingref":bookingref, "username":username, "car_number":car_number, "from_location":from_location, "to_location":to_location, "price":price, "quality":quality, "dates":dates, "phone":phone, "amount":amount,  "mpesa_reciept":mpesa_reciept, "resultdesc":resultdesc, "status":status, "created_on":created_on})
 		return {"data": booker}
-
-
-class Callback(Resource):
-	def post(self):
-		"""
-		It recieves the response from safaricam
-		"""
-		requests = request.get_json()
-		data = json.dumps(requests)
-
-		json_da = requests.get('Body')
-
-
-		# mpesa_reciept = (int["Body"]["stkCallback"]["CallbackMetadata"]["Item"][1]["Value"])
-
-		# for item in data["Body"]["stkCallback"]["CallbackMetadata"]["Item"]:
-		# 	if item["Name"] == "MpesaReceiptNumber":
-		# 		mpesa_reciept = (item["Value"])
-
-		resultcode    = json_da['stkCallback']['ResultCode']
-		resultdesc    = json_da['stkCallback']['ResultDesc']
-		# phone = json_da["stkCallback"]["CallbackMetadata"]["Item"][4]["Value"]
-
-		mpesa_reciept = "MPESA"
-		
-		# print(mpesa_reciept)
-		def pay():
-			if resultcode == 0:
-				return "Paid"
-			elif resultcode == 1:
-				return "Faild"
-			else:
-				return "Badrequest"
-
-		status = pay()
-		curr.execute("""UPDATE payments SET mpesa_reciept=%s, resultdesc=%s, status=%s WHERE mpesa_reciept='mpesa' AND resultdesc='resultdesc' AND status='no' """,(mpesa_reciept, resultdesc, status,))
-		connection.commit()
-
-		curr.execute("SELECT * FROM payments ORDER BY payment_id DESC LIMIT 1")
-		connection.commit()
-		owner = curr.fetchall()
-		for row in owner:
-
-			phone = str(row[12])
-			resultdesc = row[15]
-			from_location = row[7]
-			to_location = row[8]
-			status = row[16]
-
-			desc = resultdesc[12:]
-
-			# Sends sms to mobile phone
-			message = "%s From:.. %s To:.. %s, Payment Status:.. %s" %(desc, from_location, to_location, status)
-			username = "refuge"    # use 'sandbox' for development in the test environment
-			api_key = "c8eaa30fbcd30ba08b166411894c13b5b3c99fcc407991a6019ee918e52ce8f2"      # use your sandbox app API key for development in the test environment
-			africastalking.initialize(username, api_key)
-
-			# Initialize a service e.g. SMS
-			sms = africastalking.SMS
-			# Use the service synchronously
-			response = sms.send(message, ['+' + phone ])
 
 class Cash(Resource):
 	# it updates the colomn in payment table to
