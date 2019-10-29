@@ -386,7 +386,7 @@ class Mpesa(Resource):
 		    "PartyA": phone,
 		    "PartyB": business_short_code,
 		    "PhoneNumber": phone,
-		    "CallBackURL": "https://senditparcel.herokuapp.com/api/v2/callbacks",
+		    "CallBackURL": "https://senditparcel.herokuapp.com/api/v2/callback",
 		    "AccountReference": "account",
 		    "TransactionDesc": "account"
 		}
@@ -452,6 +452,7 @@ class Mpesadesk(Resource):
 		encoded = base64.b64encode(data.encode())
 		password = encoded.decode('utf-8')
 
+
 		# BODY OR PAYLOAD
 		payload = {
 		    "BusinessShortCode": business_short_code,
@@ -481,7 +482,6 @@ class Mpesadesk(Resource):
 		print (response.text)
 		return {"message": 'Wait Response on Your phone'}
 
-
 class Callback(Resource):
 	def post(self):
 		"""
@@ -491,8 +491,6 @@ class Callback(Resource):
 		data = json.dumps(requests)
 
 		json_da = requests.get('Body')
-
-		print(json_da)
 
 
 		# mpesa_reciept = (int["Body"]["stkCallback"]["CallbackMetadata"]["Item"][1]["Value"])
@@ -507,7 +505,7 @@ class Callback(Resource):
 
 		mpesa_reciept = "MPESA"
 		
-		print(mpesa_reciept)
+		# print(mpesa_reciept)
 		def pay():
 			if resultcode == 0:
 				return "Paid"
