@@ -492,6 +492,8 @@ class Callback(Resource):
 
 		json_da = requests.get('Body')
 
+		print(json_da)
+
 
 		# mpesa_reciept = (int["Body"]["stkCallback"]["CallbackMetadata"]["Item"][1]["Value"])
 
@@ -505,7 +507,7 @@ class Callback(Resource):
 
 		mpesa_reciept = "MPESA"
 		
-		# print(mpesa_reciept)
+		print(mpesa_reciept)
 		def pay():
 			if resultcode == 0:
 				return "Paid"
