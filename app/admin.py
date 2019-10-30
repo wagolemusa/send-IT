@@ -151,7 +151,7 @@ class Status(Resource):
 		# Sends sms to mobile phone
 		message = "Your Parcel is now {}".format(status)
 		username = "refuge"    # use 'sandbox' for development in the test environment
-		api_key = "73d787253bd6446b12686b20f063042cbfc7d687301f4ab8a89233b6dd523883"      # use your sandbox app API key for development in the test environment
+		api_key = "c8eaa30fbcd30ba08b166411894c13b5b3c99fcc407991a6019ee918e52ce8f2"      # use your sandbox app API key for development in the test environment
 		africastalking.initialize(username, api_key)
 
 		# Initialize a service e.g. SMS
@@ -697,7 +697,7 @@ class Sendsms(Resource):
 			sendsms = str(m)
 			print ('+254' + sendsms)
 			username = "refuge"    # use 'sandbox' for development in the test environment
-			api_key = "73d787253bd6446b12686b20f063042cbfc7d687301f4ab8a89233b6dd523883"      # use your sandbox app API key for development in the test environment
+			api_key = "c8eaa30fbcd30ba08b166411894c13b5b3c99fcc407991a6019ee918e52ce8f2"      # use your sandbox app API key for development in the test environment
 			africastalking.initialize(username, api_key)
 
 			# Initialize a service e.g. SMS
