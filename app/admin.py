@@ -680,6 +680,8 @@ class Sendsms(Resource):
 	def post(self):
 		data = request.get_json(force=True)
 		message = data['message']
+		if message.strip() == '':
+			return {"message": "You must type in message"}
 		curr.execute("SELECT phone FROM users")
 		connection.commit()
 
