@@ -577,7 +577,6 @@ class ParcelNumber(Resource):
 		x = curr.fetchall()
 		return {"num": x}
 
-
 class PaymentAdmin(Resource):
 	""" Method Query all payments """
 	@jwt_required
