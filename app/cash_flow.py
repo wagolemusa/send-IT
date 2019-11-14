@@ -69,7 +69,7 @@ class Weekly_Sum_Receptions(Resource):
 class Monthly_Sum_Receptions(Resource):
 	""" Class sum all Monthly on Receptions paid with M-pesa"""
 	def get(self):
-		curr.execute("SELECT to_char(created_on, 'Mon') AS mon, EXTRACT(year FROM created_on) AS yyyy, SUM(amount::int) AS amount FROM payments WHERE desk_id = desk_id GROUP BY 1,2")
+		curr.execute("SELECT to_char(created_on, 'Mon') AS mon, EXTRACT(year FROM created_on) AS yyyy, SUM(amount::int) AS amount FROM payments WHERE desk_id = desk_id GROUP BY 1,2 LIMIT 1")
 		connection.commit()
 		monthly = curr.fetchall()
 		money = []
@@ -101,7 +101,7 @@ class Weekly_Book_Cash(Resource):
 class Monthly_Book_Sum_Desk(Resource):
 	""" Class sum all Monthly on reciption """
 	def get(self):
-		curr.execute("SELECT to_char(created_on, 'Mon') AS mon, EXTRACT(year FROM created_on) AS yyyy, SUM(total) AS amount FROM booking WHERE payments = 'Cash' GROUP BY 1,2")
+		curr.execute("SELECT to_char(created_on, 'Mon') AS mon, EXTRACT(year FROM created_on) AS yyyy, SUM(total) AS amount FROM booking WHERE payments = 'Cash' GROUP BY 1,2 LIMIT 1")
 		connection.commit()
 		monthly = curr.fetchall()
 		money = []
@@ -134,7 +134,7 @@ class Weekly_Desk_Cash(Resource):
 class Monthly_Desk_Sum_Desk(Resource):
 	""" Class sum all Monthly on  reception paid with M-pesa """
 	def get(self):
-		curr.execute("SELECT to_char(created_on, 'Mon') AS mon, EXTRACT(year FROM created_on) AS yyyy, SUM(amount) AS amount FROM desk WHERE payments = 'Cash' GROUP BY 1,2")
+		curr.execute("SELECT to_char(created_on, 'Mon') AS mon, EXTRACT(year FROM created_on) AS yyyy, SUM(amount) AS amount FROM desk WHERE payments = 'Cash' GROUP BY 1,2 LIMIT 1")
 		connection.commit()
 		monthly = curr.fetchall()
 		money = []
