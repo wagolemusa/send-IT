@@ -18,8 +18,6 @@ types_status = ["delivered", "cancled"]
 connection = psycopg2.connect(dbname='d92a0rb0j8rphh', user='gaijmyignhvtkw', password='7e0acadc7013645d81437d922b7030782cdee4006cadf7f54501aa291b29d3e6', host='ec2-23-21-65-173.compute-1.amazonaws.com')
 curr = connection.cursor()
 
-
-
 class Daily_Sum(Resource):
 	""" Class Sum all Daily total """
 	def get(self):
@@ -28,7 +26,6 @@ class Daily_Sum(Resource):
 
 		dailyTotal = curr.fetchall()
 		return {"num": dailyTotal}
-
 
 class Weekly_Sum(Resource):
 	""" Class sum all weekly""" 
@@ -40,7 +37,7 @@ class Weekly_Sum(Resource):
 
 class Monthly_Sum(Resource):
 	def get(self):
-		curr.execute("SELECT to_char(created_on, 'Mon') AS mon, EXTRACT(year FROM created_on) AS yyyy, SUM(amount::int) AS amount FROM payments WHERE book_id = book_id GROUP BY 1,2")
+		curr.execute("SELECT to_char(created_on, 'Mon') AS mon, EXTRACT(year FROM created_on) AS yyyy, SUM(amount::int) AS amount FROM payments WHERE book_id = book_id GROUP BY 1,2 LIMIT 1")
 		connection.commit()
 		monthly = curr.fetchall()
 		money = []
@@ -60,7 +57,6 @@ class Daily_Sum_Receptions(Resource):
 
 		dailyTotal = curr.fetchall()
 		return {"num": dailyTotal}
-
 
 class Weekly_Sum_Receptions(Resource):
 	""" Class sum all weekly on Receptions paid with M-pesa""" 
