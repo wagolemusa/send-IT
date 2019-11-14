@@ -21,7 +21,7 @@ curr = connection.cursor()
 
 
 class Daily_Sum(Resource):
-	""" Class Sum all Daily total"""
+	""" Class Sum all Daily total """
 	def get(self):
 		curr.execute("SELECT SUM(amount::int) FROM payments WHERE book_id = book_id AND created_on BETWEEN NOW() - INTERVAL '24 HOURS' AND NOW()")
 		connection.commit()
@@ -41,6 +41,104 @@ class Weekly_Sum(Resource):
 class Monthly_Sum(Resource):
 	def get(self):
 		curr.execute("SELECT to_char(created_on, 'Mon') AS mon, EXTRACT(year FROM created_on) AS yyyy, SUM(amount::int) AS amount FROM payments WHERE book_id = book_id GROUP BY 1,2")
+		connection.commit()
+		monthly = curr.fetchall()
+		money = []
+		for monx in monthly:
+			mon = monx[0]
+			yyyy = monx[1]
+			amount = monx[2]
+			money.append({"mon":mon, "yyyy":yyyy, "amount":amount})
+		return {"month": money}
+
+
+class Daily_Sum_Receptions(Resource):
+	""" Class Sum all Daily total on Receptions paid with M-pesa"""
+	def get(self):
+		curr.execute("SELECT SUM(amount::int) FROM payments WHERE desk_id = desk_id AND created_on BETWEEN NOW() - INTERVAL '24 HOURS' AND NOW()")
+		connection.commit()
+
+		dailyTotal = curr.fetchall()
+		return {"num": dailyTotal}
+
+
+class Weekly_Sum_Receptions(Resource):
+	""" Class sum all weekly on Receptions paid with M-pesa""" 
+	def get(self):
+		curr.execute("SELECT SUM(amount::int) FROM payments WHERE desk_id = desk_id AND created_on BETWEEN NOW()::DATE-EXTRACT(DOW FROM NOW())::INTEGER-7 AND NOW()::DATE-EXTRACT(DOW FROM NOW())::INTEGER")
+		connection.commit()
+		weekly = curr.fetchall()
+		return {"week": weekly}
+
+class Monthly_Sum_Receptions(Resource):
+	""" Class sum all Monthly on Receptions paid with M-pesa"""
+	def get(self):
+		curr.execute("SELECT to_char(created_on, 'Mon') AS mon, EXTRACT(year FROM created_on) AS yyyy, SUM(amount::int) AS amount FROM payments WHERE desk_id = desk_id GROUP BY 1,2")
+		connection.commit()
+		monthly = curr.fetchall()
+		money = []
+		for monx in monthly:
+			mon = monx[0]
+			yyyy = monx[1]
+			amount = monx[2]
+			money.append({"mon":mon, "yyyy":yyyy, "amount":amount})
+		return {"month": money}
+
+class Daily_Book_Cash(Resource):
+	""" Class Sum all Daily total for client booked by Cash"""
+	def get(self):
+		curr.execute("SELECT SUM(total) FROM booking WHERE payments = 'Cash' AND created_on BETWEEN NOW() - INTERVAL '24 HOURS' AND NOW()")
+		connection.commit()
+		dayTotal = curr.fetchall()
+		return {"cash": dayTotal}
+
+
+class Weekly_Book_Cash(Resource):
+	""" Class Sum all weekly total for client booked by Cash"""
+	def get(self):
+		curr.execute("SELECT SUM(total) FROM booking WHERE payments = 'Cash' AND created_on BETWEEN NOW()::DATE-EXTRACT(DOW FROM NOW())::INTEGER-7 AND NOW()::DATE-EXTRACT(DOW FROM NOW())::INTEGER")
+		connection.commit()
+		weeklyTotal = curr.fetchall()
+		return {"cash": weeklyTotal}
+
+
+class Monthly_Book_Sum_Desk(Resource):
+	""" Class sum all Monthly on reciption """
+	def get(self):
+		curr.execute("SELECT to_char(created_on, 'Mon') AS mon, EXTRACT(year FROM created_on) AS yyyy, SUM(total) AS amount FROM booking WHERE payments = 'Cash' GROUP BY 1,2")
+		connection.commit()
+		monthly = curr.fetchall()
+		money = []
+		for monx in monthly:
+			mon = monx[0]
+			yyyy = monx[1]
+			amount = monx[2]
+			money.append({"mon":mon, "yyyy":yyyy, "amount":amount})
+		return {"month": money}
+
+
+class Daily_Desk_Cash(Resource):
+	""" Class Sum all Daily total for client booked by Cash"""
+	def get(self):
+		curr.execute("SELECT SUM(amount) FROM desk WHERE payments = 'Cash' AND created_on BETWEEN NOW() - INTERVAL '24 HOURS' AND NOW()")
+		connection.commit()
+		dayTotal = curr.fetchall()
+		return {"cash": dayTotal}
+
+
+class Weekly_Desk_Cash(Resource):
+	""" Class Sum all weekly total for client booked by Cash"""
+	def get(self):
+		curr.execute("SELECT SUM(amount) FROM desk WHERE payments = 'Cash' AND created_on BETWEEN NOW()::DATE-EXTRACT(DOW FROM NOW())::INTEGER-7 AND NOW()::DATE-EXTRACT(DOW FROM NOW())::INTEGER")
+		connection.commit()
+		weeklyTotal = curr.fetchall()
+		return {"cash": weeklyTotal}
+
+
+class Monthly_Desk_Sum_Desk(Resource):
+	""" Class sum all Monthly on  reception paid with M-pesa """
+	def get(self):
+		curr.execute("SELECT to_char(created_on, 'Mon') AS mon, EXTRACT(year FROM created_on) AS yyyy, SUM(amount) AS amount FROM desk WHERE payments = 'Cash' GROUP BY 1,2")
 		connection.commit()
 		monthly = curr.fetchall()
 		money = []
