@@ -65,6 +65,13 @@ from app.admin import SearchPaymentsReciept
 from app.cash_flow import Daily_Sum
 from app.cash_flow import Weekly_Sum
 from app.cash_flow import Monthly_Sum
+from app.cash_flow import Daily_Sum_Receptions
+from app.cash_flow import Weekly_Sum_Receptions
+from app.cash_flow import Monthly_Sum_Receptions
+from app.cash_flow import Daily_Book_Cash
+from app.cash_flow import Weekly_Book_Cash
+from app.cash_flow import Monthly_Book_Sum_Desk
+from app.cash_flow import Daily_Desk_Cash
 
 def create_app(config_name):
 	app = Flask(__name__, instance_relative_config=True)
@@ -141,6 +148,14 @@ def create_app(config_name):
 	api.add_resource(Daily_Sum, '/v2/admin/daily/total')
 	api.add_resource(Weekly_Sum, '/v2/admin/weekly')
 	api.add_resource(Monthly_Sum, '/v2/adman/monthly')
+	api.add_resource(Daily_Sum_Receptions, '/v2/admin/desk/daily')
+	api.add_resource(Weekly_Sum_Receptions, '/v2/admin/desk/weekly')
+	api.add_resource(Monthly_Sum_Receptions, '/v2/admin/desk/monthly')
+	api.add_resource(Daily_Book_Cash, '/v2/admin/book/daily')
+	api.add_resource(Weekly_Book_Cash, '/v2/admin/book/weekly')
+	api.add_resource(Monthly_Book_Sum_Desk, '/v2/admin/book/month')
+	api.add_resource(Daily_Desk_Cash, '/v2/admin/resption/cash/daily')
+
 	# @app.errorhandler(404)
 	# def not_found(error):
 	# 	return {"message": "Page Not Found"},404

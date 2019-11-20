@@ -30,7 +30,7 @@ class Daily_Sum(Resource):
 class Weekly_Sum(Resource):
 	""" Class sum all weekly""" 
 	def get(self):
-		curr.execute("SELECT SUM(amount::int) FROM payments WHERE book_id = book_id AND created_on BETWEEN NOW()::DATE-EXTRACT(DOW FROM NOW())::INTEGER-7 AND NOW()::DATE-EXTRACT(DOW FROM NOW())::INTEGER")
+		curr.execute("SELECT SUM(amount::int) FROM payments WHERE book_id = book_id AND created_on > current_date - interval '7 days'")
 		connection.commit()
 		weekly = curr.fetchall()
 		return {"week": weekly}
@@ -99,7 +99,7 @@ class Weekly_Book_Cash(Resource):
 
 
 class Monthly_Book_Sum_Desk(Resource):
-	""" Class sum all Monthly on reciption """
+	""" Class sum all Monthly booked by clint online """
 	def get(self):
 		curr.execute("SELECT to_char(created_on, 'Mon') AS mon, EXTRACT(year FROM created_on) AS yyyy, SUM(total) AS amount FROM booking WHERE payments = 'Cash' GROUP BY 1,2 LIMIT 1")
 		connection.commit()
@@ -114,7 +114,7 @@ class Monthly_Book_Sum_Desk(Resource):
 
 
 class Daily_Desk_Cash(Resource):
-	""" Class Sum all Daily total for client booked by Cash"""
+	""" Class Sum all Daily total dane by reception"""
 	def get(self):
 		curr.execute("SELECT SUM(amount) FROM desk WHERE payments = 'Cash' AND created_on BETWEEN NOW() - INTERVAL '24 HOURS' AND NOW()")
 		connection.commit()
