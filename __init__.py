@@ -72,6 +72,8 @@ from app.cash_flow import Daily_Book_Cash
 from app.cash_flow import Weekly_Book_Cash
 from app.cash_flow import Monthly_Book_Sum_Desk
 from app.cash_flow import Daily_Desk_Cash
+from app.cash_flow import Weekly_Desk_Cash
+from app.cash_flow import Monthly_Desk_Sum_Desk
 
 def create_app(config_name):
 	app = Flask(__name__, instance_relative_config=True)
@@ -155,6 +157,8 @@ def create_app(config_name):
 	api.add_resource(Weekly_Book_Cash, '/v2/admin/book/weekly')
 	api.add_resource(Monthly_Book_Sum_Desk, '/v2/admin/book/month')
 	api.add_resource(Daily_Desk_Cash, '/v2/admin/resption/cash/daily')
+	api.add_resource(Weekly_Desk_Cash, '/v2/admin/resption/cash/weekly')
+	api.add_resource(Monthly_Desk_Sum_Desk, '/v2/admin/resption/cash/monthly')
 
 	# @app.errorhandler(404)
 	# def not_found(error):

@@ -61,7 +61,7 @@ class Daily_Sum_Receptions(Resource):
 class Weekly_Sum_Receptions(Resource):
 	""" Class sum all weekly on Receptions paid with M-pesa""" 
 	def get(self):
-		curr.execute("SELECT SUM(amount::int) FROM payments WHERE desk_id = desk_id AND created_on BETWEEN NOW()::DATE-EXTRACT(DOW FROM NOW())::INTEGER-7 AND NOW()::DATE-EXTRACT(DOW FROM NOW())::INTEGER")
+		curr.execute("SELECT SUM(amount::int) FROM payments WHERE desk_id = desk_id AND created_on > current_date - interval '7 days'")
 		connection.commit()
 		weekly = curr.fetchall()
 		return {"week": weekly}
@@ -92,7 +92,7 @@ class Daily_Book_Cash(Resource):
 class Weekly_Book_Cash(Resource):
 	""" Class Sum all weekly total for client booked by Cash"""
 	def get(self):
-		curr.execute("SELECT SUM(total) FROM booking WHERE payments = 'Cash' AND created_on BETWEEN NOW()::DATE-EXTRACT(DOW FROM NOW())::INTEGER-7 AND NOW()::DATE-EXTRACT(DOW FROM NOW())::INTEGER")
+		curr.execute("SELECT SUM(total) FROM booking WHERE payments = 'Cash' AND created_on > current_date - interval '7 days'")
 		connection.commit()
 		weeklyTotal = curr.fetchall()
 		return {"cash": weeklyTotal}
@@ -125,7 +125,7 @@ class Daily_Desk_Cash(Resource):
 class Weekly_Desk_Cash(Resource):
 	""" Class Sum all weekly total for client booked by Cash"""
 	def get(self):
-		curr.execute("SELECT SUM(amount) FROM desk WHERE payments = 'Cash' AND created_on BETWEEN NOW()::DATE-EXTRACT(DOW FROM NOW())::INTEGER-7 AND NOW()::DATE-EXTRACT(DOW FROM NOW())::INTEGER")
+		curr.execute("SELECT SUM(amount) FROM desk WHERE payments = 'Cash' AND created_on > current_date - interval '7 days'")
 		connection.commit()
 		weeklyTotal = curr.fetchall()
 		return {"cash": weeklyTotal}
