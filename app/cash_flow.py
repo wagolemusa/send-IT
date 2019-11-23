@@ -95,7 +95,7 @@ class Weekly_Book_Cash(Resource):
 		curr.execute("SELECT SUM(total) FROM booking WHERE payments = 'Cash' AND created_on > current_date - interval '7 days'")
 		connection.commit()
 		weeklyTotal = curr.fetchall()
-		return {"cash": weeklyTotal}
+		return {"cashweek": weeklyTotal}
 
 
 class Monthly_Book_Sum_Desk(Resource):
