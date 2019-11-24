@@ -482,6 +482,7 @@ class Mpesadesk(Resource):
 		print (response.text)
 		return {"message": 'Wait Response on Your phone'}
 
+
 class Callback(Resource):
 	def post(self):
 		"""
@@ -492,6 +493,7 @@ class Callback(Resource):
 
 		json_da = requests.get('Body')
 
+		print (json_da)
 
 		# mpesa_reciept = (int["Body"]["stkCallback"]["CallbackMetadata"]["Item"][1]["Value"])
 
@@ -646,7 +648,7 @@ class PaymentId(Resource):
 
 class Cash(Resource):
 	# it updates the colomn in payment table to
-	# indecate paided cash
+	# indecate paid with cash
 	@jwt_required
 	def put(self, book_id):
 
