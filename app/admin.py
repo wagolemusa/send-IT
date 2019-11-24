@@ -331,7 +331,7 @@ class PostPrice(Resource):
 		if current_user != U:
 			return {"message": "Access allowed only to admin"}, 403
 
-		curr.execute("SELECT * FROM prices")
+		curr.execute("SELECT * FROM prices ORDER BY price_id DESC")
 		connection.commit()
 
 		data = curr.fetchall()
@@ -375,6 +375,19 @@ class EditPrices(Resource):
 															WHERE price_id =%s """, (car_number, from_location, to_location, period, arrival, price, day_time, price_id))
 		connection.commit()
 		return {"message": "Successfuly updated"}, 201
+
+class DeletePrice(Resource):
+	""" Class and Method deletes all parcel orders """
+	@jwt_required
+	def delete(self, price_id):
+		""" Method for deleting a specific order """
+		current_user = get_jwt_identity()
+		U = Users().get_user_role()
+		if current_user != U:
+			return {"message": "Access allowed only to admin"}, 403
+
+		curr.execute("DELETE FROM prices WHERE price_id = %s",(price_id,))
+		return jsonify({"message":"Post Deleted"})
 
 
 class GetPrice_by_id(Resource):
