@@ -27,7 +27,8 @@ def create_table():
 			period  VARCHAR(50) NOT NULL,
 			arrival VARCHAR(50) NOT NULL,
  			price INT,
-			day_time VARCHAR(50));"""
+			day_time VARCHAR(50),
+			dates VARCHAR(50));"""
 
 				""" CREATE TABLE IF NOT EXISTS desk(
 			desk_id SERIAL PRIMARY KEY UNIQUE NOT NULL,

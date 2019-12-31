@@ -308,6 +308,7 @@ class PostPrice(Resource):
 		arrival = data['arrival']
 		price  = data['price']
 		day_time = data['day_time']
+		dates = data['dates']
 
 		if car_number.strip() == '' or from_location.strip() == '' or to_location.strip() == ''\
 		or period.strip() == '' or arrival.strip() == '' or price.strip() == '' or day_time.strip() == '':
@@ -315,9 +316,9 @@ class PostPrice(Resource):
 				
 		try:
 
-			curr.execute(""" INSERT INTO prices(car_number, from_location, to_location, period, arrival, price, day_time)
-																				VALUES(%s, %s, %s, %s, %s, %s, %s)""",\
-																				(car_number, from_location, to_location, period, arrival, price, day_time))
+			curr.execute(""" INSERT INTO prices(car_number, from_location, to_location, period, arrival, price, day_time, dates)
+																				VALUES(%s, %s, %s, %s, %s, %s, %s, %s)""",\
+																				(car_number, from_location, to_location, period, arrival, price, day_time, dates))
 			connection.commit()
 			return  {"message": "Location and Price are Successfully submited"}, 201
 		except:
@@ -349,8 +350,9 @@ class PostPrice(Resource):
 			arrival = row[5]
 			price = row[6]
 			day_time = row[7]
+			dates = row[8]
 
-			location.append({"price_id":price_id, "car_number":car_number, "from_location": from_location, "to_location":to_location,  "period": period, "arrival": arrival, "price":price, "day_time":day_time})
+			location.append({"price_id":price_id, "car_number":car_number, "from_location": from_location, "to_location":to_location,  "period": period, "arrival": arrival, "price":price, "day_time":day_time, "dates":dates})
 		return jsonify({"collection": location})
 
 class EditPrices(Resource):
@@ -416,7 +418,8 @@ class GetPrice_by_id(Resource):
 			arrival = row[5]
 			price = row[6]
 			day_time = row[7]
-			places.append({"price_id":price_id, "car_number":car_number, "from_location": from_location, "to_location":to_location,  "period": period, "arrival": arrival, "price":price, "day_time":day_time})
+			dates = row[8]
+			places.append({"price_id":price_id, "car_number":car_number, "from_location": from_location, "to_location":to_location,  "period": period, "arrival": arrival, "price":price, "day_time":day_time, "dates":dates})
 			return jsonify({"data": places})
 
 
