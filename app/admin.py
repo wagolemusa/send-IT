@@ -311,7 +311,7 @@ class PostPrice(Resource):
 		dates = data['dates']
 
 		if car_number.strip() == '' or from_location.strip() == '' or to_location.strip() == ''\
-		or period.strip() == '' or arrival.strip() == '' or price.strip() == '' or day_time.strip() == '':
+		or period.strip() == '' or arrival.strip() == '' or price.strip() == '' or day_time.strip() == '' or dates.strip() == '':
 			return {"message": "Fields cannot be empty"}, 403
 				
 		try:
