@@ -83,5 +83,3 @@ class Login(Resource):
 			return jsonify({"message":"Login in sucessful  as {}".format(username),
 											'access_token':access_token})
 		return {"message":"Invalid password"}, 401
-
-
