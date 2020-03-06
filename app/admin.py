@@ -352,7 +352,7 @@ class PostPrice(Resource):
 
 class Display(Resource):
 	def get(self):
-		curr.execute("SELECT * FROM price")
+		curr.execute("SELECT * FROM prices ORDER BY price_id DESC")
 		connection.commit()
 		data = curr.fetchall()
 		if not data:
