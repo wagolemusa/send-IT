@@ -331,16 +331,12 @@ class PostPrice(Resource):
 		U = Users().get_user_role()
 		if current_user != U:
 			return {"message": "Access allowed only to admin"}, 403
-
 		curr.execute("SELECT * FROM prices ORDER BY price_id DESC")
 		connection.commit()
-
 		data = curr.fetchall()
-
 		if not data:
 			return {"message": "There is no location"}, 403
 		location = []
-
 		for row in data:
 			price_id = row[0]
 			car_number = row[1]
@@ -351,9 +347,30 @@ class PostPrice(Resource):
 			price = row[6]
 			day_time = row[7]
 			dates = row[8]
-
 			location.append({"price_id":price_id, "car_number":car_number, "from_location": from_location, "to_location":to_location,  "period": period, "arrival": arrival, "price":price, "day_time":day_time, "dates":dates})
 		return jsonify({"collection": location})
+
+class Display(Resource):
+	def get(self):
+		curr.execute("SELECT * FROM price")
+		connection.commit()
+		data = curr.fetchall()
+		if not data:
+			return {"message": "There is no location"}, 403
+		display = []
+		for row in data:
+			price_id = row[0]
+			car_number = row[1]
+			from_location = row[2]
+			to_location =row[3]
+			period = row[4]
+			arrival = row[5]
+			price = row[6]
+			day_time = row[7]
+			dates = row[8]
+			display.append({"price_id":price_id, "car_number":car_number, "from_location": from_location, "to_location":to_location,  "period": period, "arrival": arrival, "price":price, "day_time":day_time, "dates":dates})
+		return jsonify({"collection": display})			
+
 
 class EditPrices(Resource):
 	""" Class and Method updates the locations and price """
