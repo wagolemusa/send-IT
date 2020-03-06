@@ -162,7 +162,7 @@ def create_app(config_name):
 	api.add_resource(Weekly_Desk_Cash, '/v2/admin/resption/cash/weekly')
 	api.add_resource(Monthly_Desk_Sum_Desk, '/v2/admin/resption/cash/monthly')
 	api.add_resource(DeletePrice, '/v2/admin/delete/price/<int:price_id>')
-	api.add_resource(Display, '/v2/admin/display/price/data')
+	api.add_resource(Display, '/v2/admin/display/price')
 	
 	# @app.errorhandler(404)
 	# def not_found(error):

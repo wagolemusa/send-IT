@@ -369,7 +369,7 @@ class Display(Resource):
 			day_time = row[7]
 			dates = row[8]
 			display.append({"price_id":price_id, "car_number":car_number, "from_location": from_location, "to_location":to_location,  "period": period, "arrival": arrival, "price":price, "day_time":day_time, "dates":dates})
-		return jsonify({"collection": display})			
+		return jsonify({"dis": display})			
 
 
 class EditPrices(Resource):
