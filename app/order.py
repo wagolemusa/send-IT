@@ -540,7 +540,7 @@ class Callback(Resource):
 			response = sms.send(message, ['+' + phone ])
 
 
-class PrintMpesa(response):
+class PrintMpesa(Resource):
 	@jwt_required
 	def get(self):
 		""" 
