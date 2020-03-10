@@ -138,13 +138,13 @@ class Booking(Resource):
 
 	@jwt_required
 	def get(self):
+		connection.commit()
 		""" 
 		Method for get all bookings 
 		"""
 		username = get_jwt_identity()
 		curr.execute("SELECT * FROM booking WHERE payments = 'Cash' ORDER BY book_id DESC")
 		connection.commit()
-
 		book = curr.fetchall()
 		if not book:
 			return {"message":"There is no bookings yet"}
@@ -203,9 +203,7 @@ class BookingtId(Resource):
 	@jwt_required
 	def get(self, book_id):
 		curr.execute("SELECT * FROM booking WHERE book_id = %s",[book_id])
-
 		connection.commit()
-
 		data = curr.fetchall()
 		if not data:
 			return {"message":"There is no bookings yet"}
@@ -237,15 +235,12 @@ class BookPostpond(Resource):
 		data = request.get_json(force=True)
 		dates = data['dates']
 		status = data['status']
-
 		curr.execute("""SELECT * FROM booking WHERE book_id=%s """,(book_id,))
 		booker = curr.fetchone()
 		# parcel_id = state[0]
 		record = booker[11]
 		if record in post_pond:
 			return {"message":"You can not change this status is already in " + record}, 403
-
-
 		curr.execute("""UPDATE booking SET dates=%s, status=%s WHERE book_id=%s """,(dates, status,	book_id))
 		connection.commit()
 		return jsonify({"message": "Successfuly Updated"})
@@ -256,14 +251,14 @@ class BookPostpond(Resource):
 class SearchBooking(Resource):
 	""" 
 	Methods for searching towns
-
 	"""
 	# @jwt_required
 	def post(self):
 		from_location = request.json['from_location']
 		to_location = request.json['to_location']
+		dates = request.json['dates']
 
-		curr.execute("SELECT * FROM prices WHERE from_location = %s AND to_location =%s",[from_location,to_location])
+		curr.execute("SELECT * FROM prices WHERE from_location = %s, to_location =%s AND dates =%s",[from_location,to_location,dates])
 		data = curr.fetchall()
 		if not data:
 			return {"message":"There is no Route yet"}
