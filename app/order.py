@@ -540,12 +540,11 @@ class Callback(Resource):
 			response = sms.send(message, ['+' + phone ])
 
 
-
+class PrintMpesa(response):
 	@jwt_required
 	def get(self):
 		""" 
 		Method for query all payments by user
-
 		"""
 		username = get_jwt_identity()
 		curr.execute(" SELECT * FROM payments WHERE username =%s ORDER BY payment_id DESC ", [username])
