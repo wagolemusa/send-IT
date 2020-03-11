@@ -164,7 +164,7 @@ def create_app(config_name):
 	api.add_resource(Monthly_Desk_Sum_Desk, '/v2/admin/resption/cash/monthly')
 	api.add_resource(DeletePrice, '/v2/admin/delete/price/<int:price_id>')
 	api.add_resource(Display, '/v2/admin/display/price')
-	api.add_resource(PrintMpesa, 'v2/admin/paid_with_mpasa')
+	api.add_resource(PrintMpesa, '/v2/admin/paid_with_mpasa')
 	
 	# @app.errorhandler(404)
 	# def not_found(error):
