@@ -239,7 +239,7 @@ class Callback(Resource):
 
 
 class PrintMpesa(Resource):
-	# @jwt_required
+	@jwt_required
 	def get(self):
 		""" 
 		Method for query all payments by user
@@ -274,7 +274,6 @@ class PrintData(Resource):
 	def get(self):
 		""" 
 		Method for printing reciepts data
-
 		"""
 		username = get_jwt_identity()
 		dbmpesa.execute(" SELECT * FROM payments WHERE username =%s ORDER BY payment_id DESC LIMIT 1", [username])
