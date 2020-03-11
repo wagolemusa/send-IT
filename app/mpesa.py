@@ -207,7 +207,7 @@ class Callback(Resource):
 			elif resultcode == 1:
 				return "Faild"
 			else:
-				return "Badrequest"
+				return "canceled"
 
 		status = pay()
 		dbmpesa.execute("""UPDATE payments SET mpesa_reciept=%s, resultdesc=%s, status=%s WHERE mpesa_reciept='mpesa' AND resultdesc='resultdesc' AND status='no' """,(mpesa_reciept, resultdesc, status,))
