@@ -239,7 +239,7 @@ class Callback(Resource):
 
 
 class PrintMpesa(Resource):
-	@jwt_required
+	# @jwt_required
 	def get(self):
 		""" 
 		Method for query all payments by user
