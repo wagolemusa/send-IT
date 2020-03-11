@@ -18,8 +18,8 @@ from models.user_model import Usermodel
 
 post_pond = ["postpond"]
  
-connection = psycopg2.connect(dbname='d92a0rb0j8rphh', user='gaijmyignhvtkw', password='7e0acadc7013645d81437d922b7030782cdee4006cadf7f54501aa291b29d3e6', host='ec2-23-21-65-173.compute-1.amazonaws.com')
-curr = connection.cursor()
+connOrder = psycopg2.connect(dbname='d92a0rb0j8rphh', user='gaijmyignhvtkw', password='7e0acadc7013645d81437d922b7030782cdee4006cadf7f54501aa291b29d3e6', host='ec2-23-21-65-173.compute-1.amazonaws.com')
+currBook = connOrder.cursor()
 
 class Home(Resource):
 	def get(self):
@@ -45,9 +45,9 @@ class ModifyOrder(Resource):
 		destination = request.json['destination']
 		weight = request.json['weight']
 
-		curr.execute("""UPDATE orders SET title= %s, pickup=%s, rec_id=%s, rec_phone=%s, rec_name=%s, destination=%s, weight=%s
+		currBook.execute("""UPDATE orders SET title= %s, pickup=%s, rec_id=%s, rec_phone=%s, rec_name=%s, destination=%s, weight=%s
 																														WHERE parcel_id=%s """,(title, pickup, rec_id, rec_phone, rec_name, destination, weight, parcel_id))
-		connection.commit()
+		connOrder.commit()
 		return {"message": "Successfuly Updated"}
 
 	@jwt_required
@@ -58,8 +58,8 @@ class ModifyOrder(Resource):
 
 		if not parcel_order:
 			return {"message":"There is no order ID {} found".format(parcel_id)}, 403	
-		curr.execute("""DELETE FROM orders WHERE parcel_id = %s AND username = %s""",(parcel_id, username))
-		connection.commit()
+		currBook.execute("""DELETE FROM orders WHERE parcel_id = %s AND username = %s""",(parcel_id, username))
+		connOrder.commit()
 		return {"message":"Post Deleted"}
 
 
@@ -68,9 +68,9 @@ class AnOrder(Resource):
 	This class it enables the user to change the destination
 	"""
 	def check_user(self):
-		curr.execute("SELECT phone FROM users WHERE is_admin = 'True'")
-		connection.commit()
-		user = curr.fetchone()
+		currBook.execute("SELECT phone FROM users WHERE is_admin = 'True'")
+		connOrder.commit()
+		user = currBook.fetchone()
 		return user
 
 	@jwt_required
@@ -78,26 +78,23 @@ class AnOrder(Resource):
 		data = request.get_json(force=True)
 		
 		destination = data['destination']
-		curr.execute("""UPDATE orders SET destination=%s WHERE parcel_id=%s """,(destination,	parcel_id))
-		connection.commit()
+		currBook.execute("""UPDATE orders SET destination=%s WHERE parcel_id=%s """,(destination,	parcel_id))
+		connOrder.commit()
 
 		owner_data = self.check_user()
 		for number in owner_data:
 			phone = str(number)
-
 			# Sends sms to mobile phone
 			message = "The destination is changed by user to {}".format(destination)
 			username = "refuge"    # use 'sandbox' for development in the test environment
 			api_key = "73d787253bd6446b12686b20f063042cbfc7d687301f4ab8a89233b6dd523883"      # use your sandbox app API key for development in the test environment
 			africastalking.initialize(username, api_key)
-
 			# Initialize a service e.g. SMS
 			sms = africastalking.SMS
 			# Use the service synchronously
 			response = sms.send(message, ['+254' + phone ])
-
-		curr.execute(" SELECT * FROM orders WHERE parcel_id =%s", [parcel_id])
-		data = curr.fetchall()
+		currBook.execute(" SELECT * FROM orders WHERE parcel_id =%s", [parcel_id])
+		data = currBook.fetchall()
 		data_list = []
 		for row in data:
 			parcel_id = row[0]
@@ -106,8 +103,6 @@ class AnOrder(Resource):
 			return {"data": data_list}
 		return {"message": "Successfuly Updated"}
 	
-
-
 class Booking(Resource):
 	@jwt_required
 	def post(self):
@@ -132,20 +127,20 @@ class Booking(Resource):
 		curr.execute(""" INSERT INTO booking(bookingref, username, car_number,from_location, to_location, price, quality, dates, total)
 																				VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s)""",\
 																				(bookingref, username, car_number, from_location, to_location,price, quality, dates, total))
-		connection.commit()
+		connOrder.commit()
 		return jsonify({"message": 'Thanks for booking make sure that you came with number'})
 	
 
 	@jwt_required
 	def get(self):
-		connection.commit()
+		connOrder.commit()
 		""" 
 		Method for get all bookings 
 		"""
 		username = get_jwt_identity()
-		curr.execute("SELECT * FROM booking WHERE payments = 'Cash' ORDER BY book_id DESC")
-		connection.commit()
-		book = curr.fetchall()
+		currBook.execute("SELECT * FROM booking WHERE payments = 'Cash' ORDER BY book_id DESC")
+		connOrder.commit()
+		book = currBook.fetchall()
 		if not book:
 			return {"message":"There is no bookings yet"}
 		book_list = []
@@ -171,8 +166,8 @@ class Get_All_Bookings(Resource):
 		
 		username = get_jwt_identity()
 		# curr.execute(" SELECT * FROM booking WHERE username =%s", [username])
-		curr.execute(" SELECT * FROM booking WHERE username =%s ORDER BY book_id DESC LIMIT 1 ", [username])
-		connection.commit()
+		currBook.execute(" SELECT * FROM booking WHERE username =%s ORDER BY book_id DESC LIMIT 1 ", [username])
+		connOrder.commit()
 		book = curr.fetchall()
 		if not book:
 			return jsonify({"message":"There is no bookings yet"})
@@ -195,15 +190,13 @@ class Get_All_Bookings(Resource):
 
 
 class BookingtId(Resource):
-
 	""" 
 	Methods Queries all  bookings by ID
-	
 	"""
 	@jwt_required
 	def get(self, book_id):
-		curr.execute("SELECT * FROM booking WHERE book_id = %s",[book_id])
-		connection.commit()
+		currBook.execute("SELECT * FROM booking WHERE book_id = %s",[book_id])
+		connOrder.commit()
 		data = curr.fetchall()
 		if not data:
 			return {"message":"There is no bookings yet"}
@@ -241,10 +234,10 @@ class BookPostpond(Resource):
 		record = booker[11]
 		if record in post_pond:
 			return {"message":"You can not change this status is already in " + record}, 403
-		curr.execute("""UPDATE booking SET dates=%s, status=%s WHERE book_id=%s """,(dates, status,	book_id))
-		connection.commit()
+		currBook.execute("""UPDATE booking SET dates=%s, status=%s WHERE book_id=%s """,(dates, status,	book_id))
+		connOrder.commit()
 		return jsonify({"message": "Successfuly Updated"})
-		connection.rollback()
+		connOrder.rollback()
 		return {"message": "Failed to change status try again"}
 
 
@@ -258,8 +251,8 @@ class SearchBooking(Resource):
 		to_location = request.json['to_location']
 		dates = request.json['dates']
 
-		curr.execute("SELECT * FROM prices WHERE from_location = %s, to_location =%s AND dates =%s",[from_location,to_location,dates])
-		data = curr.fetchall()
+		currBook.execute("SELECT * FROM prices WHERE from_location = %s, to_location =%s AND dates =%s",[from_location,to_location,dates])
+		data = currBook.fetchall()
 		if not data:
 			return {"message":"There is no Route yet"}
 		books = []
@@ -286,11 +279,10 @@ class Users(Resource):
 	def get(self):
 		""" 
 		Method for get all Parcel Orders 
-
 		"""
 		username = get_jwt_identity()
-		curr.execute(" SELECT * FROM users WHERE username =%s", [username,])
-		data = curr.fetchall()
+		currBook.execute(" SELECT * FROM users WHERE username =%s", [username,])
+		data = currBook.fetchall()
 		if not data:
 			return {"message":"There is no user yet"}
 		user = []
@@ -317,374 +309,12 @@ class UpdateUser(Resource):
 		username = data['username']
 		phone = data['phone']
 		email = data['email']
-		curr.execute("""UPDATE users SET first_name=%s, last_name=%s, username=%s, phone=%s, email=%s WHERE user_id=%s """,(first_name, last_name, username, phone, email, user_id))
-		connection.commit()
+		currBook.execute("""UPDATE users SET first_name=%s, last_name=%s, username=%s, phone=%s, email=%s WHERE user_id=%s """,(first_name, last_name, username, phone, email, user_id))
+		connOrder.commit()
 		return jsonify({"message": "Successfuly Updated"})
-		connection.rollback()
+		connOrder.rollback()
 		return {"message": "Failed to update"}
 
 
-class Mpesa(Resource):
-	@jwt_required
-	def post(self):
-		""" 
-			Bookings methods holds lipa na Mpesa
-		"""
-		data = request.get_json(force=True)
-		book_id = data['book_id']
-		bookingref = data['bookingref']
-		car_number = data['car_number']
-		from_location = data['from_location']
-		to_location = data['to_location']
-		price = data['price']
-		quality = data['quality']
-		dates  = data['dates']
-		# total = data['total']
-		amount = data['amount']
-		phone  = data['phone']
-
-		current_user = get_jwt_identity()
-		username = current_user
-		curr.execute(""" INSERT INTO payments(book_id,bookingref, username, car_number,from_location, to_location, price, quality, dates,  amount, phone)
-																				VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",\
-																				(book_id, bookingref, username, car_number, from_location, to_location,price, quality, dates,  amount, phone))
-		connection.commit()
-		
-		# Lipa na mpesa Functionality 
-		consumer_key = "TDWYCw9ChsdHr7QdfcXUS1ddp8gchOC6"
-		consumer_secret = "BdYN5qcwGQvJnMGF"
-
-		# api_URL = "https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials" #AUTH URL
-		api_URL = "https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials"
-
-		r = requests.get(api_URL, auth=HTTPBasicAuth(consumer_key, consumer_secret))
-
-		data = r.json()
-		access_token = "Bearer" + ' ' + data['access_token']
-
-		#GETTING THE PASSWORD
-		timestamp = datetime.datetime.today().strftime('%Y%m%d%H%M%S')
-		passkey = 'bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919'
-		business_short_code = "174379"
-		data = business_short_code + passkey + timestamp
-		encoded = base64.b64encode(data.encode())
-		password = encoded.decode('utf-8')
-
-
-		# BODY OR PAYLOAD
-		payload = {
-		    "BusinessShortCode": business_short_code,
-		    "Password": password,
-		    "Timestamp": timestamp,
-		    "TransactionType": "CustomerPayBillOnline",
-		    "Amount": amount,
-		    "PartyA": phone,
-		    "PartyB": business_short_code,
-		    "PhoneNumber": phone,
-		    "CallBackURL": "https://senditparcel.herokuapp.com/api/v2/callback",
-		    "AccountReference": "account",
-		    "TransactionDesc": "account"
-		}
-
-		#POPULAING THE HTTP HEADER
-		headers = {
-		    "Authorization": access_token,
-		    "Content-Type": "application/json"
-		}
-
-
-		url = "https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest" #C2B URL
-
-		response = requests.post(url, json=payload, headers=headers)
-
-		print (response.text)
-		return {"message": 'Wait Response on Your phone'}
-
-
-class Mpesadesk(Resource):
-	@jwt_required
-	def post(self):
-		""" 
-			Bookings methods holds lipa na Mpesa
-		"""
-		data = request.get_json(force=True)
-		desk_id = data['desk_id']
-		bookingref = data['bookingref']
-		car_number = data['car_number']
-		from_location = data['from_location']
-		to_location = data['to_location']
-		price = data['price']
-		quality = data['quality']
-		dates  = data['dates']
-		# total = data['total']
-		amount = data['amount']
-		phone  = data['phone']
-
-		current_user = get_jwt_identity()
-		username = current_user
-		curr.execute(""" INSERT INTO payments(desk_id, bookingref, username, car_number,from_location, to_location, price, quality, dates,  amount, phone)
-																				VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",\
-																				(desk_id, bookingref, username, car_number, from_location, to_location,price, quality, dates,  amount, phone))
-		connection.commit()
-		
-		# Lipa na mpesa Functionality 
-		consumer_key = "TDWYCw9ChsdHr7QdfcXUS1ddp8gchOC6"
-		consumer_secret = "BdYN5qcwGQvJnMGF"
-
-		# api_URL = "https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials" #AUTH URL
-		api_URL = "https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials"
-
-		r = requests.get(api_URL, auth=HTTPBasicAuth(consumer_key, consumer_secret))
-
-		data = r.json()
-		access_token = "Bearer" + ' ' + data['access_token']
-
-		#GETTING THE PASSWORD
-		timestamp = datetime.datetime.today().strftime('%Y%m%d%H%M%S')
-		passkey = 'bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919'
-		business_short_code = "174379"
-		data = business_short_code + passkey + timestamp
-		encoded = base64.b64encode(data.encode())
-		password = encoded.decode('utf-8')
-
-
-		# BODY OR PAYLOAD
-		payload = {
-		    "BusinessShortCode": business_short_code,
-		    "Password": password,
-		    "Timestamp": timestamp,
-		    "TransactionType": "CustomerPayBillOnline",
-		    "Amount": amount,
-		    "PartyA": phone,
-		    "PartyB": business_short_code,
-		    "PhoneNumber": phone,
-		    "CallBackURL": "https://senditparcel.herokuapp.com/api/v2/callback",
-		    "AccountReference": "account",
-		    "TransactionDesc": "account"
-		}
-
-		#POPULAING THE HTTP HEADER
-		headers = {
-		    "Authorization": access_token,
-		    "Content-Type": "application/json"
-		}
-
-
-		url = "https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest" #C2B URL
-
-		response = requests.post(url, json=payload, headers=headers)
-
-		print (response.text)
-		return {"message": 'Wait Response on Your phone'}
-
-
-class Callback(Resource):
-	def post(self):
-		"""
-		It recieves the response from safaricam
-		"""
-		requests = request.get_json()
-		data = json.dumps(requests)
-
-		json_da = requests.get('Body')
-
-		print (json_da)
-
-		# mpesa_reciept = (int["Body"]["stkCallback"]["CallbackMetadata"]["Item"][1]["Value"])
-
-		# for item in data["Body"]["stkCallback"]["CallbackMetadata"]["Item"]:
-		# 	if item["Name"] == "MpesaReceiptNumber":
-		# 		mpesa_reciept = (item["Value"])
-
-		resultcode    = json_da['stkCallback']['ResultCode']
-		resultdesc    = json_da['stkCallback']['ResultDesc']
-		# phone = json_da["stkCallback"]["CallbackMetadata"]["Item"][4]["Value"]
-
-		mpesa_reciept = "MPESA"
-		
-		# print(mpesa_reciept)
-		def pay():
-			if resultcode == 0:
-				return "Paid"
-			elif resultcode == 1:
-				return "Faild"
-			else:
-				return "Badrequest"
-
-		status = pay()
-		curr.execute("""UPDATE payments SET mpesa_reciept=%s, resultdesc=%s, status=%s WHERE mpesa_reciept='mpesa' AND resultdesc='resultdesc' AND status='no' """,(mpesa_reciept, resultdesc, status,))
-		connection.commit()
-
-		curr.execute("SELECT * FROM payments ORDER BY payment_id DESC LIMIT 1")
-		connection.commit()
-		owner = curr.fetchall()
-		for row in owner:
-
-			phone = str(row[12])
-			resultdesc = row[15]
-			from_location = row[7]
-			to_location = row[8]
-			status = row[16]
-
-			desc = resultdesc[12:]
-
-			# Sends sms to mobile phone
-			message = "%s From:.. %s To:.. %s, Payment Status:.. %s" %(desc, from_location, to_location, status)
-			username = "refuge"    # use 'sandbox' for development in the test environment
-			api_key = "c8eaa30fbcd30ba08b166411894c13b5b3c99fcc407991a6019ee918e52ce8f2"      # use your sandbox app API key for development in the test environment
-			africastalking.initialize(username, api_key)
-
-			# Initialize a service e.g. SMS
-			sms = africastalking.SMS
-			# Use the service synchronously
-			response = sms.send(message, ['+' + phone ])
-
-
-class PrintMpesa(Resource):
-	@jwt_required
-	def get(self):
-		""" 
-		Method for query all payments by user
-		"""
-		username = get_jwt_identity()
-		curr.execute(" SELECT * FROM payments WHERE username =%s ORDER BY payment_id DESC ", [username])
-		book = curr.fetchall()
-		if not book:
-			return jsonify({"message":"There is no Payments yet"})
-		book_list = []
-		for row in book:
-			payment_id = row[0]
-			bookingref = row[4]
-			car_number = row[6]
-			from_location = row[7]
-			to_location = row[8]
-			price = row[9]
-			quality = row[10]
-			dates = row[11]
-			phone = row[12]
-			amount = row[13]
-			status = row[16]
-			created_on = row[17].strftime("%Y-%m-%d %H:%M:%S")
-			book_list.append({"payment_id":payment_id, "bookingref":bookingref, "car_number":car_number, "from_location":from_location, "to_location":to_location, "price":price, "quality":quality, "dates":dates, "amount":amount, "phone":phone, "status":status, "created_on":created_on})
-		return {"book": book_list}
-
-
-
-class PrintData(Resource):
-
-	@jwt_required
-	def get(self):
-		""" 
-		Method for printing reciepts data
-
-		"""
-		username = get_jwt_identity()
-		curr.execute(" SELECT * FROM payments WHERE username =%s ORDER BY payment_id DESC LIMIT 1", [username])
-		book = curr.fetchall()
-		if not book:
-			return jsonify({"message":"There is no Payments yet"})
-		book_list = []
-		for row in book:
-			payment_id = row[0]
-			bookingref = row[4]
-			username = row[5]
-			car_number = row[6]
-			from_location = row[7]
-			to_location = row[8]
-			price = row[9]
-			quality = row[10]
-			dates = row[11]
-			phone = row[12]
-			amount = row[13]
-			mpesa_reciept = row[14]
-			resultdesc = row[15]
-			status = row[16]
-			created_on = row[17].strftime("%Y-%m-%d %H:%M:%S")
-			book_list.append({"payment_id":payment_id, "bookingref":bookingref, "car_number":car_number, "from_location":from_location, "to_location":to_location, "price":price, "quality":quality, "dates":dates, "phone":phone, "amount":amount, "mpesa_reciept":mpesa_reciept, "resultdesc":resultdesc, "status":status, "created_on":created_on})
-		return {"book": book_list}
-
-
-class PaymentId(Resource):
-
-	""" 
-	Methods Queries all Payments 
-	
-	"""
-	@jwt_required
-	def get(self, payment_id):
-		curr.execute("SELECT * FROM payments WHERE payment_id = %s",[payment_id])
-		# curr.execute("SELECT * FROM payments ORDER BY payment_id = %s, DESC LIMIT 1 WHERE username =%s", [payment_id, username])
-
-		connection.commit()
-
-		data = curr.fetchall()
-		if not data:
-			return {"message":"There is no Payments yet"}
-		booker = []
-		for row in data:
-			payment_id = row[0]
-			bookingref = row[4]
-			username = row[5]
-			car_number = row[6]
-			from_location = row[7]
-			to_location = row[8]
-			price = row[9]
-			quality = row[10]
-			dates = row[11]
-			phone = row[12]
-			amount = row[13]
-			mpesa_reciept = row[14]
-			resultdesc = row[15]
-			status = row[16]
-			created_on = row[17].strftime("%Y-%m-%d %H:%M:%S")
-			booker.append({"payment_id":payment_id, "bookingref":bookingref, "username":username, "car_number":car_number, "from_location":from_location, "to_location":to_location, "price":price, "quality":quality, "dates":dates, "phone":phone, "amount":amount,  "mpesa_reciept":mpesa_reciept, "resultdesc":resultdesc, "status":status, "created_on":created_on})
-		return {"data": booker}
-
-class Cash(Resource):
-	# it updates the colomn in payment table to
-	# indecate paid with cash
-	@jwt_required
-	def put(self, book_id):
-
-		payment = "Cash"
-		payments = payment
-
-		print(payments)
-		curr.execute("""UPDATE booking SET payments =%s WHERE  payments='mpesa' AND book_id=%s""",(payments, book_id,))
-		connection.commit()
-
-		current_user = get_jwt_identity()
-		name_user = current_user
-		print(name_user)
-	
-		curr.execute("SELECT phone FROM users WHERE username = %s ", [name_user])
-		connection.commit()
-		numbers = curr.fetchone()
-		for number in numbers:
-			num = str(number)
-		phone = num
-		print(phone)
-
-		curr.execute("SELECT * FROM booking ORDER BY book_id DESC LIMIT 1")
-		connection.commit()
-		owner = curr.fetchall()
-		for row in owner:
-			bookingref = row[2]
-			from_location = row[5]
-			to_location = row[6]
-			dates = row[9]
-
-			# Sends sms to mobile phone
-			message = "Receipt number:..%s From:..%s To:.. %s On:...%s" %(bookingref, from_location, to_location, dates)
-			username = "refuge"    # use 'sandbox' for development in the test environment
-			api_key = "c8eaa30fbcd30ba08b166411894c13b5b3c99fcc407991a6019ee918e52ce8f2"      # use your sandbox app API key for development in the test environment
-			africastalking.initialize(username, api_key)
-
-			# Initialize a service e.g. SMS
-			sms = africastalking.SMS
-			# Use the service synchronously
-			response = sms.send(message, ['+254' + phone ])
-		return {"message": "Thanks for booking with us, Wait Message on your Phone"}
-		
 
 	

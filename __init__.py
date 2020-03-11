@@ -37,19 +37,20 @@ from app.admin import BookingNumber
 from app.admin import ParcelNumber
 from app.admin import Booking_By_Id
 from app.order import Get_All_Bookings
-from app.order import Mpesa
-from app.order import Mpesadesk
-from app.order import PaymentId
+from app.mpesa import Mpesa
+from app.mpesa import Mpesadesk
+from app.mpesa import PrintData
+from app.mpesa import PaymentId
+from app.mpesa import Cash
+from app.mpesa import PrintMpesa
+from app.mpesa import Callback
 from app.admin import PaymentAdmin
 from app.admin import PrintPayment
-from app.order import Callback
 # from app.parcel import ParcelCallbackUrl
 from app.desk_admin import Deskbooking
 from app.admin import GetPrice_by_id
 from app.admin import Sendsms
 from app.admin import Emailsms
-from app.order import PrintData
-from app.order import Cash
 from app.order import BookingtId
 from app.desk_admin import Get_All_Desk
 from app.desk_admin import DeskId
@@ -76,7 +77,6 @@ from app.cash_flow import Weekly_Desk_Cash
 from app.cash_flow import Monthly_Desk_Sum_Desk
 from app.admin import DeletePrice
 from app.admin import Display
-from app.order import PrintMpesa
 
 def create_app(config_name):
 	app = Flask(__name__, instance_relative_config=True)
