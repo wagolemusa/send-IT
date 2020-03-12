@@ -265,10 +265,8 @@ class SearchBooking(Resource):
 			arrival = row[5]
 			price = row[6]
 			day_time = row[7]
-
 			books.append({"price_id":price_id, "car_number":car_number, "from_location": from_location, "to_location":to_location, "period":period, "arrival":arrival, "price":price, "day_time":day_time})
 		return {"data": books}
-		return {"message":"You can book now"}
 
 
 class Users(Resource):
