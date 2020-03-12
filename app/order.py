@@ -251,7 +251,7 @@ class SearchBooking(Resource):
 		to_location = request.json['to_location']
 		dates = request.json['dates']
 
-		currBook.execute("SELECT * FROM prices WHERE from_location = %s, to_location =%s AND dates =%s",[from_location,to_location,dates])
+		currBook.execute("SELECT * FROM prices WHERE from_location = %s AND to_location =%s AND dates =%s",[from_location,to_location,dates])
 		data = currBook.fetchall()
 		if not data:
 			return {"message":"There is no Route yet"}
