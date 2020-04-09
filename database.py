@@ -1,9 +1,10 @@
 import os
 import psycopg2
-connection = psycopg2.connect(dbname='d92a0rb0j8rphh', user='gaijmyignhvtkw', password='7e0acadc7013645d81437d922b7030782cdee4006cadf7f54501aa291b29d3e6', host='ec2-23-21-65-173.compute-1.amazonaws.com')
+
+condb = psycopg2.connect(dbname='d92a0rb0j8rphh', user='gaijmyignhvtkw', password='7e0acadc7013645d81437d922b7030782cdee4006cadf7f54501aa291b29d3e6', host='ec2-23-21-65-173.compute-1.amazonaws.com')
 
 def init_db ():
-	conn = connection
+	conn = condb
 	return conn
 
 def create_table():
@@ -81,6 +82,26 @@ def create_table():
 			created_on TIMESTAMP DEFAULT NOW(),
 			FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
 			);"""
+
+					"""CREATE TABLE IF NOT EXISTS employee(
+			empl_id SERIAL PRIMARY KEY UNIQUE NOT NULL,
+			price_id INT,
+			first_name VARCHAR(50) NOT NULL,
+			last_name VARCHAR(50) NOT NULL,
+			email VARCHAR(100) NOT NULL,
+			permit_number BIGINT NOT NULL CHECK(permit_number >= 0),
+			city VARCHAR(100) NOT NULL,
+			age INT,
+			car_number VARCHAR(100) NOT NULL,
+			salary real NOT NULL,
+			nation_id BIGINT NOT NULL CHECK(nation_id >= 0),
+			sex VARCHAR(100) NOT NULL,
+			phone_number BIGINT NOT NULL CHECK(phone_number >= 0),
+			image bytea,
+			FOREIGN KEY (price_id) REFERENCES prices(price_id) ON DELETE CASCADE
+
+			);"""
+
 					"""CREATE TABLE IF NOT EXISTS payments(
 			payment_id SERIAL PRIMARY KEY UNIQUE NOT NULL,
 			user_id INT,
@@ -105,35 +126,36 @@ def create_table():
 			FOREIGN KEY (desk_id) REFERENCES desk(desk_id) ON DELETE CASCADE
 
 			);""")
-	connection = init_db()
-	curr = connection.cursor()
+	condb = init_db()
+	curr = condb.cursor()
 	for query in queries:
 		curr.execute(query)
-	connection.commit()
+	condb.commit()
 
 
 def drop_table():
 	""" Methon for droping table """
-	connection = init_db()
-	curr = connection.cursor()
+	condb = init_db()
+	curr = condb.cursor()
 
 	queries = (
 		"""DROP TABLE IF EXISTS orders CASCADE;""",  """DROP TABLE IF EXISTS users CASCADE;""",\
 		"""DROP TABLE IF EXISTS prices CASCADE;""",  """DROP TABLE IF EXISTS booking CASCADE;""",\
-		"""DROP TABLE IF EXISTS payments CASCADE;""", """DROP TABLE IF EXISTS desk CASCADE;""")
+		"""DROP TABLE IF EXISTS payments CASCADE;""", """DROP TABLE IF EXISTS desk CASCADE;""",\
+		"""DROP TABLE IF EXISTS employee CASCADE;""",)
 	for query in queries:
 		curr.execute(query)
-		connection.commit()
+		condb.commit()
 
 def close_instance():
-	connection = init_db()
-	curr = connection.cursor()
-	connection.close()
+	condb = init_db()
+	curr = condb.cursor()
+	condb.close()
 	curr.close()
 
 def admin():
-	connection = init_db()
-	curr = connection.cursor()
+	condb = init_db()
+	curr = condb.cursor()
 
 	first_name = 'admin'
 	last_name =  'wise'
@@ -152,6 +174,6 @@ def admin():
 		sql = """INSERT INTO users(first_name, last_name, username, phone, email, password, confirmed, is_admin)\
 					VALUES(%s, %s, %s, %s, %s, %s, %s, %s)"""
 		curr.execute(sql, (first_name, last_name, username, phone, email, password, confirmed, is_admin))
-		connection.commit()
+		condb.commit()
 
 
