@@ -66,8 +66,12 @@ class ModifyOrder(Resource):
 class AnOrder(Resource):
 	"""
 	This class it enables the user to change the destination
+	And Send notifications on Admin's number
 	"""
 	def check_user(self):
+		"""
+		This method queries Admin's phone number and return it
+		"""
 		currBook.execute("SELECT phone FROM users WHERE is_admin = 'True'")
 		connOrder.commit()
 		user = currBook.fetchone()
@@ -76,7 +80,6 @@ class AnOrder(Resource):
 	@jwt_required
 	def put(self, parcel_id):
 		data = request.get_json(force=True)
-		
 		destination = data['destination']
 		currBook.execute("""UPDATE orders SET destination=%s WHERE parcel_id=%s """,(destination,	parcel_id))
 		connOrder.commit()
@@ -161,6 +164,9 @@ class Booking(Resource):
 
 
 class Get_All_Bookings(Resource):
+	"""
+	This class Queries current's booking, "one record"
+	"""
 	@jwt_required
 	def get(self):
 		

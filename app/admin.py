@@ -111,8 +111,8 @@ class Status(Resource):
 		connection.commit()
 		user = curr.fetchone()
 		return user
+		
 	""" Class and Method endpoint it puts the status for a specific parcels """
-	@jwt_required
 	def put(self, parcel_id):
 		# this code it identify the normal user and admin
 		current_user = get_jwt_identity()

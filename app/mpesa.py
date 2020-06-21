@@ -194,8 +194,8 @@ class Callback(Resource):
 		# 	if item["Name"] == "MpesaReceiptNumber":
 		# 		mpesa_reciept = (item["Value"])
 
-		resultcode    = json_da['stkCallback']['ResultCode']
-		resultdesc    = json_da['stkCallback']['ResultDesc']
+		resultcode = json_da['stkCallback']['ResultCode']
+		resultdesc = json_da['stkCallback']['ResultDesc']
 		# phone = json_da["stkCallback"]["CallbackMetadata"]["Item"][4]["Value"]
 
 		mpesa_reciept = "MPESA"
@@ -223,9 +223,7 @@ class Callback(Resource):
 			from_location = row[7]
 			to_location = row[8]
 			status = row[16]
-
 			desc = resultdesc[12:]
-
 			# Sends sms to mobile phone
 			message = "%s From:.. %s To:.. %s, Payment Status:.. %s" %(desc, from_location, to_location, status)
 			username = "refuge"    # use 'sandbox' for development in the test environment
@@ -242,7 +240,7 @@ class PrintMpesa(Resource):
 	@jwt_required
 	def get(self):
 		""" 
-		Method for query all payments by user
+		Method for queries all payments by user
 		"""
 		username = get_jwt_identity()
 		dbmpesa.execute(" SELECT * FROM payments WHERE username =%s ORDER BY payment_id DESC ", [username])
@@ -337,6 +335,7 @@ class PaymentId(Resource):
 			booker.append({"payment_id":payment_id, "bookingref":bookingref, "username":username, "car_number":car_number, "from_location":from_location, "to_location":to_location, "price":price, "quality":quality, "dates":dates, "phone":phone, "amount":amount,  "mpesa_reciept":mpesa_reciept, "resultdesc":resultdesc, "status":status, "created_on":created_on})
 		return {"data": booker}
 
+
 class Cash(Resource):
 	# it updates the colomn in payment table to
 	# indecate paid with cash
@@ -347,13 +346,16 @@ class Cash(Resource):
 		payments = payment
 
 		print(payments)
+		# Updates the column in booking which is payment to cash
 		dbmpesa.execute("""UPDATE booking SET payments =%s WHERE  payments='mpesa' AND book_id=%s""",(payments, book_id,))
 		connmpesa.commit()
 
+		# Get current User who have login by use JWT
 		current_user = get_jwt_identity()
 		name_user = current_user
 		print(name_user)
 	
+		# Quries user's phone number who is just booked by cash
 		dbmpesa.execute("SELECT phone FROM users WHERE username = %s ", [name_user])
 		connmpesa.commit()
 		numbers = dbmpesa.fetchone()
@@ -362,6 +364,7 @@ class Cash(Resource):
 		phone = num
 		print(phone)
 
+		# Queris user's data booked at that time and LIMIT  1
 		dbmpesa.execute("SELECT * FROM booking ORDER BY book_id DESC LIMIT 1")
 		connmpesa.commit()
 		owner = dbmpesa.fetchall()
@@ -371,7 +374,7 @@ class Cash(Resource):
 			to_location = row[6]
 			dates = row[9]
 
-			# Sends sms to mobile phone
+			# Sends sms to mobile phone and all data on reciepts
 			message = "Receipt number:..%s From:..%s To:.. %s On:...%s" %(bookingref, from_location, to_location, dates)
 			username = "refuge"    # use 'sandbox' for development in the test environment
 			api_key = "c8eaa30fbcd30ba08b166411894c13b5b3c99fcc407991a6019ee918e52ce8f2"      # use your sandbox app API key for development in the test environment
