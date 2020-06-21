@@ -15,8 +15,8 @@ import africastalking
 
 types_status = ["delivered", "cancled"]
 
-connection = psycopg2.connect(dbname='d92a0rb0j8rphh', user='gaijmyignhvtkw', password='7e0acadc7013645d81437d922b7030782cdee4006cadf7f54501aa291b29d3e6', host='ec2-23-21-65-173.compute-1.amazonaws.com')
-curr = connection.cursor()
+connedesk = psycopg2.connect(dbname='d92a0rb0j8rphh', user='gaijmyignhvtkw', password='7e0acadc7013645d81437d922b7030782cdee4006cadf7f54501aa291b29d3e6', host='ec2-23-21-65-173.compute-1.amazonaws.com')
+deskcurr = connedesk.cursor()
 
 class Deskbooking(Resource):
 	@jwt_required
@@ -45,11 +45,11 @@ class Deskbooking(Resource):
 
 		current_user = get_jwt_identity()
 		username = current_user
-		curr.execute(""" INSERT INTO desk(bookingref, username, car_number, from_location, to_location, price, customer_name, customer_number,\
+		deskcurr.execute(""" INSERT INTO desk(bookingref, username, car_number, from_location, to_location, price, customer_name, customer_number,\
 																			 quantiy, date_when, amount)
 																			VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",\
 																			(bookingref, username, car_number, from_location, to_location, price, customer_name, customer_number, quantiy, date_when, amount))
-		connection.commit()
+		connedesk.commit()
 		return {"message": "Succussfully Created"}
 
 
@@ -64,9 +64,9 @@ class Get_All_Desk(Resource):
 		if current_user != U:
 			return {"message": "Access allowed only to admin"}, 403
 		# curr.execute(" SELECT * FROM booking WHERE username =%s", [username])
-		curr.execute(" SELECT * FROM desk WHERE username =%s ORDER BY desk_id DESC LIMIT 1 ", [username])
+		deskcurr.execute(" SELECT * FROM desk WHERE username =%s ORDER BY desk_id DESC LIMIT 1 ", [username])
 
-		book = curr.fetchall()
+		book = deskcurr.fetchall()
 		if not book:
 			return jsonify({"message":"There is no bookings yet"})
 		book_list = []
@@ -102,11 +102,11 @@ class DeskId(Resource):
 		if current_user != U:
 			return {"message": "Access allowed only to admin"}, 403
 
-		curr.execute("SELECT * FROM desk WHERE desk_id = %s",[desk_id])
+		deskcurr.execute("SELECT * FROM desk WHERE desk_id = %s",[desk_id])
 
-		connection.commit()
+		connedesk.commit()
 
-		data = curr.fetchall()
+		data = deskcurr.fetchall()
 		if not data:
 			return {"message":"There is no bookings yet"}
 		booker = []
@@ -142,8 +142,8 @@ class CashDesk(Resource):
 		username = get_jwt_identity()
 
 		print(payments)
-		curr.execute("""UPDATE desk SET payments =%s WHERE  payments='mpesa' AND desk_id=%s""",(payments, desk_id,))
-		connection.commit()
+		deskcurr.execute("""UPDATE desk SET payments =%s WHERE  payments='mpesa' AND desk_id=%s""",(payments, desk_id,))
+		connedesk.commit()
 		return {"message": "Thanks for booking with us"}
 
 
@@ -154,10 +154,10 @@ class PrintCash(Resource):
 	"""
 	@jwt_required
 	def get(self):
-		curr.execute("SELECT * FROM desk WHERE payments = 'Cash' ORDER BY desk_id DESC LIMIT 1")
-		connection.commit()
+		deskcurr.execute("SELECT * FROM desk WHERE payments = 'Cash' ORDER BY desk_id DESC LIMIT 1")
+		connedesk.commit()
 
-		book = curr.fetchall()
+		book = deskcurr.fetchall()
 		if not book:
 			return jsonify({"message":"There is no bookings yet"})
 		book_list = []
