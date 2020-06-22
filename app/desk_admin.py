@@ -129,8 +129,6 @@ class DeskId(Resource):
 		return {"data": booker}
 
 
-
-
 class CashDesk(Resource):
 	# it updates the colomn in payment table to
 	# indecate paided cash
