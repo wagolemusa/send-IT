@@ -5,7 +5,7 @@ from flask_restful import Api
 from flask_cors import CORS
 from config import app_config
 from flask_jwt_extended import JWTManager
-from database import create_table, admin, drop_table
+from database import Database
 from app.order import Home
 from app.user  import Register
 from app.user  import Login
@@ -89,8 +89,8 @@ def create_app(config_name):
 	app.register_blueprint(v2, url_prefix='/api')
 
 	app.config['JWT_SECRET_KEY'] = 'refuge'
-	create_table()
-	admin()
+	Database.create_table()
+	Database.admin()
 	# drop_table()
 	jwt=JWTManager(app)
 	

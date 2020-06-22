@@ -15,11 +15,14 @@ from flask_jwt_extended import (
 )
 import africastalking
 from models.user_model import Usermodel
+from database import Database
 
 post_pond = ["postpond"]
  
-connOrder = psycopg2.connect(dbname='d92a0rb0j8rphh', user='gaijmyignhvtkw', password='7e0acadc7013645d81437d922b7030782cdee4006cadf7f54501aa291b29d3e6', host='ec2-23-21-65-173.compute-1.amazonaws.com')
-currBook = connOrder.cursor()
+# connOrder = psycopg2.connect(dbname='d92a0rb0j8rphh', user='gaijmyignhvtkw', password='7e0acadc7013645d81437d922b7030782cdee4006cadf7f54501aa291b29d3e6', host='ec2-23-21-65-173.compute-1.amazonaws.com')
+# currBook = connOrder.cursor()
+
+db = Database()
 
 class Home(Resource):
 	def get(self):
@@ -45,9 +48,9 @@ class ModifyOrder(Resource):
 		destination = request.json['destination']
 		weight = request.json['weight']
 
-		currBook.execute("""UPDATE orders SET title= %s, pickup=%s, rec_id=%s, rec_phone=%s, rec_name=%s, destination=%s, weight=%s
+		curr.execute("""UPDATE orders SET title= %s, pickup=%s, rec_id=%s, rec_phone=%s, rec_name=%s, destination=%s, weight=%s
 																														WHERE parcel_id=%s """,(title, pickup, rec_id, rec_phone, rec_name, destination, weight, parcel_id))
-		connOrder.commit()
+		connection.commit()
 		return {"message": "Successfuly Updated"}
 
 	@jwt_required
@@ -58,8 +61,8 @@ class ModifyOrder(Resource):
 
 		if not parcel_order:
 			return {"message":"There is no order ID {} found".format(parcel_id)}, 403	
-		currBook.execute("""DELETE FROM orders WHERE parcel_id = %s AND username = %s""",(parcel_id, username))
-		connOrder.commit()
+		curr.execute("""DELETE FROM orders WHERE parcel_id = %s AND username = %s""",(parcel_id, username))
+		connection.commit()
 		return {"message":"Post Deleted"}
 
 
@@ -72,8 +75,8 @@ class AnOrder(Resource):
 		"""
 		This method queries Admin's phone number and return it
 		"""
-		currBook.execute("SELECT phone FROM users WHERE is_admin = 'True'")
-		connOrder.commit()
+		curr.execute("SELECT phone FROM users WHERE is_admin = 'True'")
+		connection.commit()
 		user = currBook.fetchone()
 		return user
 
@@ -81,8 +84,8 @@ class AnOrder(Resource):
 	def put(self, parcel_id):
 		data = request.get_json(force=True)
 		destination = data['destination']
-		currBook.execute("""UPDATE orders SET destination=%s WHERE parcel_id=%s """,(destination,	parcel_id))
-		connOrder.commit()
+		curr.execute("""UPDATE orders SET destination=%s WHERE parcel_id=%s """,(destination,	parcel_id))
+		connection.commit()
 
 		owner_data = self.check_user()
 		for number in owner_data:
@@ -130,20 +133,20 @@ class Booking(Resource):
 		curr.execute(""" INSERT INTO booking(bookingref, username, car_number,from_location, to_location, price, quality, dates, total)
 																				VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s)""",\
 																				(bookingref, username, car_number, from_location, to_location,price, quality, dates, total))
-		connOrder.commit()
+		connection.commit()
 		return jsonify({"message": 'Thanks for booking make sure that you came with number'})
 	
 
 	@jwt_required
 	def get(self):
-		connOrder.commit()
+		connection.commit()
 		""" 
 		Method for get all bookings 
 		"""
 		username = get_jwt_identity()
-		currBook.execute("SELECT * FROM booking WHERE payments = 'Cash' ORDER BY book_id DESC")
-		connOrder.commit()
-		book = currBook.fetchall()
+		curr.execute("SELECT * FROM booking WHERE payments = 'Cash' ORDER BY book_id DESC")
+		connection.commit()
+		book = connection.fetchall()
 		if not book:
 			return {"message":"There is no bookings yet"}
 		book_list = []
@@ -172,8 +175,8 @@ class Get_All_Bookings(Resource):
 		
 		username = get_jwt_identity()
 		# curr.execute(" SELECT * FROM booking WHERE username =%s", [username])
-		currBook.execute(" SELECT * FROM booking WHERE username =%s ORDER BY book_id DESC LIMIT 1 ", [username])
-		connOrder.commit()
+		curr.execute(" SELECT * FROM booking WHERE username =%s ORDER BY book_id DESC LIMIT 1 ", [username])
+		connection.commit()
 		book = currBook.fetchall()
 		if not book:
 			return jsonify({"message":"There is no bookings yet"})
@@ -201,8 +204,8 @@ class BookingtId(Resource):
 	"""
 	@jwt_required
 	def get(self, book_id):
-		currBook.execute("SELECT * FROM booking WHERE book_id = %s",[book_id])
-		connOrder.commit()
+		curr.execute("SELECT * FROM booking WHERE book_id = %s",[book_id])
+		connection.commit()
 		data = curr.fetchall()
 		if not data:
 			return {"message":"There is no bookings yet"}
@@ -240,10 +243,10 @@ class BookPostpond(Resource):
 		record = booker[11]
 		if record in post_pond:
 			return {"message":"You can not change this status is already in " + record}, 403
-		currBook.execute("""UPDATE booking SET dates=%s, status=%s WHERE book_id=%s """,(dates, status,	book_id))
-		connOrder.commit()
+		curr.execute("""UPDATE booking SET dates=%s, status=%s WHERE book_id=%s """,(dates, status,	book_id))
+		connection.commit()
 		return jsonify({"message": "Successfuly Updated"})
-		connOrder.rollback()
+		connection.rollback()
 		return {"message": "Failed to change status try again"}
 
 
@@ -257,8 +260,8 @@ class SearchBooking(Resource):
 		to_location = request.json['to_location']
 		dates = request.json['dates']
 
-		currBook.execute("SELECT * FROM prices WHERE from_location = %s AND to_location =%s AND dates =%s",[from_location,to_location,dates])
-		data = currBook.fetchall()
+		connection.execute("SELECT * FROM prices WHERE from_location = %s AND to_location =%s AND dates =%s",[from_location,to_location,dates])
+		data = connection.fetchall()
 		if not data:
 			return {"message":"There is no Route yet"}
 		books = []
@@ -285,8 +288,8 @@ class Users(Resource):
 		Method for get all Parcel Orders 
 		"""
 		username = get_jwt_identity()
-		currBook.execute(" SELECT * FROM users WHERE username =%s", [username,])
-		data = currBook.fetchall()
+		connection.execute(" SELECT * FROM users WHERE username =%s", [username,])
+		data = connection.fetchall()
 		if not data:
 			return {"message":"There is no user yet"}
 		user = []
@@ -313,10 +316,10 @@ class UpdateUser(Resource):
 		username = data['username']
 		phone = data['phone']
 		email = data['email']
-		currBook.execute("""UPDATE users SET first_name=%s, last_name=%s, username=%s, phone=%s, email=%s WHERE user_id=%s """,(first_name, last_name, username, phone, email, user_id))
-		connOrder.commit()
+		curr.execute("""UPDATE users SET first_name=%s, last_name=%s, username=%s, phone=%s, email=%s WHERE user_id=%s """,(first_name, last_name, username, phone, email, user_id))
+		connection.commit()
 		return jsonify({"message": "Successfuly Updated"})
-		connOrder.rollback()
+		connection.rollback()
 		return {"message": "Failed to update"}
 
 
