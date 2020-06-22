@@ -1,6 +1,6 @@
 from flask_restful import abort
 from flask import jsonify
-# from database import Database
+from database import init_db
 import psycopg2 
 from psycopg2.extras import DictCursor
 from flask_jwt_extended import create_access_token, get_jwt_identity
