@@ -78,6 +78,8 @@ from app.cash_flow import Monthly_Desk_Sum_Desk
 from app.admin import DeletePrice
 from app.admin import Display
 from app.employee import Employee
+from app.employee import Editemployee
+from app.employee import Deleteemployee
 
 def create_app(config_name):
 	app = Flask(__name__, instance_relative_config=True)
@@ -167,6 +169,8 @@ def create_app(config_name):
 	api.add_resource(Display, '/v2/admin/display/price')
 	api.add_resource(PrintMpesa, '/v2/admin/paid_with_mpasa')
 	api.add_resource(Employee, '/v2/employee')
+	api.add_resource(Editemployee, '/v2/update/employee')
+	api.add_resource(Deleteemployee, '/v2/delete/employee')
 	
 	# @app.errorhandler(404)
 	# def not_found(error):
