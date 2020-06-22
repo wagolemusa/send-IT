@@ -4,8 +4,8 @@ import psycopg2
 from flask_restful import Api
 from flask_cors import CORS
 from config import app_config
+from database import create_table, admin, drop_table
 from flask_jwt_extended import JWTManager
-from database import Database
 from app.order import Home
 from app.user  import Register
 from app.user  import Login
@@ -77,6 +77,7 @@ from app.cash_flow import Weekly_Desk_Cash
 from app.cash_flow import Monthly_Desk_Sum_Desk
 from app.admin import DeletePrice
 from app.admin import Display
+from app.employee import Employee
 
 def create_app(config_name):
 	app = Flask(__name__, instance_relative_config=True)
@@ -89,8 +90,8 @@ def create_app(config_name):
 	app.register_blueprint(v2, url_prefix='/api')
 
 	app.config['JWT_SECRET_KEY'] = 'refuge'
-	Database.create_table()
-	Database.admin()
+	create_table()
+	admin()
 	# drop_table()
 	jwt=JWTManager(app)
 	
@@ -165,6 +166,7 @@ def create_app(config_name):
 	api.add_resource(DeletePrice, '/v2/admin/delete/price/<int:price_id>')
 	api.add_resource(Display, '/v2/admin/display/price')
 	api.add_resource(PrintMpesa, '/v2/admin/paid_with_mpasa')
+	api.add_resource(Employee, '/v2/employee')
 	
 	# @app.errorhandler(404)
 	# def not_found(error):

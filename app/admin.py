@@ -309,6 +309,7 @@ class PostPrice(Resource):
 		price  = data['price']
 		day_time = data['day_time']
 		dates = data['dates']
+		driver = data['driver']
 
 		if car_number.strip() == '' or from_location.strip() == '' or to_location.strip() == ''\
 		or period.strip() == '' or arrival.strip() == '' or price.strip() == '' or day_time.strip() == '' or dates.strip() == '':
@@ -316,9 +317,9 @@ class PostPrice(Resource):
 				
 		try:
 
-			curr.execute(""" INSERT INTO prices(car_number, from_location, to_location, period, arrival, price, day_time, dates)
-																				VALUES(%s, %s, %s, %s, %s, %s, %s, %s)""",\
-																				(car_number, from_location, to_location, period, arrival, price, day_time, dates))
+			curr.execute(""" INSERT INTO prices(car_number, from_location, to_location, period, arrival, price, day_time, dates, driver)
+																				VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s)""",\
+																				(car_number, from_location, to_location, period, arrival, price, day_time, dates, driver))
 			connection.commit()
 			return  {"message": "Location and Price are Successfully submited"}, 201
 		except:

@@ -15,7 +15,7 @@ from flask_jwt_extended import (
 )
 import africastalking
 from models.user_model import Usermodel
-from database import Database
+# from database import Database
 
 post_pond = ["postpond"]
  

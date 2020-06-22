@@ -1,6 +1,6 @@
 from flask_restful import abort
 from flask import jsonify
-from database import Database
+# from database import Database
 import psycopg2 
 from psycopg2.extras import DictCursor
 from flask_jwt_extended import create_access_token, get_jwt_identity
@@ -13,7 +13,7 @@ from passlib.hash import pbkdf2_sha256 as sha256
 class Usermodel:
 	""" Class create user model """
 	def __init__(self):
-		self.db = Database.init_db()
+		self.db = init_db()
 
 
 	def register_user(self):
