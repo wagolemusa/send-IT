@@ -77,7 +77,7 @@ class AnOrder(Resource):
 		"""
 		curr.execute("SELECT phone FROM users WHERE is_admin = 'True'")
 		connection.commit()
-		user = currBook.fetchone()
+		user = curr.fetchone()
 		return user
 
 	@jwt_required
@@ -99,8 +99,8 @@ class AnOrder(Resource):
 			sms = africastalking.SMS
 			# Use the service synchronously
 			response = sms.send(message, ['+254' + phone ])
-		currBook.execute(" SELECT * FROM orders WHERE parcel_id =%s", [parcel_id])
-		data = currBook.fetchall()
+		curr.execute(" SELECT * FROM orders WHERE parcel_id =%s", [parcel_id])
+		data = curr.fetchall()
 		data_list = []
 		for row in data:
 			parcel_id = row[0]
@@ -146,7 +146,7 @@ class Booking(Resource):
 		username = get_jwt_identity()
 		curr.execute("SELECT * FROM booking WHERE payments = 'Cash' ORDER BY book_id DESC")
 		connection.commit()
-		book = connection.fetchall()
+		book = curr.fetchall()
 		if not book:
 			return {"message":"There is no bookings yet"}
 		book_list = []
@@ -177,7 +177,7 @@ class Get_All_Bookings(Resource):
 		# curr.execute(" SELECT * FROM booking WHERE username =%s", [username])
 		curr.execute(" SELECT * FROM booking WHERE username =%s ORDER BY book_id DESC LIMIT 1 ", [username])
 		connection.commit()
-		book = currBook.fetchall()
+		book = curr.fetchall()
 		if not book:
 			return jsonify({"message":"There is no bookings yet"})
 		book_list = []
@@ -288,8 +288,8 @@ class Users(Resource):
 		Method for get all Parcel Orders 
 		"""
 		username = get_jwt_identity()
-		connection.execute(" SELECT * FROM users WHERE username =%s", [username,])
-		data = connection.fetchall()
+		curr.execute(" SELECT * FROM users WHERE username =%s", [username,])
+		data = curr.fetchall()
 		if not data:
 			return {"message":"There is no user yet"}
 		user = []
