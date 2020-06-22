@@ -15,8 +15,8 @@ import africastalking
 
 types_status = ["delivered", "cancled"]
 
-connemploy = psycopg2.connect(dbname='d92a0rb0j8rphh', user='gaijmyignhvtkw', password='7e0acadc7013645d81437d922b7030782cdee4006cadf7f54501aa291b29d3e6', host='ec2-23-21-65-173.compute-1.amazonaws.com')
-curr = connemploy.cursor()
+connection = psycopg2.connect(dbname='d92a0rb0j8rphh', user='gaijmyignhvtkw', password='7e0acadc7013645d81437d922b7030782cdee4006cadf7f54501aa291b29d3e6', host='ec2-23-21-65-173.compute-1.amazonaws.com')
+curr = connection.cursor()
 
 class Employee(Resource):
 
@@ -50,7 +50,7 @@ class Employee(Resource):
 		curr.execute(""" INSERT INTO employee(first_name, last_name, username, email, permit_number, city, age, nation_id, sex, phone_number, image)
 																	VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",\
 																	(first_name, last_name, username, email, permit_number, city, age, nation_id, sex, phone_number, image))
-		connemploy.commit()
+		connection.commit()
 		return {"message": "Employee Successfully Registered"}
 
 	@jwt_required
@@ -61,7 +61,7 @@ class Employee(Resource):
 			return {"message": "Access allowed only to admin"}, 403
 
 		curr.execute("SELECT * FROM employee ORDER BY empl_id DESC")
-		connemploy.commit()
+		connection.commit()
 		dataemploy = curr.fetchall()
 		if not dataemploy:
 			return {"message": "There is no employee"}, 403

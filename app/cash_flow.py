@@ -23,7 +23,6 @@ class Daily_Sum(Resource):
 	def get(self):
 		curr_maney.execute("SELECT SUM(amount::int) FROM payments WHERE book_id = book_id AND created_on BETWEEN NOW() - INTERVAL '24 HOURS' AND NOW()")
 		cashflow.commit()
-
 		dailyTotal = curr_maney.fetchall()
 		return {"num": dailyTotal}
 
@@ -32,14 +31,14 @@ class Weekly_Sum(Resource):
 	def get(self):
 		curr_maney.execute("SELECT SUM(amount::int) FROM payments WHERE book_id = book_id AND created_on > current_date - interval '7 days'")
 		cashflow.commit()
-		weekly = curr_many.fetchall()
+		weekly = curr_maney.fetchall()
 		return {"week": weekly}
 
 class Monthly_Sum(Resource):
 	def get(self):
 		curr_maney.execute("SELECT to_char(created_on, 'Mon') AS mon, EXTRACT(year FROM created_on) AS yyyy, SUM(amount::int) AS amount FROM payments WHERE book_id = book_id GROUP BY 1,2 LIMIT 1")
 		cashflow.commit()
-		monthly = curr.fetchall()
+		monthly = curr_maney.fetchall()
 		money = []
 		for monx in monthly:
 			mon = monx[0]
@@ -55,7 +54,7 @@ class Daily_Sum_Receptions(Resource):
 		curr_maney.execute("SELECT SUM(amount::int) FROM payments WHERE desk_id = desk_id AND created_on BETWEEN NOW() - INTERVAL '24 HOURS' AND NOW()")
 		cashflow.commit()
 
-		dailyTotal = curr.fetchall()
+		dailyTotal = curr_maney.fetchall()
 		return {"num": dailyTotal}
 
 class Weekly_Sum_Receptions(Resource):
@@ -63,7 +62,7 @@ class Weekly_Sum_Receptions(Resource):
 	def get(self):
 		curr_maney.execute("SELECT SUM(amount::int) FROM payments WHERE desk_id = desk_id AND created_on > current_date - interval '7 days'")
 		cashflow.commit()
-		weekly = curr.fetchall()
+		weekly = curr_maney.fetchall()
 		return {"week": weekly}
 
 class Monthly_Sum_Receptions(Resource):
@@ -71,7 +70,7 @@ class Monthly_Sum_Receptions(Resource):
 	def get(self):
 		curr_maney.execute("SELECT to_char(created_on, 'Mon') AS mon, EXTRACT(year FROM created_on) AS yyyy, SUM(amount::int) AS amount FROM payments WHERE desk_id = desk_id GROUP BY 1,2 LIMIT 1")
 		cashflow.commit()
-		monthly = curr.fetchall()
+		monthly = curr_maney.fetchall()
 		money = []
 		for monx in monthly:
 			mon = monx[0]
@@ -85,7 +84,7 @@ class Daily_Book_Cash(Resource):
 	def get(self):
 		curr_maney.execute("SELECT SUM(total) FROM booking WHERE payments = 'Cash' AND created_on BETWEEN NOW() - INTERVAL '24 HOURS' AND NOW()")
 		cashflow.commit()
-		dayTotal = curr.fetchall()
+		dayTotal = curr_maney.fetchall()
 		return {"cash": dayTotal}
 
 
@@ -94,7 +93,7 @@ class Weekly_Book_Cash(Resource):
 	def get(self):
 		curr_maney.execute("SELECT SUM(total) FROM booking WHERE payments = 'Cash' AND created_on > current_date - interval '7 days'")
 		cashflow.commit()
-		weeklyTotal = curr.fetchall()
+		weeklyTotal = curr_maney.fetchall()
 		return {"cashweek": weeklyTotal}
 
 
@@ -103,7 +102,7 @@ class Monthly_Book_Sum_Desk(Resource):
 	def get(self):
 		curr_maney.execute("SELECT to_char(created_on, 'Mon') AS mon, EXTRACT(year FROM created_on) AS yyyy, SUM(total) AS amount FROM booking WHERE payments = 'Cash' GROUP BY 1,2 LIMIT 1")
 		cashflow.commit()
-		monthly = curr.fetchall()
+		monthly = curr_maney.fetchall()
 		money = []
 		for monx in monthly:
 			mon = monx[0]
@@ -118,7 +117,7 @@ class Daily_Desk_Cash(Resource):
 	def get(self):
 		curr_maney.execute("SELECT SUM(amount) FROM desk WHERE payments = 'Cash' AND created_on BETWEEN NOW() - INTERVAL '24 HOURS' AND NOW()")
 		cashflow.commit()
-		dayTotal = curr.fetchall()
+		dayTotal = curr_maney.fetchall()
 		return {"cash": dayTotal}
 
 
@@ -127,7 +126,7 @@ class Weekly_Desk_Cash(Resource):
 	def get(self):
 		curr_maney.execute("SELECT SUM(amount) FROM desk WHERE payments = 'Cash' AND created_on > current_date - interval '7 days'")
 		cashflow.commit()
-		weeklyTotal = curr.fetchall()
+		weeklyTotal = curr_maney.fetchall()
 		return {"cash": weeklyTotal}
 
 
@@ -136,7 +135,7 @@ class Monthly_Desk_Sum_Desk(Resource):
 	def get(self):
 		curr_maney.execute("SELECT to_char(created_on, 'Mon') AS mon, EXTRACT(year FROM created_on) AS yyyy, SUM(amount) AS amount FROM desk WHERE payments = 'Cash' GROUP BY 1,2 LIMIT 1")
 		cashflow.commit()
-		monthly = curr.fetchall()
+		monthly = curr_maney.fetchall()
 		money = []
 		for monx in monthly:
 			mon = monx[0]
