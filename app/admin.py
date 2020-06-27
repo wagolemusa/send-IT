@@ -312,7 +312,7 @@ class PostPrice(Resource):
 		driver = data['driver']
 
 		if car_number.strip() == '' or from_location.strip() == '' or to_location.strip() == ''\
-		or period.strip() == '' or arrival.strip() == '' or price.strip() == '' or day_time.strip() == '' or dates.strip() == '':
+		or period.strip() == '' or arrival.strip() == '' or price.strip() == '' or day_time.strip() == '' or dates.strip() == '' or driver.strip() == '':
 			return {"message": "Fields cannot be empty"}, 403
 				
 		try:
@@ -348,7 +348,8 @@ class PostPrice(Resource):
 			price = row[6]
 			day_time = row[7]
 			dates = row[8]
-			location.append({"price_id":price_id, "car_number":car_number, "from_location": from_location, "to_location":to_location,  "period": period, "arrival": arrival, "price":price, "day_time":day_time, "dates":dates})
+			driver = row[9]
+			location.append({"price_id":price_id, "car_number":car_number, "from_location": from_location, "to_location":to_location,  "period": period, "arrival": arrival, "price":price, "day_time":day_time, "dates":dates, "driver":driver})
 		return jsonify({"collection": location})
 
 class Display(Resource):
