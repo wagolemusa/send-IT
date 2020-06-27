@@ -92,7 +92,7 @@ def create_table():
 			last_name VARCHAR(50) NOT NULL,
 			username VARCHAR(50) NOT NULL,
 			email VARCHAR(100) NOT NULL,
-			permit_number BIGINT NOT NULL CHECK(permit_number >= 0),
+			permit_number VARCHAR NOT NULL,
 			city VARCHAR(100) NOT NULL,
 			age INT,
 			salary real NOT NULL,
