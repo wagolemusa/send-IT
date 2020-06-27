@@ -48,7 +48,7 @@ class Employee(Resource):
 			return {"message": "Fields cannot be empty"}, 403
 
 		curr.execute(""" INSERT INTO employee(first_name, last_name, username, email, permit_number, city, age, salary, nation_id, sex, phone_number, image)
-																	VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",\
+																	VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",\
 																	(first_name, last_name, username, email, permit_number, city, age, salary, nation_id, sex, phone_number, image))
 		connection.commit()
 		return {"message": "Employee Successfully Registered"}
