@@ -164,7 +164,6 @@ class AssingDriver(Resource):
 			to_location = row[3]
 			dates = row[8]
 			
-
 			print(driver)
 			print(car_number)
 
