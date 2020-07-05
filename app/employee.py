@@ -31,7 +31,7 @@ class Employee(Resource):
 		first_name = data['first_name']
 		last_name = data['last_name']
 		username = first_name + last_name
-		username = data['username']
+		username = username
 		email  = data['email']
 		permit_number = data['permit_number']
 		city = data['city']
@@ -102,7 +102,6 @@ class Editemployee(Resource):
 		first_name = data['first_name']
 		last_name = data['last_name']
 		username = first_name + last_name
-		username = username
 		email  = data['email']
 		permit_number = data['permit_number']
 		city = data['city']
@@ -112,8 +111,8 @@ class Editemployee(Resource):
 		sex = data['sex']
 		phone_number = data['phone_number']
 
-		curr.execute("""UPDATE employee SET first_name=%s, last_name=%s, username=%s, email=%s, permit_number=%s, city=%s, age=%s, salary=%s, nation_id=%s, sex=%s, phone_number=%s
-									WHERE empl_id =%s """,(first_name, last_name, username, email, permit_number, city, age, salary, nation_id, sex, phone_number))
+		curr.execute("""UPDATE employee SET first_name=%s, last_name=%s,  email=%s, permit_number=%s, city=%s, age=%s, salary=%s, nation_id=%s, sex=%s, phone_number=%s
+									WHERE empl_id =%s """,(first_name, last_name, email, permit_number, city, age, salary, nation_id, sex, phone_number))
 		connection.commit()
 		return {"message": "Employee's data Successfuly updated"}
 
