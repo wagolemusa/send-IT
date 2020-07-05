@@ -142,7 +142,7 @@ class AssingDriver(Resource):
 		
 		data = request.get_json(force=True)
 		driver = data['driver']
-		curr.execute("""UPDATE prices SET driver=%s WHERE empl_id=%s """,(driver, empl_id))
+		curr.execute("""UPDATE prices SET driver=%s WHERE price_id=%s """,(driver, price_id))
 		connection.commit()
 
 		# Get Driver's phone number
