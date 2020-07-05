@@ -233,7 +233,7 @@ class Callback(Resource):
 			# Initialize a service e.g. SMS
 			sms = africastalking.SMS
 			# Use the service synchronously
-			response = sms.send(message, ['+' + phone ])
+			response = sms.send(message, ['+254' + phone ])
 
 
 class PrintMpesa(Resource):
