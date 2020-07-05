@@ -133,10 +133,42 @@ class Deleteemployee(Resource):
 
 
 class AssingDriver(Resource):
-
 	@jwt_required
-	def put(self, empl_id):
+	def put(self, price_id):
 		current_user = get_jwt_identity()
 		U = Users().get_user_role()
 		if current_user != U:
 			return {"message": "Access allowed only to admin"}, 403
+
+		driver = request.json['driver']
+		curr.execute("""UPDATE prices SET driver=%s WHERE empl_id=%s """,(driver, empl_id))
+		connection.commit()
+
+		# Get Driver's phone number
+		curr.execute(""" SELECT phone_number FROM employee WHERE username=%s """, [driver])
+		connection.commit()
+		numbers = curr.fetchone()
+		for number in numbers:
+			num = str(number)
+		phone = num
+
+		curr.execute("SELECT * FROM prices ORDER BY price_id DESC LIMIT 1")
+		connection.commit()
+		assign = curr.fetchall()
+		for row in assign:
+			car_number = row[1]
+			from_location = row[2]
+			to_location = row[3]
+			dates = row[8]
+			driver = row[9]
+
+			# Sends sms to mobile phone
+			message = "Hello %s You are asigned to  car number %s  From... %s, To.... %s at... %s" %(driver, car_number, from_location, to_location, dates)
+			username = "refuge"    # use 'sandbox' for development in the test environment
+			api_key = "c8eaa30fbcd30ba08b166411894c13b5b3c99fcc407991a6019ee918e52ce8f2"      # use your sandbox app API key for development in the test environment
+			africastalking.initialize(username, api_key)
+
+			# Initialize a service e.g. SMS
+			sms = africastalking.SMS
+			# Use the service synchronously
+			response = sms.send(message, ['+' + phone ])

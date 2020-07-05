@@ -80,6 +80,7 @@ from app.admin import Display
 from app.employee import Employee
 from app.employee import Editemployee
 from app.employee import Deleteemployee
+from app.employee import AssingDriver
 
 def create_app(config_name):
 	app = Flask(__name__, instance_relative_config=True)
@@ -171,6 +172,7 @@ def create_app(config_name):
 	api.add_resource(Employee, '/v2/employee')
 	api.add_resource(Editemployee, '/v2/update/employee')
 	api.add_resource(Deleteemployee, '/v2/delete/employee')
+	api.add_resource(AssingDriver, '/v2/assign/driver/<int:price_id>')
 	
 	# @app.errorhandler(404)
 	# def not_found(error):

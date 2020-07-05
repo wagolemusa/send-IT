@@ -119,6 +119,7 @@ class Status(Resource):
 		U = Users().get_user_role()
 		if current_user != U:
 			return {"message": "Access allowed only to admin"}, 403
+		
 		data = request.get_json(force=True)
 		status = data['status']
 		curr.execute("""SELECT * FROM orders WHERE parcel_id=%s """,(parcel_id,))
