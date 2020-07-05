@@ -164,6 +164,9 @@ class AssingDriver(Resource):
 			dates = row[8]
 			driver = row[9]
 
+			print(driver)
+			print(car_number)
+
 			# Sends sms to mobile phone
 			message = "Hello %s You are asigned to  car number %s  From... %s, To.... %s at... %s" %(driver, car_number, from_location, to_location, dates)
 			username = "refuge"    # use 'sandbox' for development in the test environment
