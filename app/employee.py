@@ -139,8 +139,9 @@ class AssingDriver(Resource):
 		U = Users().get_user_role()
 		if current_user != U:
 			return {"message": "Access allowed only to admin"}, 403
-
-		driver = request.json['driver']
+		
+		data = request.get_json(force=True)
+		driver = data['driver']
 		curr.execute("""UPDATE prices SET driver=%s WHERE empl_id=%s """,(driver, empl_id))
 		connection.commit()
 
