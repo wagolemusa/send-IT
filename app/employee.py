@@ -153,7 +153,6 @@ class AssingDriver(Resource):
 			num = str(number)
 		phone = num
 
-		print(phone)
 		curr.execute("SELECT * FROM prices ORDER BY price_id DESC LIMIT 1")
 		connection.commit()
 		assign = curr.fetchall()
@@ -162,13 +161,11 @@ class AssingDriver(Resource):
 			car_number = row[1]
 			from_location = row[2]
 			to_location = row[3]
+			day_time = row[7]
 			dates = row[8]
-			
-			print(driver)
-			print(car_number)
 
 			# Sends sms to mobile phone
-			message = "Hello %s You are asigned to  car number %s  From... %s, To.... %s at... %s" %(driver, car_number, from_location, to_location, dates)
+			message = "Hello %s You are asigned to  car number %s  From... %s, To.... %s at... %s on....%s" %(driver, car_number, from_location, to_location, day_time, dates)
 			username = "refuge"    # use 'sandbox' for development in the test environment
 			api_key = "16a46ca76a9aa7e78b7edb77c5a037b296e46513b99252b48eba390798616e44"      # use your sandbox app API key for development in the test environment
 			africastalking.initialize(username, api_key)
