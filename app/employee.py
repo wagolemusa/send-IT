@@ -102,7 +102,7 @@ class Editemployee(Resource):
 		first_name = data['first_name']
 		last_name = data['last_name']
 		username = first_name + last_name
-		username = data['username']
+		username = username
 		email  = data['email']
 		permit_number = data['permit_number']
 		city = data['city']
@@ -131,3 +131,13 @@ class Deleteemployee(Resource):
 
 		curr.execute("DELETE FROM employee WHERE empl_id = %s", (empl_id,))
 		return {"message":"Employee Deleted"}
+
+
+class AssingDriver(Resource):
+
+	@jwt_required
+	def put(self, empl_id):
+		current_user = get_jwt_identity()
+		U = Users().get_user_role()
+		if current_user != U:
+			return {"message": "Access allowed only to admin"}, 403
