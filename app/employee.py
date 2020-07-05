@@ -153,6 +153,7 @@ class AssingDriver(Resource):
 			num = str(number)
 		phone = num
 
+		print(phone)
 		curr.execute("SELECT * FROM prices ORDER BY price_id DESC LIMIT 1")
 		connection.commit()
 		assign = curr.fetchall()
@@ -173,3 +174,4 @@ class AssingDriver(Resource):
 			sms = africastalking.SMS
 			# Use the service synchronously
 			response = sms.send(message, ['+' + phone ])
+			return {"message": "Driver Asigned"}
