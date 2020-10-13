@@ -18,6 +18,8 @@ types_status = ["delivered", "cancled"]
 connedesk = psycopg2.connect(dbname='d92a0rb0j8rphh', user='gaijmyignhvtkw', password='7e0acadc7013645d81437d922b7030782cdee4006cadf7f54501aa291b29d3e6', host='ec2-23-21-65-173.compute-1.amazonaws.com')
 deskcurr = connedesk.cursor()
 
+
+
 class Deskbooking(Resource):
 	@jwt_required
 
@@ -42,7 +44,6 @@ class Deskbooking(Resource):
 		quantiy = data['quantiy']
 		date_when = data['date_when']
 		amount = data['amount']
-
 		current_user = get_jwt_identity()
 		username = current_user
 		deskcurr.execute(""" INSERT INTO desk(bookingref, username, car_number, from_location, to_location, price, customer_name, customer_number,\

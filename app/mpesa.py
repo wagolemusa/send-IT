@@ -227,7 +227,7 @@ class Callback(Resource):
 			# Sends sms to mobile phone
 			message = "%s From:.. %s To:.. %s, Payment Status:.. %s" %(desc, from_location, to_location, status)
 			username = "refuge"    # use 'sandbox' for development in the test environment
-			api_key = "c8eaa30fbcd30ba08b166411894c13b5b3c99fcc407991a6019ee918e52ce8f2"      # use your sandbox app API key for development in the test environment
+			api_key = "16a46ca76a9aa7e78b7edb77c5a037b296e46513b99252b48eba390798616e44"      # use your sandbox app API key for development in the test environment
 			africastalking.initialize(username, api_key)
 
 			# Initialize a service e.g. SMS
@@ -377,7 +377,7 @@ class Cash(Resource):
 			# Sends sms to mobile phone and all data on reciepts
 			message = "Receipt number:..%s From:..%s To:.. %s On:...%s" %(bookingref, from_location, to_location, dates)
 			username = "refuge"    # use 'sandbox' for development in the test environment
-			api_key = "c8eaa30fbcd30ba08b166411894c13b5b3c99fcc407991a6019ee918e52ce8f2"      # use your sandbox app API key for development in the test environment
+			api_key = "16a46ca76a9aa7e78b7edb77c5a037b296e46513b99252b48eba390798616e44"      # use your sandbox app API key for development in the test environment
 			africastalking.initialize(username, api_key)
 
 			# Initialize a service e.g. SMS
